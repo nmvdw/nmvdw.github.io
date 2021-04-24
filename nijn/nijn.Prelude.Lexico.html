@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>nijn.Prelude.Lexico</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library nijn.Prelude.Lexico</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="nijn.Prelude.Wellfounded.html#"><span class="id" title="library">Wellfounded</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#"><span class="id" title="library">CompatibleRelation</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab15"></a><h1 class="section">The lexicographic order</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="Lexico" class="idref" href="#Lexico"><span class="id" title="section">Lexico</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<a id="X:1" class="idref" href="#X:1"><span class="id" title="binder">X</span></a> : <a class="idref" href="nijn.Prelude.CompatibleRelation.html#CompatRel"><span class="id" title="record">CompatRel</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="Y:2" class="idref" href="#Y:2"><span class="id" title="binder">Y</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H:3" class="idref" href="#H:3"><span class="id" title="binder">isCompatRel</span></a> <a id="H:3" class="idref" href="#H:3"><span class="id" title="binder">X</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="RY:4" class="idref" href="#RY:4"><span class="id" title="binder">RY</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Y:2"><span class="id" title="variable">Y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Y:2"><span class="id" title="variable">Y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Given a compatible relation and a type with a relation on it, then we can define the lexicographic order on the product. 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="lexico" class="idref" href="#lexico"><span class="id" title="definition">lexico</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.Y"><span class="id" title="variable">Y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.Y"><span class="id" title="variable">Y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="keyword">fun</span> <a id="x:5" class="idref" href="#x:5"><span class="id" title="binder">x</span></a> <a id="y:6" class="idref" href="#y:6"><span class="id" title="binder">y</span></a> ⇒ (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Prelude.CompatibleRelation.html#gt"><span class="id" title="projection">gt</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:5"><span class="id" title="variable">x</span></a>) (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:6"><span class="id" title="variable">y</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">+</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">(</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">(</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:5"><span class="id" title="variable">x</span></a> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#231a83d61b3d2e6aa3ef6e09c112a19e"><span class="id" title="notation">≥</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:6"><span class="id" title="variable">y</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.RY"><span class="id" title="variable">RY</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:5"><span class="id" title="variable">x</span></a>) (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:6"><span class="id" title="variable">y</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e03f39daf98516fa530d3f6f5a1b4d92"><span class="id" title="notation">)</span></a>)%<span class="id" title="keyword">type</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Transitivity for the lexicographic order 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="lexico_trans" class="idref" href="#lexico_trans"><span class="id" title="lemma">lexico_trans</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="RYtrans:10" class="idref" href="#RYtrans:10"><span class="id" title="binder">RYtrans</span></a> : <span class="id" title="keyword">∀</span> (<a id="y1:7" class="idref" href="#y1:7"><span class="id" title="binder">y1</span></a> <a id="y2:8" class="idref" href="#y2:8"><span class="id" title="binder">y2</span></a> <a id="y3:9" class="idref" href="#y3:9"><span class="id" title="binder">y3</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.Y"><span class="id" title="variable">Y</span></a>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="nijn.Prelude.Lexico.html#Lexico.RY"><span class="id" title="variable">RY</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y1:7"><span class="id" title="variable">y1</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y2:8"><span class="id" title="variable">y2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.RY"><span class="id" title="variable">RY</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y2:8"><span class="id" title="variable">y2</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y3:9"><span class="id" title="variable">y3</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.RY"><span class="id" title="variable">RY</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y1:7"><span class="id" title="variable">y1</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y3:9"><span class="id" title="variable">y3</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="x:11" class="idref" href="#x:11"><span class="id" title="binder">x</span></a> <a id="y:12" class="idref" href="#y:12"><span class="id" title="binder">y</span></a> <a id="z:13" class="idref" href="#z:13"><span class="id" title="binder">z</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.Y"><span class="id" title="variable">Y</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:14" class="idref" href="#p:14"><span class="id" title="binder">p</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:11"><span class="id" title="variable">x</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:12"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="q:15" class="idref" href="#q:15"><span class="id" title="binder">q</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:12"><span class="id" title="variable">y</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#z:13"><span class="id" title="variable">z</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:11"><span class="id" title="variable">x</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#z:13"><span class="id" title="variable">z</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">p</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">p</span> | [<span class="id" title="var">p1</span> <span class="id" title="var">p2</span>]], <span class="id" title="var">q</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">q</span> | [<span class="id" title="var">q1</span> <span class="id" title="var">q2</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#gt_trans"><span class="id" title="method">gt_trans</span></a> <span class="id" title="var">p</span> <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#gt_ge"><span class="id" title="method">gt_ge</span></a> <span class="id" title="var">p</span> <span class="id" title="var">q1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_gt"><span class="id" title="method">ge_gt</span></a> <span class="id" title="var">p1</span> <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_trans"><span class="id" title="method">ge_trans</span></a> <span class="id" title="var">p1</span> <span class="id" title="var">q1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="var">RYtrans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">p2</span> <span class="id" title="var">q2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Wellfoundedness of the lexicographic order 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="lexico_Wf_help" class="idref" href="#lexico_Wf_help"><span class="id" title="lemma">lexico_Wf_help</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:16" class="idref" href="#x:16"><span class="id" title="binder">x</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.Y"><span class="id" title="variable">Y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="z1:17" class="idref" href="#z1:17"><span class="id" title="binder">z1</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:18" class="idref" href="#p:18"><span class="id" title="binder">p</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#fst"><span class="id" title="definition">fst</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:16"><span class="id" title="variable">x</span></a> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#231a83d61b3d2e6aa3ef6e09c112a19e"><span class="id" title="notation">≥</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#z1:17"><span class="id" title="variable">z1</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:19" class="idref" href="#HX:19"><span class="id" title="binder">HX</span></a> : <a class="idref" href="nijn.Prelude.Wellfounded.html#isWf"><span class="id" title="inductive">isWf</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:16"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Wellfounded.html#isWf"><span class="id" title="inductive">isWf</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Prelude.Lexico.html#z1:17"><span class="id" title="variable">z1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#snd"><span class="id" title="definition">snd</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#x:16"><span class="id" title="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">z1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">HX</span> <span class="id" title="keyword">as</span> [[<span class="id" title="var">q1</span> <span class="id" title="var">q2</span>] <span class="id" title="var">Hq</span> <span class="id" title="var">IHq</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> ×.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">z1</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.Wellfounded.html#acc"><span class="id" title="constructor">acc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">w1</span> <span class="id" title="var">w2</span>] [<span class="id" title="var">H'</span> | [<span class="id" title="var">H1</span> <span class="id" title="var">H2</span>]] ; <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> ×.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="var">IHq</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><span class="id" title="var">w1</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <span class="id" title="var">w2</span><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a> <span class="id" title="var">_</span> <span class="id" title="var">w1</span> <span class="id" title="var">_</span>) ; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">left</span> ; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_gt"><span class="id" title="method">ge_gt</span></a> <span class="id" title="var">p</span> <span class="id" title="var">H'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_refl"><span class="id" title="method">ge_refl</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="var">IHq</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><span class="id" title="var">q1</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <span class="id" title="var">w2</span><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a> <span class="id" title="var">_</span> <span class="id" title="var">w1</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">right</span> ; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_refl"><span class="id" title="method">ge_refl</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">exact</span> <span class="id" title="var">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="nijn.Prelude.CompatibleRelation.html#ge_trans"><span class="id" title="method">ge_trans</span></a> <span class="id" title="var">p</span> <span class="id" title="var">H1</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="lexico_Wf" class="idref" href="#lexico_Wf"><span class="id" title="lemma">lexico_Wf</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:22" class="idref" href="#HX:22"><span class="id" title="binder">HX</span></a> : <a class="idref" href="nijn.Prelude.Wellfounded.html#Wf"><span class="id" title="definition">Wf</span></a> (<span class="id" title="keyword">fun</span> (<a id="x:20" class="idref" href="#x:20"><span class="id" title="binder">x</span></a> <a id="y:21" class="idref" href="#y:21"><span class="id" title="binder">y</span></a> : <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.X"><span class="id" title="variable">X</span></a>) ⇒ <a class="idref" href="nijn.Prelude.Lexico.html#x:20"><span class="id" title="variable">x</span></a> <a class="idref" href="nijn.Prelude.CompatibleRelation.html#::compat:x_'&gt;'_x"><span class="id" title="notation">&gt;</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#y:21"><span class="id" title="variable">y</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HY:23" class="idref" href="#HY:23"><span class="id" title="binder">HY</span></a> : <a class="idref" href="nijn.Prelude.Wellfounded.html#Wf"><span class="id" title="definition">Wf</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico.RY"><span class="id" title="variable">RY</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Wellfounded.html#Wf"><span class="id" title="definition">Wf</span></a> <a class="idref" href="nijn.Prelude.Lexico.html#lexico"><span class="id" title="definition">lexico</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">x</span> <span class="id" title="var">y</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">HX</span> <span class="id" title="var">x</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">Hx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hx</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">x</span> <span class="id" title="var">Hx</span> <span class="id" title="var">IHx</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">HY</span> <span class="id" title="var">y</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">Hy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">Hy</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">y</span> <span class="id" title="var">Hy</span> <span class="id" title="var">IHy</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.Wellfounded.html#acc"><span class="id" title="constructor">acc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">z1</span> <span class="id" title="var">z2</span>] [<span class="id" title="var">Hz</span> | [<span class="id" title="var">Hz1</span> <span class="id" title="var">Hz2</span>]] ; <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> ×.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">IHx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">Hz</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<a class="idref" href="nijn.Prelude.Lexico.html#lexico_Wf_help"><span class="id" title="lemma">lexico_Wf_help</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><span class="id" title="var">x</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <span class="id" title="var">_</span><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a> <span class="id" title="var">z1</span> <span class="id" title="var">Hz1</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">IHy</span> <span class="id" title="var">z2</span> <span class="id" title="var">Hz2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="nijn.Prelude.Lexico.html#Lexico"><span class="id" title="section">Lexico</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>nijn.Syntax.Signature.Types</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library nijn.Syntax.Signature.Types</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="nijn.Prelude.Basics.html#"><span class="id" title="library">Prelude.Basics</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Declare</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">signature</span>.<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">signature</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab16"></a><h1 class="section">Definition of simple types in an AFS</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a id="ty" class="idref" href="#ty"><span class="id" title="inductive">ty</span></a> (<a id="B:1" class="idref" href="#B:1"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>) : <span class="id" title="keyword">Type</span> :=<br/>
+| <a id="Base" class="idref" href="#Base"><span class="id" title="constructor">Base</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#B:1"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#ty:2"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:1"><span class="id" title="variable">B</span></a><br/>
+| <a id="Fun" class="idref" href="#Fun"><span class="id" title="constructor">Fun</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty:2"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:1"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#ty:2"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:1"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#ty:2"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:1"><span class="id" title="variable">B</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> {<span class="id" title="var">_</span>} <span class="id" title="var">_</span>.<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#Fun"><span class="id" title="constructor">Fun</span></a> {<span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="6e26407ff775f81c0e5df1dbad6b95a1" class="idref" href="#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">&quot;</span></a>A ⟶ B" := (<a class="idref" href="nijn.Syntax.Signature.Types.html#Fun"><span class="id" title="constructor">Fun</span></a> <span class="id" title="var">A</span> <span class="id" title="var">B</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 70, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>) : <span class="id" title="var">signature</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab17"></a><h1 class="section">Decidable equality of types</h1>
+
+<div class="paragraph"> </div>
+
+ Lemmata on equality of the constructors 
+</div>
+<div class="code">
+<span class="id" title="keyword">Proposition</span> <a id="Base_nequal" class="idref" href="#Base_nequal"><span class="id" title="lemma">Base_nequal</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:4" class="idref" href="#B:4"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="b1:5" class="idref" href="#b1:5"><span class="id" title="binder">b1</span></a> <a id="b2:6" class="idref" href="#b2:6"><span class="id" title="binder">b2</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#B:4"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:7" class="idref" href="#p:7"><span class="id" title="binder">p</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#b1:5"><span class="id" title="variable">b1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#b2:6"><span class="id" title="variable">b2</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#b1:5"><span class="id" title="variable">b1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#b2:6"><span class="id" title="variable">b2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">inversion</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="Base_not_Fun" class="idref" href="#Base_not_Fun"><span class="id" title="lemma">Base_not_Fun</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:8" class="idref" href="#B:8"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A1:9" class="idref" href="#A1:9"><span class="id" title="binder">A1</span></a> <a id="A2:10" class="idref" href="#A2:10"><span class="id" title="binder">A2</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:8"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="b:11" class="idref" href="#b:11"><span class="id" title="binder">b</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#B:8"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#b:11"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A1:9"><span class="id" title="variable">A1</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:10"><span class="id" title="variable">A2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">discriminate</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="Fun_not_Base" class="idref" href="#Fun_not_Base"><span class="id" title="lemma">Fun_not_Base</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:12" class="idref" href="#B:12"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A1:13" class="idref" href="#A1:13"><span class="id" title="binder">A1</span></a> <a id="A2:14" class="idref" href="#A2:14"><span class="id" title="binder">A2</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:12"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="b:15" class="idref" href="#b:15"><span class="id" title="binder">b</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#B:12"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A1:13"><span class="id" title="variable">A1</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:14"><span class="id" title="variable">A2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#b:15"><span class="id" title="variable">b</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">discriminate</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="eq_Fun" class="idref" href="#eq_Fun"><span class="id" title="lemma">eq_Fun</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:16" class="idref" href="#B:16"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A1:17" class="idref" href="#A1:17"><span class="id" title="binder">A1</span></a> <a id="A2:18" class="idref" href="#A2:18"><span class="id" title="binder">A2</span></a> <a id="A3:19" class="idref" href="#A3:19"><span class="id" title="binder">A3</span></a> <a id="A4:20" class="idref" href="#A4:20"><span class="id" title="binder">A4</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:16"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:21" class="idref" href="#p:21"><span class="id" title="binder">p</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#A1:17"><span class="id" title="variable">A1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A3:19"><span class="id" title="variable">A3</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="q:22" class="idref" href="#q:22"><span class="id" title="binder">q</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:18"><span class="id" title="variable">A2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A4:20"><span class="id" title="variable">A4</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A1:17"><span class="id" title="variable">A1</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:18"><span class="id" title="variable">A2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A3:19"><span class="id" title="variable">A3</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A4:20"><span class="id" title="variable">A4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">subst</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="5c61841a2d34effed720cfb16e5e409d" class="idref" href="#5c61841a2d34effed720cfb16e5e409d"><span class="id" title="lemma">neq_Fun₁</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:23" class="idref" href="#B:23"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A1:24" class="idref" href="#A1:24"><span class="id" title="binder">A1</span></a> <a id="A2:25" class="idref" href="#A2:25"><span class="id" title="binder">A2</span></a> <a id="A3:26" class="idref" href="#A3:26"><span class="id" title="binder">A3</span></a> <a id="A4:27" class="idref" href="#A4:27"><span class="id" title="binder">A4</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:23"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:28" class="idref" href="#p:28"><span class="id" title="binder">p</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#A1:24"><span class="id" title="variable">A1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A3:26"><span class="id" title="variable">A3</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A1:24"><span class="id" title="variable">A1</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:25"><span class="id" title="variable">A2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A3:26"><span class="id" title="variable">A3</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A4:27"><span class="id" title="variable">A4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">inversion</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="43850f2af0cb3ba2b68fd3b19c0703cc" class="idref" href="#43850f2af0cb3ba2b68fd3b19c0703cc"><span class="id" title="lemma">neq_Fun₂</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:29" class="idref" href="#B:29"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A1:30" class="idref" href="#A1:30"><span class="id" title="binder">A1</span></a> <a id="A2:31" class="idref" href="#A2:31"><span class="id" title="binder">A2</span></a> <a id="A3:32" class="idref" href="#A3:32"><span class="id" title="binder">A3</span></a> <a id="A4:33" class="idref" href="#A4:33"><span class="id" title="binder">A4</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:29"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:34" class="idref" href="#p:34"><span class="id" title="binder">p</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:31"><span class="id" title="variable">A2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A4:33"><span class="id" title="variable">A4</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A1:30"><span class="id" title="variable">A1</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:31"><span class="id" title="variable">A2</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">≠</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">(</span></a><a class="idref" href="nijn.Syntax.Signature.Types.html#A3:32"><span class="id" title="variable">A3</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A4:33"><span class="id" title="variable">A4</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'&lt;&gt;'_x"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">inversion</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The function that decides equality 
+</div>
+<div class="code">
+<span class="id" title="keyword">Fixpoint</span> <a id="dec_eq_Ty" class="idref" href="#dec_eq_Ty"><span class="id" title="definition">dec_eq_Ty</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:35" class="idref" href="#B:35"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H:36" class="idref" href="#H:36"><span class="id" title="binder">decEq</span></a> <a id="H:36" class="idref" href="#H:36"><span class="id" title="binder">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A1:37" class="idref" href="#A1:37"><span class="id" title="binder">A1</span></a> <a id="A2:38" class="idref" href="#A2:38"><span class="id" title="binder">A2</span></a> : <a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:35"><span class="id" title="variable">B</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Basics.html#dec"><span class="id" title="inductive">dec</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#A1:37"><span class="id" title="variable">A1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:38"><span class="id" title="variable">A2</span></a>)<br/>
+&nbsp;&nbsp;:= <span class="id" title="keyword">match</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#A1:37"><span class="id" title="variable">A1</span></a> , <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:38"><span class="id" title="variable">A2</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <span class="id" title="var">b1</span> , <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <span class="id" title="var">b2</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="nijn.Prelude.Basics.html#dec_eq"><span class="id" title="method">dec_eq</span></a> <span class="id" title="var">b1</span> <span class="id" title="var">b2</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#Yes"><span class="id" title="constructor">Yes</span></a> <span class="id" title="var">p</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#Yes"><span class="id" title="constructor">Yes</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#f_equal"><span class="id" title="lemma">f_equal</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <span class="id" title="var">p</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> <span class="id" title="var">p</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#Base_nequal"><span class="id" title="lemma">Base_nequal</span></a> <span class="id" title="var">p</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">A1</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <span class="id" title="var">A2</span> , <span class="id" title="var">A3</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <span class="id" title="var">A4</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#dec_eq_Ty:39"><span class="id" title="definition">dec_eq_Ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A1:37"><span class="id" title="variable">A1</span></a> <span class="id" title="var">A3</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#Yes"><span class="id" title="constructor">Yes</span></a> <span class="id" title="var">p</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#dec_eq_Ty:39"><span class="id" title="definition">dec_eq_Ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#A2:38"><span class="id" title="variable">A2</span></a> <span class="id" title="var">A4</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#Yes"><span class="id" title="constructor">Yes</span></a> <span class="id" title="var">q</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#Yes"><span class="id" title="constructor">Yes</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#eq_Fun"><span class="id" title="lemma">eq_Fun</span></a> <span class="id" title="var">p</span> <span class="id" title="var">q</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> <span class="id" title="var">q</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#43850f2af0cb3ba2b68fd3b19c0703cc"><span class="id" title="lemma">neq_Fun₂</span></a> <span class="id" title="var">q</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> <span class="id" title="var">p</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#5c61841a2d34effed720cfb16e5e409d"><span class="id" title="lemma">neq_Fun₁</span></a> <span class="id" title="var">p</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">_</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <span class="id" title="var">_</span> , <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <span class="id" title="var">_</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#Fun_not_Base"><span class="id" title="lemma">Fun_not_Base</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="nijn.Syntax.Signature.Types.html#Base"><span class="id" title="constructor">Base</span></a> <span class="id" title="var">_</span> , <span class="id" title="var">_</span> <a class="idref" href="nijn.Syntax.Signature.Types.html#6e26407ff775f81c0e5df1dbad6b95a1"><span class="id" title="notation">⟶</span></a> <span class="id" title="var">_</span> ⇒ <a class="idref" href="nijn.Prelude.Basics.html#No"><span class="id" title="constructor">No</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#Base_not_Fun"><span class="id" title="lemma">Base_not_Fun</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Global Instance</span> <a id="decEq_Ty" class="idref" href="#decEq_Ty"><span class="id" title="instance">decEq_Ty</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:42" class="idref" href="#B:42"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H:43" class="idref" href="#H:43"><span class="id" title="binder">decEq</span></a> <a id="H:43" class="idref" href="#H:43"><span class="id" title="binder">B</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Basics.html#decEq"><span class="id" title="class">decEq</span></a> (<a class="idref" href="nijn.Syntax.Signature.Types.html#ty"><span class="id" title="inductive">ty</span></a> <a class="idref" href="nijn.Syntax.Signature.Types.html#B:42"><span class="id" title="variable">B</span></a>)<br/>
+&nbsp;&nbsp;:= {| <a class="idref" href="nijn.Prelude.Basics.html#dec_eq"><span class="id" title="method">dec_eq</span></a> := <a class="idref" href="nijn.Syntax.Signature.Types.html#dec_eq_Ty"><span class="id" title="definition">dec_eq_Ty</span></a> |}.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>nijn.Prelude.Props</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library nijn.Prelude.Props</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="nijn.Prelude.Funext.html#"><span class="id" title="library">Prelude.Funext</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Program.Equality.html#"><span class="id" title="library">Coq.Program.Equality</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.micromega.Lia.html#"><span class="id" title="library">Lia</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab7"></a><h1 class="section">Propositional types</h1>
+
+<div class="paragraph"> </div>
+
+ A type is called a proposition if all its elements are equal 
+</div>
+<div class="code">
+<span class="id" title="keyword">Class</span> <a id="isaprop" class="idref" href="#isaprop"><span class="id" title="record">isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:1" class="idref" href="#A:1"><span class="id" title="binder">A</span></a> : <span class="id" title="keyword">Prop</span>)<br/>
+&nbsp;&nbsp;:= <a id="all_eq" class="idref" href="#all_eq"><span class="id" title="projection">all_eq</span></a> : <span class="id" title="keyword">∀</span> (<a id="x:3" class="idref" href="#x:3"><span class="id" title="binder">x</span></a> <a id="y:4" class="idref" href="#y:4"><span class="id" title="binder">y</span></a> : <a class="idref" href="nijn.Prelude.Props.html#A:1"><span class="id" title="variable">A</span></a>), <a class="idref" href="nijn.Prelude.Props.html#x:3"><span class="id" title="variable">x</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="nijn.Prelude.Props.html#y:4"><span class="id" title="variable">y</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+False is a proposition 
+</div>
+<div class="code">
+<span class="id" title="keyword">Global Instance</span> <a id="False_isaprop" class="idref" href="#False_isaprop"><span class="id" title="instance">False_isaprop</span></a> : <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#False"><span class="id" title="inductive">False</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> ; <span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+True is a proposition 
+</div>
+<div class="code">
+<span class="id" title="keyword">Global Instance</span> <a id="True_isaprop" class="idref" href="#True_isaprop"><span class="id" title="instance">True_isaprop</span></a> : <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#True"><span class="id" title="inductive">True</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">x</span>, <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Propositions are closed under conjunction 
+</div>
+<div class="code">
+<span class="id" title="keyword">Global Instance</span> <a id="and_isaprop" class="idref" href="#and_isaprop"><span class="id" title="instance">and_isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:6" class="idref" href="#A:6"><span class="id" title="binder">A</span></a> <a id="B:7" class="idref" href="#B:7"><span class="id" title="binder">B</span></a> : <span class="id" title="keyword">Prop</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H:8" class="idref" href="#H:8"><span class="id" title="binder">isaprop</span></a> <a id="H:8" class="idref" href="#H:8"><span class="id" title="binder">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H0:9" class="idref" href="#H0:9"><span class="id" title="binder">isaprop</span></a> <a id="H0:9" class="idref" href="#H0:9"><span class="id" title="binder">B</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> (<a class="idref" href="nijn.Prelude.Props.html#A:6"><span class="id" title="variable">A</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">∧</span></a> <a class="idref" href="nijn.Prelude.Props.html#B:7"><span class="id" title="variable">B</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">x</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">a1</span> <span class="id" title="var">b1</span>], <span class="id" title="var">y</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">a2</span> <span class="id" title="var">b2</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<a class="idref" href="nijn.Prelude.Props.html#all_eq"><span class="id" title="definition">all_eq</span></a> <span class="id" title="var">a1</span> <span class="id" title="var">a2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<a class="idref" href="nijn.Prelude.Props.html#all_eq"><span class="id" title="definition">all_eq</span></a> <span class="id" title="var">b1</span> <span class="id" title="var">b2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Assuming functional extensionality, propositions are closed under dependent products 
+</div>
+<div class="code">
+<span class="id" title="keyword">Global Instance</span> <a id="forall_isaprop" class="idref" href="#forall_isaprop"><span class="id" title="instance">forall_isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="X:10" class="idref" href="#X:10"><span class="id" title="binder">X</span></a> : <span class="id" title="keyword">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="B:11" class="idref" href="#B:11"><span class="id" title="binder">B</span></a> : <a class="idref" href="nijn.Prelude.Props.html#X:10"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Prop</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`{<a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">∀</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">(</span></a><a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">x</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">:</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">X</span></a><a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">),</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">isaprop</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">(</span></a><a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">B</span></a> <a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">x</span></a><a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">)</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> (<span class="id" title="keyword">∀</span> (<a id="x:14" class="idref" href="#x:14"><span class="id" title="binder">x</span></a> : <a class="idref" href="nijn.Prelude.Props.html#X:10"><span class="id" title="variable">X</span></a>), <a class="idref" href="nijn.Prelude.Props.html#B:11"><span class="id" title="variable">B</span></a> <a class="idref" href="nijn.Prelude.Props.html#x:14"><span class="id" title="variable">x</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.Funext.html#funext"><span class="id" title="definition">funext</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Prelude.Props.html#all_eq"><span class="id" title="definition">all_eq</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The order on natural numbers is a proposition 
+</div>
+<div class="code">
+<span class="id" title="keyword">Global Instance</span> <a id="nat_le_isaprop" class="idref" href="#nat_le_isaprop"><span class="id" title="instance">nat_le_isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:15" class="idref" href="#n:15"><span class="id" title="binder">n</span></a> <a id="m:16" class="idref" href="#m:16"><span class="id" title="binder">m</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> (<a class="idref" href="nijn.Prelude.Props.html#n:15"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Peano.html#cb53cf0ee22c036a03b4a9281c68b5a3"><span class="id" title="notation">≤</span></a> <a class="idref" href="nijn.Prelude.Props.html#m:16"><span class="id" title="variable">m</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">m</span> ; <span class="id" title="tactic">intros</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">dependent</span> <span class="id" title="tactic">destruction</span> <span class="id" title="var">p</span> ; <span class="id" title="tactic">dependent</span> <span class="id" title="tactic">destruction</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">dependent</span> <span class="id" title="tactic">destruction</span> <span class="id" title="var">p</span> ; <span class="id" title="tactic">dependent</span> <span class="id" title="tactic">destruction</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">IHm</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Global Instance</span> <a id="nat_gt_isaprop" class="idref" href="#nat_gt_isaprop"><span class="id" title="instance">nat_gt_isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:17" class="idref" href="#n:17"><span class="id" title="binder">n</span></a> <a id="m:18" class="idref" href="#m:18"><span class="id" title="binder">m</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> (<a class="idref" href="nijn.Prelude.Props.html#n:17"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Peano.html#::nat_scope:x_'&gt;'_x"><span class="id" title="notation">&gt;</span></a> <a class="idref" href="nijn.Prelude.Props.html#m:18"><span class="id" title="variable">m</span></a>)<br/>
+&nbsp;&nbsp;:= <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Global Instance</span> <a id="nat_ge_isaprop" class="idref" href="#nat_ge_isaprop"><span class="id" title="instance">nat_ge_isaprop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:19" class="idref" href="#n:19"><span class="id" title="binder">n</span></a> <a id="m:20" class="idref" href="#m:20"><span class="id" title="binder">m</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="nijn.Prelude.Props.html#isaprop"><span class="id" title="class">isaprop</span></a> (<a class="idref" href="nijn.Prelude.Props.html#n:19"><span class="id" title="variable">n</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.1/stdlib//Coq.Init.Peano.html#73030c22bc0b1fa771c65aa5414c65f9"><span class="id" title="notation">≥</span></a> <a class="idref" href="nijn.Prelude.Props.html#m:20"><span class="id" title="variable">m</span></a>)<br/>
+&nbsp;&nbsp;:= <span class="id" title="var">_</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
