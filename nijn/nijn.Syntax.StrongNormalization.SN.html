@@ -30,7 +30,7 @@
 </div>
 
 <div class="doc">
-<a id="lab35"></a><h1 class="section">Strong normalization</h1>
+<a id="lab34"></a><h1 class="section">Strong normalization</h1>
 
 <div class="paragraph"> </div>
 
@@ -88,20 +88,26 @@ We show that if one type is strongly normalizing, then all types are. Hence, it 
 &nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">w</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">C1</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span> ; <span class="id" title="tactic">intros</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span> ; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#TStep"><span class="id" title="constructor">TStep</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">r</span> ; <span class="id" title="tactic">intros</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#App_l"><span class="id" title="constructor">App_l</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">IHr</span> <span class="id" title="var">_</span> <span class="id" title="var">w</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#App_r"><span class="id" title="constructor">App_r</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">IHr</span> <span class="id" title="var">_</span> <span class="id" title="var">w</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#CLam"><span class="id" title="constructor">CLam</span></a> (<span class="id" title="var">IHr</span> <span class="id" title="var">_</span> (<a class="idref" href="nijn.Syntax.Signature.TermWeakenings.html#Keep"><span class="id" title="constructor">Keep</span></a> <span class="id" title="var">A1</span> <span class="id" title="var">w</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#CStep"><span class="id" title="constructor">CStep</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">induction</span> <span class="id" title="var">b</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#wkTm_is_subTm"><span class="id" title="lemma">wkTm_is_subTm</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#beta_sub"><span class="id" title="definition">beta_sub</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#beta_sub_help"><span class="id" title="lemma">beta_sub_help</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#AFSBeta"><span class="id" title="constructor">AFSBeta</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Beta"><span class="id" title="constructor">Beta</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#wkTm_is_subTm"><span class="id" title="lemma">wkTm_is_subTm</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#AFSRew"><span class="id" title="constructor">AFSRew</span></a>.<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Trans"><span class="id" title="constructor">Trans</span></a> (<span class="id" title="var">IHp1</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>) (<span class="id" title="var">IHp2</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>)).<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Rew_App_l"><span class="id" title="constructor">Rew_App_l</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">IHp</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>)).<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Rew_App_r"><span class="id" title="constructor">Rew_App_r</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">IHp</span> <span class="id" title="var">C1</span> <span class="id" title="var">w</span>)).<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Rew_Lam"><span class="id" title="constructor">Rew_Lam</span></a> (<span class="id" title="var">IHp</span> <span class="id" title="var">_</span> (<a class="idref" href="nijn.Syntax.Signature.TermWeakenings.html#Keep"><span class="id" title="constructor">Keep</span></a> <span class="id" title="var">A1</span> <span class="id" title="var">w</span>))).<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#wkTm_is_subTm"><span class="id" title="lemma">wkTm_is_subTm</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#beta_sub"><span class="id" title="definition">beta_sub</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#beta_sub_help"><span class="id" title="lemma">beta_sub_help</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Beta"><span class="id" title="constructor">Beta</span></a>.<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#wkTm_is_subTm"><span class="id" title="lemma">wkTm_is_subTm</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="nijn.Syntax.Signature.SubstitutionLemmas.html#subTm_comp"><span class="id" title="lemma">subTm_comp</span></a>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#BaseRew"><span class="id" title="constructor">BaseRew</span></a>.<br/>
 <span class="id" title="keyword">Qed</span>.<br/>
 
 <br/>
@@ -115,7 +121,7 @@ We show that if one type is strongly normalizing, then all types are. Hence, it 
 &nbsp;&nbsp;: <a class="idref" href="nijn.Syntax.Signature.html#AFSNotation.rew"><span class="id" title="definition">rew</span></a> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#X:35"><span class="id" title="variable">X</span></a> (<a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#map_Tm"><span class="id" title="definition">map_Tm</span></a> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#A:37"><span class="id" title="variable">A</span></a> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#t1:39"><span class="id" title="variable">t1</span></a>) (<a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#map_Tm"><span class="id" title="definition">map_Tm</span></a> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#A:37"><span class="id" title="variable">A</span></a> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#t2:40"><span class="id" title="variable">t2</span></a>).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#map_Tm"><span class="id" title="definition">map_Tm</span></a>.<br/>
-&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#Rew_App_r"><span class="id" title="constructor">Rew_App_r</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.Signature.RewritingSystem.html#rew_App_r"><span class="id" title="definition">rew_App_r</span></a>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="nijn.Syntax.StrongNormalization.SN.html#Rew_Wk"><span class="id" title="definition">Rew_Wk</span></a>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
 <span class="id" title="keyword">Qed</span>.<br/>
