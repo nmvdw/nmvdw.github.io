@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+  font-family: 'Latin Modern Roman', Verdana, sans-serif;
+}
+div#wrapper {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  line-height: 1.2;
+}
+a:link {
+  color: #00e;
+  text-decoration: none;
+}
+a:visited {
+  color: #729;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  color: #e00;
+}
+h1 {font-variant: small-caps;}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+li { margin: 0; }
