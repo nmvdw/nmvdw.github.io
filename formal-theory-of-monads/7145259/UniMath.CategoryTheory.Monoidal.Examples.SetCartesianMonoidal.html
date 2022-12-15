@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="./proofs-toggle.js" type="text/javascript"></script>
+	<style>
+		div.proofcomment {
+			font-style: italic;
+		}
+	</style>
+	<title>Documentation</title>
+</head>
+<body>
+<div id="page">
+<div id="main">
+<h1 class="libtitle">Library UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+an elementary direct construction of the monoidal category
+
+<div class="paragraph"> </div>
+
+    one can also instantiate the construction of cartesian monoidal categories
+    <span class="inlinecode"><span class="id" title="var">UniMath.CategoryTheory.Monoidal.CartesianMonoidalCategoriesWhiskered.SET_cartesian_monoidal</span></span> 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Foundations.All.html#"><span class="id" title="library">UniMath.Foundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.MoreFoundations.All.html#"><span class="id" title="library">UniMath.MoreFoundations.All</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.CartesianMonoidalCategoriesWhiskered.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.CartesianMonoidalCategoriesWhiskered</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#"><span class="id" title="library">UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.All.html#"><span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="SetIsCartesianMonoidal" class="idref" href="#SetIsCartesianMonoidal"><span class="id" title="section">SetIsCartesianMonoidal</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="SET_cart_tensor_data" class="idref" href="#SET_cart_tensor_data"><span class="id" title="definition">SET_cart_tensor_data</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors.html#bifunctor_data"><span class="id" title="definition">bifunctor_data</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a>.<br/>
+&nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.Preamble.html#tpair"><span class="id" title="constructor">tpair</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">x</span> <a class="idref" href="UniMath.Foundations.PartA.html#57f4926fe686c2f5c985fad93ee01cfb"><span class="id" title="notation">×</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">y</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">),,</span></a> <a class="idref" href="UniMath.Foundations.PartB.html#isaset_dirprod"><span class="id" title="lemma">isaset_dirprod</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">x</span>) (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">y</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y1</span> <span class="id" title="var">y2</span> <span class="id" title="var">g</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">a</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">g</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">x1</span> <span class="id" title="var">x2</span> <span class="id" title="var">f</span> <span class="id" title="var">b</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">f</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <span class="id" title="var">b</span>)<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">b</span>).<br/>
+</div>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="SET_cart_tensor_laws" class="idref" href="#SET_cart_tensor_laws"><span class="id" title="lemma">SET_cart_tensor_laws</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors.html#is_bifunctor"><span class="id" title="definition">is_bifunctor</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_tensor_data"><span class="id" title="definition">SET_cart_tensor_data</span></a>.<br/>
+&nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+</div>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="SET_cart_tensor" class="idref" href="#SET_cart_tensor"><span class="id" title="definition">SET_cart_tensor</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#tensor"><span class="id" title="definition">tensor</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a> := (<a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_tensor_data"><span class="id" title="definition">SET_cart_tensor_data</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_tensor_laws"><span class="id" title="lemma">SET_cart_tensor_laws</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="SET_cart_monoidal_data" class="idref" href="#SET_cart_monoidal_data"><span class="id" title="definition">SET_cart_monoidal_data</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#monoidal_data"><span class="id" title="definition">monoidal_data</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a>.<br/>
+&nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#make_monoidal_data"><span class="id" title="definition">make_monoidal_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_tensor"><span class="id" title="definition">SET_cart_tensor</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#unit"><span class="id" title="inductive">unit</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.PartB.html#isasetunit"><span class="id" title="lemma">isasetunit</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <a id="y:2" class="idref" href="#y:2"><span class="id" title="binder">y</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#y:1"><span class="id" title="variable">y</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <a id="y:4" class="idref" href="#y:4"><span class="id" title="binder">y</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#tt"><span class="id" title="constructor">tt</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#y:3"><span class="id" title="variable">y</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">)</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <a id="y:6" class="idref" href="#y:6"><span class="id" title="binder">y</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#y:5"><span class="id" title="variable">y</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <a id="y:8" class="idref" href="#y:8"><span class="id" title="binder">y</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">(</span></a><a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#y:7"><span class="id" title="variable">y</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#tt"><span class="id" title="constructor">tt</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">)</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">a</span> <span class="id" title="keyword">as</span> [[<span class="id" title="var">xx</span> <span class="id" title="var">yy</span>] <span class="id" title="var">zz</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">xx</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><span class="id" title="var">yy</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a><span class="id" title="var">zz</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">)</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">a</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">xx</span> [<span class="id" title="var">yy</span> <span class="id" title="var">zz</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">(</span></a><span class="id" title="var">xx</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <span class="id" title="var">yy</span><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">),,</span></a><span class="id" title="var">zz</span>).<br/>
+</div>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="SET_cart_monoidal_laws" class="idref" href="#SET_cart_monoidal_laws"><span class="id" title="lemma">SET_cart_monoidal_laws</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#monoidal_laws"><span class="id" title="definition">monoidal_laws</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_monoidal_data"><span class="id" title="definition">SET_cart_monoidal_data</span></a>.<br/>
+&nbsp;&nbsp;<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.UnivalenceAxiom.html#funextsec"><span class="id" title="definition">funextsec</span></a>; <span class="id" title="tactic">intro</span> <span class="id" title="var">a</span>; <span class="id" title="tactic">induction</span> <span class="id" title="var">a</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">t</span> <span class="id" title="var">a</span>]; <span class="id" title="tactic">induction</span> <span class="id" title="var">t</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.UnivalenceAxiom.html#funextsec"><span class="id" title="definition">funextsec</span></a>; <span class="id" title="tactic">intro</span> <span class="id" title="var">a</span>; <span class="id" title="tactic">induction</span> <span class="id" title="var">a</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">a</span> <span class="id" title="var">t</span>]; <span class="id" title="tactic">induction</span> <span class="id" title="var">t</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+</div>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="SET_cart_monoidal" class="idref" href="#SET_cart_monoidal"><span class="id" title="definition">SET_cart_monoidal</span></a> : <a class="idref" href="UniMath.CategoryTheory.Monoidal.MonoidalCategoriesWhiskered.html#monoidal"><span class="id" title="definition">monoidal</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.HSET.Core.html#::cat:'SET'"><span class="id" title="notation">SET</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= (<a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_monoidal_data"><span class="id" title="definition">SET_cart_monoidal_data</span></a><a class="idref" href="UniMath.Foundations.Preamble.html#b66601545ff7e22c5dcb7c86aa0cca21"><span class="id" title="notation">,,</span></a> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SET_cart_monoidal_laws"><span class="id" title="lemma">SET_cart_monoidal_laws</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="UniMath.CategoryTheory.Monoidal.Examples.SetCartesianMonoidal.html#SetIsCartesianMonoidal"><span class="id" title="section">SetIsCartesianMonoidal</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

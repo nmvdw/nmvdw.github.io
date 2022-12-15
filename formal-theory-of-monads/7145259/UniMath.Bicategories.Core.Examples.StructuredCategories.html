@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="./proofs-toggle.js" type="text/javascript"></script>
+	<style>
+		div.proofcomment {
+			font-style: italic;
+		}
+	</style>
+	<title>Documentation</title>
+</head>
+<body>
+<div id="page">
+<div id="main">
+<h1 class="libtitle">Library UniMath.Bicategories.Core.Examples.StructuredCategories</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Foundations.All.html#"><span class="id" title="library">UniMath.Foundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.MoreFoundations.All.html#"><span class="id" title="library">UniMath.MoreFoundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Categories</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Functors</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Isos.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Isos</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Univalence.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Univalence</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.terminal.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.binproducts.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.pullbacks</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.initial.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.initial</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.bincoproducts.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#"><span class="id" title="library">UniMath.CategoryTheory.limits.Preservation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Core.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.DisplayedCats.Univalence.html#"><span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Univalence</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#"><span class="id" title="library">UniMath.Bicategories.Core.Bicat</span></a>. <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#Notations"><span class="id" title="module">Bicat.Notations</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#"><span class="id" title="library">UniMath.Bicategories.Core.Examples.BicatOfUnivCats</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#"><span class="id" title="library">UniMath.Bicategories.DisplayedBicats.DispBicat</span></a>. <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#Notations"><span class="id" title="module">DispBicat.Notations</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#"><span class="id" title="library">UniMath.Bicategories.DisplayedBicats.DispUnivalence</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#"><span class="id" title="library">UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Prod.html#"><span class="id" title="library">UniMath.Bicategories.DisplayedBicats.Examples.Prod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+ 1. Categories with a terminal object
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_terminal_obj" class="idref" href="#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat"><span class="id" title="definition">disp_subbicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:2" class="idref" href="#C:2"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.terminal.html#Terminal"><span class="id" title="definition">Terminal</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#C:1"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="76e1f9925a9ad9d84996e267e763a1eb" class="idref" href="#76e1f9925a9ad9d84996e267e763a1eb"><span class="id" title="binder">C₁</span></a> <a id="fde53945968c556ab03330fe8455fe6b" class="idref" href="#fde53945968c556ab03330fe8455fe6b"><span class="id" title="binder">C₂</span></a> <a id="F:8" class="idref" href="#F:8"><span class="id" title="binder">F</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#preserves_terminal"><span class="id" title="definition">preserves_terminal</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#F:5"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:10" class="idref" href="#C:10"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#identity_preserves_terminal"><span class="id" title="definition">identity_preserves_terminal</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="HF:13" class="idref" href="#HF:13"><span class="id" title="binder">HF</span></a> <a id="HG:14" class="idref" href="#HG:14"><span class="id" title="binder">HG</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#composition_preserves_terminal"><span class="id" title="definition">composition_preserves_terminal</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HF:11"><span class="id" title="variable">HF</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HG:12"><span class="id" title="variable">HG</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_terminal_obj" class="idref" href="#univ_cat_with_terminal_obj"><span class="id" title="definition">univ_cat_with_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_terminal_obj" class="idref" href="#disp_univalent_2_1_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_1"><span class="id" title="definition">disp_subbicat_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_terminal"><span class="id" title="definition">isaprop_preserves_terminal</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_terminal_obj" class="idref" href="#disp_univalent_2_0_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_0"><span class="id" title="definition">disp_subbicat_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2"><span class="id" title="definition">univalent_cat_is_univalent_2</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">C</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.terminal.html#isaprop_Terminal"><span class="id" title="lemma">isaprop_Terminal</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">C</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_terminal"><span class="id" title="definition">isaprop_preserves_terminal</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_terminal_obj" class="idref" href="#disp_univalent_2_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_disp_bicat_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_terminal_obj</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_terminal_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_terminal_obj" class="idref" href="#is_univalent_2_1_univ_cat_with_terminal_obj"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_terminal_obj"><span class="id" title="definition">univ_cat_with_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_terminal_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_terminal_obj" class="idref" href="#is_univalent_2_0_univ_cat_with_terminal_obj"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_terminal_obj"><span class="id" title="definition">univ_cat_with_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_terminal_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_terminal_obj" class="idref" href="#is_univalent_2_univ_cat_with_terminal_obj"><span class="id" title="definition">is_univalent_2_univ_cat_with_terminal_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_terminal_obj"><span class="id" title="definition">univ_cat_with_terminal_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_terminal_obj"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_terminal_obj</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_terminal_obj"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_terminal_obj</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 2. Categories with binary products
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_binprod" class="idref" href="#disp_bicat_binprod"><span class="id" title="definition">disp_bicat_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat"><span class="id" title="definition">disp_subbicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:16" class="idref" href="#C:16"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.binproducts.html#BinProducts"><span class="id" title="definition">BinProducts</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#C:15"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="f478e96a22f9673afb0107ca283e336e" class="idref" href="#f478e96a22f9673afb0107ca283e336e"><span class="id" title="binder">C₁</span></a> <a id="ce9a550530dfc896fd492e664fd7fcbe" class="idref" href="#ce9a550530dfc896fd492e664fd7fcbe"><span class="id" title="binder">C₂</span></a> <a id="F:22" class="idref" href="#F:22"><span class="id" title="binder">F</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#preserves_binproduct"><span class="id" title="definition">preserves_binproduct</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#F:19"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:24" class="idref" href="#C:24"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#identity_preserves_binproduct"><span class="id" title="definition">identity_preserves_binproduct</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="HF:27" class="idref" href="#HF:27"><span class="id" title="binder">HF</span></a> <a id="HG:28" class="idref" href="#HG:28"><span class="id" title="binder">HG</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#composition_preserves_binproduct"><span class="id" title="definition">composition_preserves_binproduct</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HF:25"><span class="id" title="variable">HF</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HG:26"><span class="id" title="variable">HG</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_binprod" class="idref" href="#univ_cat_with_binprod"><span class="id" title="definition">univ_cat_with_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_binprod"><span class="id" title="definition">disp_bicat_binprod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_binprod" class="idref" href="#disp_univalent_2_1_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_binprod"><span class="id" title="definition">disp_bicat_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_1"><span class="id" title="definition">disp_subbicat_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_binproduct"><span class="id" title="definition">isaprop_preserves_binproduct</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_binprod" class="idref" href="#disp_univalent_2_0_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_binprod"><span class="id" title="definition">disp_bicat_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_0"><span class="id" title="definition">disp_subbicat_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2"><span class="id" title="definition">univalent_cat_is_univalent_2</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">C</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.PartD.html#impred"><span class="id" title="lemma">impred</span></a> ; <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.PartD.html#impred"><span class="id" title="lemma">impred</span></a> ; <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.limits.binproducts.html#isaprop_BinProduct"><span class="id" title="definition">isaprop_BinProduct</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">C</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_binproduct"><span class="id" title="definition">isaprop_preserves_binproduct</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_binprod" class="idref" href="#disp_univalent_2_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_disp_bicat_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_binprod"><span class="id" title="definition">disp_bicat_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_binprod</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_binprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_binprod" class="idref" href="#is_univalent_2_1_univ_cat_with_binprod"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_binprod"><span class="id" title="definition">univ_cat_with_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_binprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_binprod" class="idref" href="#is_univalent_2_0_univ_cat_with_binprod"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_binprod"><span class="id" title="definition">univ_cat_with_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_binprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_binprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_binprod" class="idref" href="#is_univalent_2_univ_cat_with_binprod"><span class="id" title="definition">is_univalent_2_univ_cat_with_binprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_binprod"><span class="id" title="definition">univ_cat_with_binprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_binprod"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_binprod</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_binprod"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_binprod</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 3. Categories with pullbacks
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_pullback" class="idref" href="#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat"><span class="id" title="definition">disp_subbicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:30" class="idref" href="#C:30"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks.html#Pullbacks"><span class="id" title="definition">Pullbacks</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#C:29"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="42eea62ae1289def5bdc1f1f5da9c753" class="idref" href="#42eea62ae1289def5bdc1f1f5da9c753"><span class="id" title="binder">C₁</span></a> <a id="274ae6a439eb32e1cb6f90ce4559d11a" class="idref" href="#274ae6a439eb32e1cb6f90ce4559d11a"><span class="id" title="binder">C₂</span></a> <a id="F:36" class="idref" href="#F:36"><span class="id" title="binder">F</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#preserves_pullback"><span class="id" title="definition">preserves_pullback</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#F:33"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:38" class="idref" href="#C:38"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#identity_preserves_pullback"><span class="id" title="definition">identity_preserves_pullback</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="HF:41" class="idref" href="#HF:41"><span class="id" title="binder">HF</span></a> <a id="HG:42" class="idref" href="#HG:42"><span class="id" title="binder">HG</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#composition_preserves_pullback"><span class="id" title="definition">composition_preserves_pullback</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HF:39"><span class="id" title="variable">HF</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HG:40"><span class="id" title="variable">HG</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_pb" class="idref" href="#univ_cat_with_pb"><span class="id" title="definition">univ_cat_with_pb</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_pullback" class="idref" href="#disp_univalent_2_1_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_pullback</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_1"><span class="id" title="definition">disp_subbicat_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_pullback"><span class="id" title="definition">isaprop_preserves_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_pullback" class="idref" href="#disp_univalent_2_0_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_pullback</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_0"><span class="id" title="definition">disp_subbicat_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2"><span class="id" title="definition">univalent_cat_is_univalent_2</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">C</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.PartD.html#impred"><span class="id" title="lemma">impred</span></a> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.pullbacks.html#isaprop_Pullback"><span class="id" title="definition">isaprop_Pullback</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">C</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_pullback"><span class="id" title="definition">isaprop_preserves_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_pullback" class="idref" href="#disp_univalent_2_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_disp_bicat_pullback</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_pullback</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_pb" class="idref" href="#is_univalent_2_1_univ_cat_with_pb"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_pb</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_pb"><span class="id" title="definition">univ_cat_with_pb</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_pb" class="idref" href="#is_univalent_2_0_univ_cat_with_pb"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_pb</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_pb"><span class="id" title="definition">univ_cat_with_pb</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_pb" class="idref" href="#is_univalent_2_univ_cat_with_pb"><span class="id" title="definition">is_univalent_2_univ_cat_with_pb</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_pb"><span class="id" title="definition">univ_cat_with_pb</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_pb"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_pb</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_pb"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_pb</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 4. Categories with finite limits
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_finlim" class="idref" href="#disp_bicat_finlim"><span class="id" title="definition">disp_bicat_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Prod.html#disp_dirprod_bicat"><span class="id" title="definition">disp_dirprod_bicat</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_terminal_obj"><span class="id" title="definition">disp_bicat_terminal_obj</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_pullback"><span class="id" title="definition">disp_bicat_pullback</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_finlim" class="idref" href="#univ_cat_with_finlim"><span class="id" title="definition">univ_cat_with_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_finlim"><span class="id" title="definition">disp_bicat_finlim</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_finlim" class="idref" href="#disp_univalent_2_1_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_finlim"><span class="id" title="definition">disp_bicat_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Prod.html#is_univalent_2_1_dirprod_bicat"><span class="id" title="definition">is_univalent_2_1_dirprod_bicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_terminal_obj</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_finlim" class="idref" href="#disp_univalent_2_0_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_finlim"><span class="id" title="definition">disp_bicat_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Prod.html#is_univalent_2_0_dirprod_bicat"><span class="id" title="definition">is_univalent_2_0_dirprod_bicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_disp_bicat_terminal_obj"><span class="id" title="definition">disp_univalent_2_disp_bicat_terminal_obj</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_disp_bicat_pullback"><span class="id" title="definition">disp_univalent_2_disp_bicat_pullback</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_finlim" class="idref" href="#disp_univalent_2_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_disp_bicat_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_finlim"><span class="id" title="definition">disp_bicat_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_finlim</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_finlim</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_finlim" class="idref" href="#is_univalent_2_1_univ_cat_with_finlim"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_finlim"><span class="id" title="definition">univ_cat_with_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_finlim</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_finlim" class="idref" href="#is_univalent_2_0_univ_cat_with_finlim"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_finlim"><span class="id" title="definition">univ_cat_with_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_finlim"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_finlim</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_finlim" class="idref" href="#is_univalent_2_univ_cat_with_finlim"><span class="id" title="definition">is_univalent_2_univ_cat_with_finlim</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_finlim"><span class="id" title="definition">univ_cat_with_finlim</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_finlim"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_finlim</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_finlim"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_finlim</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 5. Categories with an initial object
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_initial_obj" class="idref" href="#disp_bicat_initial_obj"><span class="id" title="definition">disp_bicat_initial_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat"><span class="id" title="definition">disp_subbicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:44" class="idref" href="#C:44"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.initial.html#Initial"><span class="id" title="definition">Initial</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#C:43"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="a0003bfe4e3b0518c077734a05ea0da6" class="idref" href="#a0003bfe4e3b0518c077734a05ea0da6"><span class="id" title="binder">C₁</span></a> <a id="34e67b89a3a7a1ec394627ee67e25626" class="idref" href="#34e67b89a3a7a1ec394627ee67e25626"><span class="id" title="binder">C₂</span></a> <a id="F:50" class="idref" href="#F:50"><span class="id" title="binder">F</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#preserves_initial"><span class="id" title="definition">preserves_initial</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#F:47"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:52" class="idref" href="#C:52"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#identity_preserves_initial"><span class="id" title="definition">identity_preserves_initial</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="HF:55" class="idref" href="#HF:55"><span class="id" title="binder">HF</span></a> <a id="HG:56" class="idref" href="#HG:56"><span class="id" title="binder">HG</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#composition_preserves_initial"><span class="id" title="definition">composition_preserves_initial</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HF:53"><span class="id" title="variable">HF</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HG:54"><span class="id" title="variable">HG</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_initial" class="idref" href="#univ_cat_with_initial"><span class="id" title="definition">univ_cat_with_initial</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_initial_obj"><span class="id" title="definition">disp_bicat_initial_obj</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_initial_obj" class="idref" href="#disp_univalent_2_1_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_initial_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_initial_obj"><span class="id" title="definition">disp_bicat_initial_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_1"><span class="id" title="definition">disp_subbicat_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_initial"><span class="id" title="definition">isaprop_preserves_initial</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_initial_obj" class="idref" href="#disp_univalent_2_0_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_initial_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_initial_obj"><span class="id" title="definition">disp_bicat_initial_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_0"><span class="id" title="definition">disp_subbicat_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2"><span class="id" title="definition">univalent_cat_is_univalent_2</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">C</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.initial.html#isaprop_Initial"><span class="id" title="lemma">isaprop_Initial</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">C</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_initial"><span class="id" title="definition">isaprop_preserves_initial</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_initial_obj" class="idref" href="#disp_univalent_2_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_disp_bicat_initial_obj</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_initial_obj"><span class="id" title="definition">disp_bicat_initial_obj</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_initial_obj</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_initial_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_initial" class="idref" href="#is_univalent_2_1_univ_cat_with_initial"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_initial</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_initial"><span class="id" title="definition">univ_cat_with_initial</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_initial_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_initial" class="idref" href="#is_univalent_2_0_univ_cat_with_initial"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_initial</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_initial"><span class="id" title="definition">univ_cat_with_initial</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_initial_obj"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_initial_obj</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_initial" class="idref" href="#is_univalent_2_univ_cat_with_initial"><span class="id" title="definition">is_univalent_2_univ_cat_with_initial</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_initial"><span class="id" title="definition">univ_cat_with_initial</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_initial"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_initial</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_initial"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_initial</span></a>.<br/>
+</div>
+
+<br/>
+</div>
+
+<div class="doc">
+ 6. Categories with binary coproducts
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="disp_bicat_bincoprod" class="idref" href="#disp_bicat_bincoprod"><span class="id" title="definition">disp_bicat_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#disp_bicat"><span class="id" title="definition">disp_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#bicat_of_univ_cats"><span class="id" title="definition">bicat_of_univ_cats</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat"><span class="id" title="definition">disp_subbicat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:58" class="idref" href="#C:58"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.bincoproducts.html#BinCoproducts"><span class="id" title="definition">BinCoproducts</span></a> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr1"><span class="id" title="projection">pr1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#C:57"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="df03be86179701ee08fc046118c7f1c5" class="idref" href="#df03be86179701ee08fc046118c7f1c5"><span class="id" title="binder">C₁</span></a> <a id="f2fa2d3d26a3efe4d39d7c42c61dd43b" class="idref" href="#f2fa2d3d26a3efe4d39d7c42c61dd43b"><span class="id" title="binder">C₂</span></a> <a id="F:64" class="idref" href="#F:64"><span class="id" title="binder">F</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#preserves_bincoproduct"><span class="id" title="definition">preserves_bincoproduct</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#F:61"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:66" class="idref" href="#C:66"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#identity_preserves_bincoproduct"><span class="id" title="definition">identity_preserves_bincoproduct</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="HF:69" class="idref" href="#HF:69"><span class="id" title="binder">HF</span></a> <a id="HG:70" class="idref" href="#HG:70"><span class="id" title="binder">HG</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#composition_preserves_bincoproduct"><span class="id" title="definition">composition_preserves_bincoproduct</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HF:67"><span class="id" title="variable">HF</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#HG:68"><span class="id" title="variable">HG</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="univ_cat_with_bincoprod" class="idref" href="#univ_cat_with_bincoprod"><span class="id" title="definition">univ_cat_with_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Bicat.html#bicat"><span class="id" title="definition">bicat</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispBicat.html#total_bicat"><span class="id" title="definition">total_bicat</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_bincoprod"><span class="id" title="definition">disp_bicat_bincoprod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_1_disp_bicat_bincoprod" class="idref" href="#disp_univalent_2_1_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_1"><span class="id" title="definition">disp_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_bincoprod"><span class="id" title="definition">disp_bicat_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_1"><span class="id" title="definition">disp_subbicat_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_bincoproduct"><span class="id" title="definition">isaprop_preserves_bincoproduct</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_0_disp_bicat_bincoprod" class="idref" href="#disp_univalent_2_0_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2_0"><span class="id" title="definition">disp_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_bincoprod"><span class="id" title="definition">disp_bicat_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.Examples.Sub1Cell.html#disp_subbicat_univalent_2_0"><span class="id" title="definition">disp_subbicat_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2"><span class="id" title="definition">univalent_cat_is_univalent_2</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">C</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <a class="idref" href="UniMath.Foundations.PartD.html#impred"><span class="id" title="lemma">impred</span></a> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.bincoproducts.html#isaprop_BinCoproduct"><span class="id" title="lemma">isaprop_BinCoproduct</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Preamble.html#pr2"><span class="id" title="projection">pr2</span></a> <span class="id" title="var">C</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.limits.Preservation.html#isaprop_preserves_bincoproduct"><span class="id" title="definition">isaprop_preserves_bincoproduct</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="disp_univalent_2_disp_bicat_bincoprod" class="idref" href="#disp_univalent_2_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_disp_bicat_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#disp_univalent_2"><span class="id" title="definition">disp_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_bicat_bincoprod"><span class="id" title="definition">disp_bicat_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_bincoprod</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_bincoprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_1_univ_cat_with_bincoprod" class="idref" href="#is_univalent_2_1_univ_cat_with_bincoprod"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_1"><span class="id" title="definition">is_univalent_2_1</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_bincoprod"><span class="id" title="definition">univ_cat_with_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_1"><span class="id" title="definition">total_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_1"><span class="id" title="definition">univalent_cat_is_univalent_2_1</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_1_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_1_disp_bicat_bincoprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_0_univ_cat_with_bincoprod" class="idref" href="#is_univalent_2_0_univ_cat_with_bincoprod"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2_0"><span class="id" title="definition">is_univalent_2_0</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_bincoprod"><span class="id" title="definition">univ_cat_with_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.Bicategories.DisplayedBicats.DispUnivalence.html#total_is_univalent_2_0"><span class="id" title="definition">total_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.BicatOfUnivCats.html#univalent_cat_is_univalent_2_0"><span class="id" title="definition">univalent_cat_is_univalent_2_0</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#disp_univalent_2_0_disp_bicat_bincoprod"><span class="id" title="definition">disp_univalent_2_0_disp_bicat_bincoprod</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_univalent_2_univ_cat_with_bincoprod" class="idref" href="#is_univalent_2_univ_cat_with_bincoprod"><span class="id" title="definition">is_univalent_2_univ_cat_with_bincoprod</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.Bicategories.Core.Univalence.html#is_univalent_2"><span class="id" title="definition">is_univalent_2</span></a> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#univ_cat_with_bincoprod"><span class="id" title="definition">univ_cat_with_bincoprod</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_0_univ_cat_with_bincoprod"><span class="id" title="definition">is_univalent_2_0_univ_cat_with_bincoprod</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.Bicategories.Core.Examples.StructuredCategories.html#is_univalent_2_1_univ_cat_with_bincoprod"><span class="id" title="definition">is_univalent_2_1_univ_cat_with_bincoprod</span></a>.<br/>
+</div>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

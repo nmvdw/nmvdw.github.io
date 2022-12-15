@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="./proofs-toggle.js" type="text/javascript"></script>
+	<style>
+		div.proofcomment {
+			font-style: italic;
+		}
+	</style>
+	<title>Documentation</title>
+</head>
+<body>
+<div id="page">
+<div id="main">
+<h1 class="libtitle">Library UniMath.CategoryTheory.categories.CategoryOfSetCategories</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.Foundations.All.html#"><span class="id" title="library">UniMath.Foundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.MoreFoundations.All.html#"><span class="id" title="library">UniMath.MoreFoundations.All</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Categories</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Univalence.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Univalence</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Setcategories.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Setcategories</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.Functors</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="UniMath.CategoryTheory.Core.NaturalTransformations.html#"><span class="id" title="library">UniMath.CategoryTheory.Core.NaturalTransformations</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="precat_ob_mor_of_setcategory" class="idref" href="#precat_ob_mor_of_setcategory"><span class="id" title="definition">precat_ob_mor_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#precategory_ob_mor"><span class="id" title="definition">precategory_ob_mor</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#make_precategory_ob_mor"><span class="id" title="definition">make_precategory_ob_mor</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.Core.Setcategories.html#setcategory"><span class="id" title="definition">setcategory</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="b2d8592180c922f2169090977ff2d515" class="idref" href="#b2d8592180c922f2169090977ff2d515"><span class="id" title="binder">C₁</span></a> <a id="c49d9ab8623990e6dc8065c23347922b" class="idref" href="#c49d9ab8623990e6dc8065c23347922b"><span class="id" title="binder">C₂</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#90327bb880e4cffeeb1e96a97b0322c8"><span class="id" title="variable">C₁</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#2e11fa34845c6475af27ac9ab3f166ed"><span class="id" title="notation">⟶</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#2460520ef38aa4727da2e40f5615f940"><span class="id" title="variable">C₂</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="precat_data_of_setcategory" class="idref" href="#precat_data_of_setcategory"><span class="id" title="definition">precat_data_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#precategory_data"><span class="id" title="definition">precategory_data</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#make_precategory_data"><span class="id" title="definition">make_precategory_data</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#precat_ob_mor_of_setcategory"><span class="id" title="definition">precat_ob_mor_of_setcategory</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="C:6" class="idref" href="#C:6"><span class="id" title="binder">C</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_identity"><span class="id" title="definition">functor_identity</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">λ</span></a> <a id="047aea41034b0f1d683a10ec01db4493" class="idref" href="#047aea41034b0f1d683a10ec01db4493"><span class="id" title="binder">C₁</span></a> <a id="c2b79f0dd8efdfc7c4cf99b07ec3f51e" class="idref" href="#c2b79f0dd8efdfc7c4cf99b07ec3f51e"><span class="id" title="binder">C₂</span></a> <a id="2aa4b15896ca74d7817302676577e93a" class="idref" href="#2aa4b15896ca74d7817302676577e93a"><span class="id" title="binder">C₃</span></a> <a id="F:15" class="idref" href="#F:15"><span class="id" title="binder">F</span></a> <a id="G:16" class="idref" href="#G:16"><span class="id" title="binder">G</span></a><a class="idref" href="UniMath.Foundations.Init.html#bc1ad27deabe143d39d35abe6be2c1a4"><span class="id" title="notation">,</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#F:10"><span class="id" title="variable">F</span></a> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#938ca2d32d8c8186c2d73ab2872ae3c9"><span class="id" title="notation">∙</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#G:11"><span class="id" title="variable">G</span></a>).<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="is_precategory_of_setcategory" class="idref" href="#is_precategory_of_setcategory"><span class="id" title="definition">is_precategory_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#is_precategory"><span class="id" title="definition">is_precategory</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#precat_data_of_setcategory"><span class="id" title="definition">precat_data_of_setcategory</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#make_is_precategory_one_assoc"><span class="id" title="definition">make_is_precategory_one_assoc</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">C₁</span> <span class="id" title="var">C₂</span> <span class="id" title="var">F</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_eq"><span class="id" title="lemma">functor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_data_eq"><span class="id" title="lemma">functor_data_eq</span></a> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">C₁</span> <span class="id" title="var">C₂</span> <span class="id" title="var">F</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_eq"><span class="id" title="lemma">functor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_data_eq"><span class="id" title="lemma">functor_data_eq</span></a> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">C₁</span> <span class="id" title="var">C₂</span> <span class="id" title="var">C₃</span> <span class="id" title="var">C₄</span> <span class="id" title="var">F</span> <span class="id" title="var">G</span> <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_eq"><span class="id" title="lemma">functor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_data_eq"><span class="id" title="lemma">functor_data_eq</span></a> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.Foundations.Preamble.html#idpath"><span class="id" title="abbreviation">idpath</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="precat_of_setcategory" class="idref" href="#precat_of_setcategory"><span class="id" title="definition">precat_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#precategory"><span class="id" title="definition">precategory</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#make_precategory"><span class="id" title="definition">make_precategory</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#precat_data_of_setcategory"><span class="id" title="definition">precat_data_of_setcategory</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#is_precategory_of_setcategory"><span class="id" title="definition">is_precategory_of_setcategory</span></a>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="has_homsets_cat_of_setcategory" class="idref" href="#has_homsets_cat_of_setcategory"><span class="id" title="definition">has_homsets_cat_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#has_homsets"><span class="id" title="definition">has_homsets</span></a> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#precat_of_setcategory"><span class="id" title="definition">precat_of_setcategory</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">C₁</span> <span class="id" title="var">C₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Functors.html#functor_isaset"><span class="id" title="lemma">functor_isaset</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#homset_property"><span class="id" title="definition">homset_property</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">C₂</span>.<br/>
+</div>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="cat_of_setcategory" class="idref" href="#cat_of_setcategory"><span class="id" title="definition">cat_of_setcategory</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#category"><span class="id" title="definition">category</span></a>.<br/>
+<a class="proof" href="#">Show proof.</a><br/><div class="proof">
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="UniMath.CategoryTheory.Core.Categories.html#make_category"><span class="id" title="definition">make_category</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#precat_of_setcategory"><span class="id" title="definition">precat_of_setcategory</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="UniMath.CategoryTheory.categories.CategoryOfSetCategories.html#has_homsets_cat_of_setcategory"><span class="id" title="definition">has_homsets_cat_of_setcategory</span></a>.<br/>
+</div>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
