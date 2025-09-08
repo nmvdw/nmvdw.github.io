@@ -30,3 +30,50 @@ img {
   display: block;
 }
 li { margin: 0; }
+
+/* === TABLE STYLING === */
+table {
+  border-collapse: collapse;
+  border-color: #9ABAD9;
+  border-spacing: 0;
+  margin: 1.2em 0; /* adds space before and after tables */
+}
+
+table td {
+  background-color: #EBF5FF;
+  border-color: #9ABAD9;
+  border-style: solid;
+  border-width: 1px;
+  color: #444;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+}
+
+table th {
+  background-color: #409cff;
+  border-color: #9ABAD9;
+  border-style: solid;
+  border-width: 1px;
+  color: #fff;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+}
+
+table .tg-0pky {
+  border-color: inherit;
+  text-align: left;
+  vertical-align: top;
+}
+
+table .tg-0lax {
+  text-align: left;
+  vertical-align: top;
+}
+
+p.left   { text-align: left; }
+p.right  { text-align: right; }
+p.center { text-align: center; }
+p.justify { text-align: justify; }
