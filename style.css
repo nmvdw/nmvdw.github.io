@@ -59,6 +59,18 @@ li { margin: 0; }
   font-size: 0.9em;
 }
 
+@media (max-width: 600px) {
+  .top-menu {
+    padding: 20px 10px;
+    gap: 30px;
+    font-size: 1.2em;
+  }
+
+  .top-menu a {
+    font-size: 1.2em;
+  }
+}
+
 .top-menu a.active {
   font-weight: bold;
   text-decoration: underline;
