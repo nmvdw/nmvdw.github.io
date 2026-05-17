@@ -141,10 +141,6 @@ p.justify { text-align: justify; }
 
 .hamburger {
   display: none;
-  font-size: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
 }
 
 @media (max-width: 768px) {
