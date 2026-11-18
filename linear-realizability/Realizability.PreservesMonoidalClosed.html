@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.PreservesMonoidalClosed</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.PreservesMonoidalClosed</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Functors that preserve the symmetric monoidal structure
+
+<div class="paragraph"> </div>
+
+ In this file, we define the notion of structure preserving functors between
+ symmetric monoidal closed categories. This notion extends strong monoidal
+ functors by saying that the monoidal exponential is preserved as well. We
+ specify that by saying that some canonical map is an isomorphism.
+
+<div class="paragraph"> </div>
+
+ Content
+ 1. Preservation of symmetric monoidal structure
+ 2. Useful functions
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Functors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Symmetric</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Closed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="module">MonoidalNotations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">moncat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab1"></a><h1 class="section">1. Preservation of symmetric monoidal structure</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="preserves_sym_mon_closed_map" class="idref" href="#preserves_sym_mon_closed_map"><span class="id" title="definition">preserves_sym_mon_closed_map</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="a0d5662193e7f9a4ea364737618ac1d0" class="idref" href="#a0d5662193e7f9a4ea364737618ac1d0"><span class="id" title="binder">V₁</span></a> <a id="10707e0852aef1beed08b2ded9c4401d" class="idref" href="#10707e0852aef1beed08b2ded9c4401d"><span class="id" title="binder">V₂</span></a> : <span class="id" title="definition">sym_mon_closed_cat</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="F:3" class="idref" href="#F:3"><span class="id" title="binder">F</span></a> : <span class="id" title="definition">symmetric_strong_monoidal_functor</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a0d5662193e7f9a4ea364737618ac1d0"><span class="id" title="variable">V₁</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#10707e0852aef1beed08b2ded9c4401d"><span class="id" title="variable">V₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:4" class="idref" href="#x:4"><span class="id" title="binder">x</span></a> <a id="y:5" class="idref" href="#y:5"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a0d5662193e7f9a4ea364737618ac1d0"><span class="id" title="variable">V₁</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.PreservesMonoidalClosed.html#F:3"><span class="id" title="variable">F</span></a>(<a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:4"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⊸</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:5"><span class="id" title="variable">y</span></a>) <span class="id" title="notation">--&gt;</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#F:3"><span class="id" title="variable">F</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:4"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⊸</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#F:3"><span class="id" title="variable">F</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:5"><span class="id" title="variable">y</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">internal_lam</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="definition">mon_functor_tensor</span> <span class="id" title="var">F</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="notation">·</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">#</span><span class="id" title="var">F</span> <span class="id" title="notation">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">internal_eval</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="preserves_sym_mon_closed" class="idref" href="#preserves_sym_mon_closed"><span class="id" title="definition">preserves_sym_mon_closed</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="a0617e13469060e9c7dcc2604355ab4f" class="idref" href="#a0617e13469060e9c7dcc2604355ab4f"><span class="id" title="binder">V₁</span></a> <a id="1d0bdf7fb401fb3b59dc24b73ebf69a0" class="idref" href="#1d0bdf7fb401fb3b59dc24b73ebf69a0"><span class="id" title="binder">V₂</span></a> : <span class="id" title="definition">sym_mon_closed_cat</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="F:8" class="idref" href="#F:8"><span class="id" title="binder">F</span></a> : <span class="id" title="definition">symmetric_strong_monoidal_functor</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a0617e13469060e9c7dcc2604355ab4f"><span class="id" title="variable">V₁</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#1d0bdf7fb401fb3b59dc24b73ebf69a0"><span class="id" title="variable">V₂</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="x:9" class="idref" href="#x:9"><span class="id" title="binder">x</span></a> <a id="y:10" class="idref" href="#y:10"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a0617e13469060e9c7dcc2604355ab4f"><span class="id" title="variable">V₁</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">is_z_isomorphism</span> (<a class="idref" href="Realizability.PreservesMonoidalClosed.html#preserves_sym_mon_closed_map"><span class="id" title="definition">preserves_sym_mon_closed_map</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#F:8"><span class="id" title="variable">F</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:9"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:10"><span class="id" title="variable">y</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab2"></a><h1 class="section">2. Useful functions</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="left_adjoint_on_unit" class="idref" href="#left_adjoint_on_unit"><span class="id" title="definition">left_adjoint_on_unit</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="8aca02a30b001eece796b3725346953d" class="idref" href="#8aca02a30b001eece796b3725346953d"><span class="id" title="binder">V₁</span></a> <a id="bc25539952b85346b767fd1ae8d5e32f" class="idref" href="#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="binder">V₂</span></a> : <span class="id" title="definition">monoidal_cat</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="L:13" class="idref" href="#L:13"><span class="id" title="binder">L</span></a> : <a class="idref" href="Realizability.PreservesMonoidalClosed.html#8aca02a30b001eece796b3725346953d"><span class="id" title="variable">V₁</span></a> <span class="id" title="notation">⟶</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="variable">V₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HL:14" class="idref" href="#HL:14"><span class="id" title="binder">HL</span></a> : <span class="id" title="definition">is_left_adjoint</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:13"><span class="id" title="variable">L</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HR:15" class="idref" href="#HR:15"><span class="id" title="binder">HR</span></a> : <span class="id" title="definition">fmonoidal_lax</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="variable">V₂</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#8aca02a30b001eece796b3725346953d"><span class="id" title="variable">V₁</span></a> (<span class="id" title="definition">right_adjoint</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HL:14"><span class="id" title="variable">HL</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:16" class="idref" href="#R:16"><span class="id" title="binder">R</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HR:15"><span class="id" title="variable">HR</span></a> : <span class="id" title="definition">lax_monoidal_functor</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="variable">V₂</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#8aca02a30b001eece796b3725346953d"><span class="id" title="variable">V₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="7a227ab34111673b1f3ba8dd99acecd8" class="idref" href="#7a227ab34111673b1f3ba8dd99acecd8"><span class="id" title="binder">ε</span></a> := <span class="id" title="definition">adjcounit</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HL:14"><span class="id" title="variable">HL</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:13"><span class="id" title="variable">L</span></a> <span class="id" title="notation">I_</span><span class="id" title="notation">{</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#8aca02a30b001eece796b3725346953d"><span class="id" title="variable">V₁</span></a><span class="id" title="notation">}</span> <span class="id" title="notation">--&gt;</span> <span class="id" title="notation">I_</span><span class="id" title="notation">{</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="variable">V₂</span></a><span class="id" title="notation">}</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">#</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:13"><span class="id" title="variable">L</span></a><span class="id" title="notation">(</span><span class="id" title="notation">mon_functor_unit</span> <span class="id" title="notation">R</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#7a227ab34111673b1f3ba8dd99acecd8"><span class="id" title="variable">ε</span></a> <span class="id" title="notation">I_</span><span class="id" title="notation">{</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#bc25539952b85346b767fd1ae8d5e32f"><span class="id" title="variable">V₂</span></a><span class="id" title="notation">}</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="left_adjoint_on_tensor" class="idref" href="#left_adjoint_on_tensor"><span class="id" title="definition">left_adjoint_on_tensor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="42b1f9a067ec6dce240c5051b66bb8d2" class="idref" href="#42b1f9a067ec6dce240c5051b66bb8d2"><span class="id" title="binder">V₁</span></a> <a id="a039d95cf545892a7fffc832e7c5dea6" class="idref" href="#a039d95cf545892a7fffc832e7c5dea6"><span class="id" title="binder">V₂</span></a> : <span class="id" title="definition">monoidal_cat</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="L:20" class="idref" href="#L:20"><span class="id" title="binder">L</span></a> : <a class="idref" href="Realizability.PreservesMonoidalClosed.html#42b1f9a067ec6dce240c5051b66bb8d2"><span class="id" title="variable">V₁</span></a> <span class="id" title="notation">⟶</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a039d95cf545892a7fffc832e7c5dea6"><span class="id" title="variable">V₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HL:21" class="idref" href="#HL:21"><span class="id" title="binder">HL</span></a> : <span class="id" title="definition">is_left_adjoint</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HR:22" class="idref" href="#HR:22"><span class="id" title="binder">HR</span></a> : <span class="id" title="definition">fmonoidal_lax</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a039d95cf545892a7fffc832e7c5dea6"><span class="id" title="variable">V₂</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#42b1f9a067ec6dce240c5051b66bb8d2"><span class="id" title="variable">V₁</span></a> (<span class="id" title="definition">right_adjoint</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HL:21"><span class="id" title="variable">HL</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:23" class="idref" href="#R:23"><span class="id" title="binder">R</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HR:22"><span class="id" title="variable">HR</span></a> : <span class="id" title="definition">lax_monoidal_functor</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#a039d95cf545892a7fffc832e7c5dea6"><span class="id" title="variable">V₂</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#42b1f9a067ec6dce240c5051b66bb8d2"><span class="id" title="variable">V₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="d3900d5b5c1ef81a3236409b3c9f3554" class="idref" href="#d3900d5b5c1ef81a3236409b3c9f3554"><span class="id" title="binder">η</span></a> := <span class="id" title="definition">adjunit</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HL:21"><span class="id" title="variable">HL</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="8beb2f30a170f343c02f31ac8bc026a3" class="idref" href="#8beb2f30a170f343c02f31ac8bc026a3"><span class="id" title="binder">ε</span></a> := <span class="id" title="definition">adjcounit</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#HL:21"><span class="id" title="variable">HL</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:26" class="idref" href="#x:26"><span class="id" title="binder">x</span></a> <a id="y:27" class="idref" href="#y:27"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.PreservesMonoidalClosed.html#42b1f9a067ec6dce240c5051b66bb8d2"><span class="id" title="variable">V₁</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a> (<a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:26"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⊗</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:27"><span class="id" title="variable">y</span></a>) <span class="id" title="notation">--&gt;</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:26"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⊗</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:27"><span class="id" title="variable">y</span></a><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">#</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a><span class="id" title="notation">(</span><span class="id" title="notation">η</span> <span class="id" title="notation">x</span> <span class="id" title="notation">#⊗</span> <span class="id" title="notation">η</span> <span class="id" title="notation">y</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">#</span><a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a><span class="id" title="notation">(</span><span class="id" title="notation">mon_functor_tensor</span> <span class="id" title="notation">R</span> <span class="id" title="notation">(</span><span class="id" title="notation">L</span> <span class="id" title="notation">x</span><span class="id" title="notation">)</span> <span class="id" title="notation">(</span><span class="id" title="notation">L</span> <span class="id" title="notation">y</span><span class="id" title="notation">))</span> <span class="id" title="notation">·</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#8beb2f30a170f343c02f31ac8bc026a3"><span class="id" title="variable">ε</span></a> (<a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#x:26"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⊗</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#L:20"><span class="id" title="variable">L</span></a> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#y:27"><span class="id" title="variable">y</span></a>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

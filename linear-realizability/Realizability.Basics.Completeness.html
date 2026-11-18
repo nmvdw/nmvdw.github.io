@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Basics.Completeness</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Basics.Completeness</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Combinatory completeness of combinatory algebras
+
+<div class="paragraph"> </div>
+
+ Contents
+ 1. Variables
+ 2. Terms
+ 3. Well-scopedness of terms
+ 4. Preliminaries for combinatory completeness
+ 5. Combinatory completeness
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Topology.Prelim</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">ca</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab119"></a><h1 class="section">1. Variables</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="var" class="idref" href="#var"><span class="id" title="definition">var</span></a> (<a id="n:1" class="idref" href="#n:1"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>) : <span class="id" title="definition">UU</span> := <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="m:2" class="idref" href="#m:2"><span class="id" title="binder">m</span></a> : <span class="id" title="abbreviation">ℕ</span><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Basics.Completeness.html#m:2"><span class="id" title="variable">m</span></a> <span class="id" title="notation">&lt;</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:1"><span class="id" title="variable">n</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="make_var" class="idref" href="#make_var"><span class="id" title="definition">make_var</span></a> {<a id="n:3" class="idref" href="#n:3"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>} (<a id="m:4" class="idref" href="#m:4"><span class="id" title="binder">m</span></a> : <span class="id" title="abbreviation">ℕ</span>) (<a id="p:5" class="idref" href="#p:5"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#m:4"><span class="id" title="variable">m</span></a> <span class="id" title="notation">&lt;</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:3"><span class="id" title="variable">n</span></a>) : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:3"><span class="id" title="variable">n</span></a> := <a class="idref" href="Realizability.Basics.Completeness.html#m:4"><span class="id" title="variable">m</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Basics.Completeness.html#p:5"><span class="id" title="variable">p</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Coercion</span> <a id="var_to_nat" class="idref" href="#var_to_nat"><span class="id" title="definition">var_to_nat</span></a> {<a id="n:6" class="idref" href="#n:6"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>} (<a id="v:7" class="idref" href="#v:7"><span class="id" title="binder">v</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:6"><span class="id" title="variable">n</span></a>) : <span class="id" title="abbreviation">ℕ</span> := <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Basics.Completeness.html#v:7"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="var_lt" class="idref" href="#var_lt"><span class="id" title="definition">var_lt</span></a> {<a id="n:8" class="idref" href="#n:8"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>} (<a id="v:9" class="idref" href="#v:9"><span class="id" title="binder">v</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:8"><span class="id" title="variable">n</span></a>) : <a class="idref" href="Realizability.Basics.Completeness.html#v:9"><span class="id" title="variable">v</span></a> <span class="id" title="notation">&lt;</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:8"><span class="id" title="variable">n</span></a> := <span class="id" title="projection">pr2</span> <a class="idref" href="Realizability.Basics.Completeness.html#v:9"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="var_zero" class="idref" href="#var_zero"><span class="id" title="definition">var_zero</span></a> (<a id="n:10" class="idref" href="#n:10"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>) : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:10"><span class="id" title="variable">n</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Basics.Completeness.html#make_var"><span class="id" title="definition">make_var</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> 0.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cbn</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="var_suc" class="idref" href="#var_suc"><span class="id" title="definition">var_suc</span></a> {<a id="n:11" class="idref" href="#n:11"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>} (<a id="v:12" class="idref" href="#v:12"><span class="id" title="binder">v</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:11"><span class="id" title="variable">n</span></a>) : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:11"><span class="id" title="variable">n</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Basics.Completeness.html#make_var"><span class="id" title="definition">make_var</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (1 <span class="id" title="notation">+</span> <span class="id" title="var">v</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="definition">natlthandplusl</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Basics.Completeness.html#var_lt"><span class="id" title="definition">var_lt</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab120"></a><h1 class="section">2. Terms</h1>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+   Note that we represent variables as De Bruijn indices
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Inductive</span> <a id="term" class="idref" href="#term"><span class="id" title="definition, inductive"><span id="term_rect" class="id"><span id="term_ind" class="id"><span id="term_rec" class="id"><span id="term_sind" class="id">term</span></span></span></span></span></a> (<a id="A:13" class="idref" href="#A:13"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>) : <span class="id" title="definition">UU</span> :=<br/>
+| <a id="var_tm" class="idref" href="#var_tm"><span class="id" title="constructor">var_tm</span></a> : <span class="id" title="abbreviation">ℕ</span> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Basics.Completeness.html#term:14"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a><br/>
+| <a id="const" class="idref" href="#const"><span class="id" title="constructor">const</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Basics.Completeness.html#term:14"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a><br/>
+| <a id="app" class="idref" href="#app"><span class="id" title="constructor">app</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term:14"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Basics.Completeness.html#term:14"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Basics.Completeness.html#term:14"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:13"><span class="id" title="variable">A</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="Realizability.Basics.Completeness.html#var_tm"><span class="id" title="constructor">var_tm</span></a> {<span class="id" title="var">A</span>} <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="Realizability.Basics.Completeness.html#const"><span class="id" title="constructor">const</span></a> {<span class="id" title="var">A</span>} <span class="id" title="var">_</span>.<br/>
+<span class="id" title="keyword">Arguments</span> <a class="idref" href="Realizability.Basics.Completeness.html#app"><span class="id" title="constructor">app</span></a> {<span class="id" title="var">A</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="::ca:'V'" class="idref" href="#::ca:'V'"><span class="id" title="notation">&quot;</span></a>'V'" := <a class="idref" href="Realizability.Basics.Completeness.html#var_tm"><span class="id" title="constructor">var_tm</span></a> : <span class="id" title="var">ca</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="::ca:'Co'" class="idref" href="#::ca:'Co'"><span class="id" title="notation">&quot;</span></a>'Co'" := <a class="idref" href="Realizability.Basics.Completeness.html#const"><span class="id" title="constructor">const</span></a> : <span class="id" title="var">ca</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="bd6419d95af4cf244994e30c3fa8b890" class="idref" href="#bd6419d95af4cf244994e30c3fa8b890"><span class="id" title="notation">&quot;</span></a>t₁ • t₂" := (<a class="idref" href="Realizability.Basics.Completeness.html#app"><span class="id" title="constructor">app</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 40, <span class="id" title="tactic">left</span> <span class="id" title="keyword">associativity</span>) : <span class="id" title="var">ca</span>. 
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="term_subst" class="idref" href="#term_subst"><span class="id" title="definition">term_subst</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:16" class="idref" href="#A:16"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:17" class="idref" href="#t:17"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:16"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="c:18" class="idref" href="#c:18"><span class="id" title="binder">c</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:16"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:16"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">n</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#::ca:'Co'"><span class="id" title="notation">Co</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#::ca:'Co'"><span class="id" title="notation">c</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#::ca:'V'"><span class="id" title="notation">V</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#::ca:'V'"><span class="id" title="notation">n</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#::ca:'Co'"><span class="id" title="notation">Co</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#::ca:'Co'"><span class="id" title="notation">ca</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="var">IHt₁</span> <a class="idref" href="Realizability.Basics.Completeness.html#bd6419d95af4cf244994e30c3fa8b890"><span class="id" title="notation">•</span></a> <span class="id" title="var">IHt₂</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="369ed517612305216a733471586e3f68" class="idref" href="#369ed517612305216a733471586e3f68"><span class="id" title="notation">&quot;</span></a>t '{{' c '}}'" := (<a class="idref" href="Realizability.Basics.Completeness.html#term_subst"><span class="id" title="definition">term_subst</span></a> <span class="id" title="var">t</span> <span class="id" title="var">c</span>) : <span class="id" title="var">ca</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab121"></a><h1 class="section">3. Well-scopedness of terms</h1>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+   Terms may contain free variables. A term is well-scoped with respect to a natural number
+   if every variable is smaller than that natural number. The natural number indicates the
+   context of the term by indicating the number of free variables.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="is_well_scoped" class="idref" href="#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:19" class="idref" href="#A:19"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:20" class="idref" href="#t:20"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:19"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:21" class="idref" href="#n:21"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hProp</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="var">m</span> <span class="id" title="notation">&lt;</span> <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="definition">htrue</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="var">IHt₁</span> <span class="id" title="notation">∧</span> <span class="id" title="var">IHt₂</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="is_well_scoped_weaken" class="idref" href="#is_well_scoped_weaken"><span class="id" title="lemma">is_well_scoped_weaken</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:22" class="idref" href="#A:22"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:23" class="idref" href="#t:23"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:22"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:24" class="idref" href="#n:24"><span class="id" title="binder">n</span></a> <a id="n':25" class="idref" href="#n':25"><span class="id" title="binder">n'</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:26" class="idref" href="#p:26"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#n:24"><span class="id" title="variable">n</span></a> <span class="id" title="notation">≤</span> <a class="idref" href="Realizability.Basics.Completeness.html#n':25"><span class="id" title="variable">n'</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="q:27" class="idref" href="#q:27"><span class="id" title="binder">q</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:23"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:24"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:23"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n':25"><span class="id" title="variable">n'</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="lemma">natlthlehtrans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">q</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span> -[<span class="id" title="definition">natlth</span>] <span class="id" title="tactic">in</span> ×.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span> ; <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">IHt₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">IHt₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="tm_subst_var" class="idref" href="#tm_subst_var"><span class="id" title="definition">tm_subst_var</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:28" class="idref" href="#A:28"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:29" class="idref" href="#t:29"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:28"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="c:30" class="idref" href="#c:30"><span class="id" title="binder">c</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:28"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Ht:31" class="idref" href="#Ht:31"><span class="id" title="binder">Ht</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:29"><span class="id" title="variable">t</span></a> 1)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:28"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">n</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">fromempty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">negnatlthn0</span> 0 <span class="id" title="var">Ht</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="var">ca</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="var">IHt₁</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">Ht</span>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">IHt₂</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">Ht</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="is_open_tm_subst" class="idref" href="#is_open_tm_subst"><span class="id" title="lemma">is_open_tm_subst</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:32" class="idref" href="#A:32"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:33" class="idref" href="#t:33"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:32"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:34" class="idref" href="#n:34"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Ht:35" class="idref" href="#Ht:35"><span class="id" title="binder">Ht</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:33"><span class="id" title="variable">t</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:34"><span class="id" title="variable">n</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:36" class="idref" href="#a:36"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:32"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#t:33"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#369ed517612305216a733471586e3f68"><span class="id" title="notation">{{</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:36"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#369ed517612305216a733471586e3f68"><span class="id" title="notation">}}</span></a>) <a class="idref" href="Realizability.Basics.Completeness.html#n:34"><span class="id" title="variable">n</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">induction</span> <span class="id" title="var">m</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">l</span> <span class="id" title="var">IHl</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">Ht</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">IHt₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Ht</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">IHt₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Ht</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+   Every term is well-scoped in a large enough context
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="max_var" class="idref" href="#max_var"><span class="id" title="definition">max_var</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:37" class="idref" href="#A:37"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:38" class="idref" href="#t:38"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:37"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="abbreviation">ℕ</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">n</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> 0.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="definition">max</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">IHt₂</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="is_well_scoped_max" class="idref" href="#is_well_scoped_max"><span class="id" title="lemma">is_well_scoped_max</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:39" class="idref" href="#A:39"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:40" class="idref" href="#t:40"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:39"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:40"><span class="id" title="variable">t</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#max_var"><span class="id" title="definition">max_var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:40"><span class="id" title="variable">t</span></a> <span class="id" title="notation">+</span> 1).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">n</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span> -[<span class="id" title="definition">natlth</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="lemma">natltplusS</span> 0 <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span> -[<span class="id" title="definition">natlth</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span> ; <span class="id" title="var">cbn</span> -[<span class="id" title="definition">natlth</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped_weaken"><span class="id" title="lemma">is_well_scoped_weaken</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">IHt₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">natlehandplusr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">max_le_l</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped_weaken"><span class="id" title="lemma">is_well_scoped_weaken</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">IHt₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">natlehandplusr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">max_le_r</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+4. Preliminaries for combinatory completeness 
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+   We first give a term that picks a specified argument. More specifically, we give an
+   element `a_i` in a combinatory algebra such that `a_i · x_1 · ... · x_n = x_i`. This
+   element is called <span class="inlinecode"><a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a></span>.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_var_zero_S" class="idref" href="#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:41" class="idref" href="#A:41"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:42" class="idref" href="#n:42"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:41"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'I'"><span class="id" title="notation">I</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'K'"><span class="id" title="notation">K</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'B'"><span class="id" title="notation">B</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'K'"><span class="id" title="notation">K</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">IHn</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_S_Z" class="idref" href="#ca_var_zero_S_Z"><span class="id" title="lemma">ca_var_zero_S_Z</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:43" class="idref" href="#A:43"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:44" class="idref" href="#a:44"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:43"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:43"><span class="id" title="variable">A</span></a> 0 <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:44"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#a:44"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_i_eq"><span class="id" title="lemma">combinatory_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_S_one" class="idref" href="#ca_var_zero_S_one"><span class="id" title="lemma">ca_var_zero_S_one</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:45" class="idref" href="#A:45"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="757696eee131325217aae9c9c82ffd6c" class="idref" href="#757696eee131325217aae9c9c82ffd6c"><span class="id" title="binder">a₁</span></a> <a id="dfd5fe069b0b30222389d2d6379408bc" class="idref" href="#dfd5fe069b0b30222389d2d6379408bc"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:45"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:45"><span class="id" title="variable">A</span></a> 1 <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#757696eee131325217aae9c9c82ffd6c"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#dfd5fe069b0b30222389d2d6379408bc"><span class="id" title="variable">a₂</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#757696eee131325217aae9c9c82ffd6c"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_k_eq"><span class="id" title="lemma">combinatory_algebra_k_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_S_S" class="idref" href="#ca_var_zero_S_S"><span class="id" title="lemma">ca_var_zero_S_S</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:48" class="idref" href="#A:48"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="e31b3171a99f51b752a5295c47fe1a7f" class="idref" href="#e31b3171a99f51b752a5295c47fe1a7f"><span class="id" title="binder">a₁</span></a> <a id="056289d00c882d4137de3f77f0fbf32d" class="idref" href="#056289d00c882d4137de3f77f0fbf32d"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:48"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:51" class="idref" href="#n:51"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:48"><span class="id" title="variable">A</span></a> (1 <span class="id" title="notation">+</span> <span class="id" title="notation">(</span>1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:51"><span class="id" title="variable">n</span></a><span class="id" title="notation">)</span>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#e31b3171a99f51b752a5295c47fe1a7f"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#056289d00c882d4137de3f77f0fbf32d"><span class="id" title="variable">a₂</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:48"><span class="id" title="variable">A</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:51"><span class="id" title="variable">n</span></a>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#e31b3171a99f51b752a5295c47fe1a7f"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_b_eq"><span class="id" title="lemma">combinatory_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_k_eq"><span class="id" title="lemma">combinatory_algebra_k_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_S_S'" class="idref" href="#ca_var_zero_S_S'"><span class="id" title="lemma">ca_var_zero_S_S'</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:52" class="idref" href="#A:52"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a219b9fa6c91f0d85e57b1bd0d4117fe" class="idref" href="#a219b9fa6c91f0d85e57b1bd0d4117fe"><span class="id" title="binder">a₁</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:52"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:54" class="idref" href="#n:54"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:52"><span class="id" title="variable">A</span></a> (1 <span class="id" title="notation">+</span> <span class="id" title="notation">(</span>1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:54"><span class="id" title="variable">n</span></a><span class="id" title="notation">)</span>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a219b9fa6c91f0d85e57b1bd0d4117fe"><span class="id" title="variable">a₁</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'K'"><span class="id" title="notation">K</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">(</span></a><a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:52"><span class="id" title="variable">A</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:54"><span class="id" title="variable">n</span></a>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a219b9fa6c91f0d85e57b1bd0d4117fe"><span class="id" title="variable">a₁</span></a><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_b_eq"><span class="id" title="lemma">combinatory_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_var_zero" class="idref" href="#ca_var_zero"><span class="id" title="definition">ca_var_zero</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:55" class="idref" href="#A:55"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:56" class="idref" href="#n:56"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:57" class="idref" href="#p:57"><span class="id" title="binder">p</span></a> : 0 <span class="id" title="notation">&lt;</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:56"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:55"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">fromempty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">negnatlthn0</span> <span class="id" title="var">_</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <span class="id" title="var">A</span> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_succ" class="idref" href="#ca_var_zero_succ"><span class="id" title="lemma">ca_var_zero_succ</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:58" class="idref" href="#A:58"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:59" class="idref" href="#n:59"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:60" class="idref" href="#p:60"><span class="id" title="binder">p</span></a> : 0 <span class="id" title="notation">&lt;</span> 1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:59"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero"><span class="id" title="definition">ca_var_zero</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:58"><span class="id" title="variable">A</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:59"><span class="id" title="variable">n</span></a>) <a class="idref" href="Realizability.Basics.Completeness.html#p:60"><span class="id" title="variable">p</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:58"><span class="id" title="variable">A</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:59"><span class="id" title="variable">n</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_var'" class="idref" href="#ca_var'"><span class="id" title="definition">ca_var'</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:61" class="idref" href="#A:61"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:62" class="idref" href="#n:62"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="m:63" class="idref" href="#m:63"><span class="id" title="binder">m</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:64" class="idref" href="#p:64"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#m:63"><span class="id" title="variable">m</span></a> <span class="id" title="notation">&lt;</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:62"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:61"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">n</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">m</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">m</span> <span class="id" title="var">IHm</span> ] ; <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero"><span class="id" title="definition">ca_var_zero</span></a> <span class="id" title="var">A</span> <span class="id" title="var">n</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">fromempty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">negnatlthn0</span> <span class="id" title="var">_</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'C'"><span class="id" title="notation">C</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">×</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">IHm</span> <span class="id" title="var">n</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_var" class="idref" href="#ca_var"><span class="id" title="definition">ca_var</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:65" class="idref" href="#A:65"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:66" class="idref" href="#n:66"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="v:67" class="idref" href="#v:67"><span class="id" title="binder">v</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:66"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:65"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">v</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> <span class="id" title="var">p</span> ].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#ca_var'"><span class="id" title="definition">ca_var'</span></a> <span class="id" title="var">m</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_eq" class="idref" href="#ca_var_zero_eq"><span class="id" title="lemma">ca_var_zero_eq</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:68" class="idref" href="#A:68"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:69" class="idref" href="#n:69"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_zero"><span class="id" title="definition">var_zero</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:69"><span class="id" title="variable">n</span></a>) <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:68"><span class="id" title="variable">A</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:69"><span class="id" title="variable">n</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_eq_Z" class="idref" href="#ca_var_zero_eq_Z"><span class="id" title="lemma">ca_var_zero_eq_Z</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:70" class="idref" href="#A:70"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:71" class="idref" href="#a:71"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:70"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_zero"><span class="id" title="definition">var_zero</span></a> 0) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:71"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#a:71"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_eq"><span class="id" title="lemma">ca_var_zero_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S_Z"><span class="id" title="lemma">ca_var_zero_S_Z</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_eq_one" class="idref" href="#ca_var_zero_eq_one"><span class="id" title="lemma">ca_var_zero_eq_one</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:72" class="idref" href="#A:72"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="0eb9f6ce2750380c79bf177c8141d039" class="idref" href="#0eb9f6ce2750380c79bf177c8141d039"><span class="id" title="binder">a₁</span></a> <a id="26aebeeb282d794f6f2ce3ab44468eff" class="idref" href="#26aebeeb282d794f6f2ce3ab44468eff"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:72"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_zero"><span class="id" title="definition">var_zero</span></a> 1) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#0eb9f6ce2750380c79bf177c8141d039"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#26aebeeb282d794f6f2ce3ab44468eff"><span class="id" title="variable">a₂</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#0eb9f6ce2750380c79bf177c8141d039"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_eq"><span class="id" title="lemma">ca_var_zero_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S_one"><span class="id" title="lemma">ca_var_zero_S_one</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_zero_eq_succ" class="idref" href="#ca_var_zero_eq_succ"><span class="id" title="lemma">ca_var_zero_eq_succ</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:75" class="idref" href="#A:75"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a112197c0c983467c0d3bf88e5b64e7a" class="idref" href="#a112197c0c983467c0d3bf88e5b64e7a"><span class="id" title="binder">a₁</span></a> <a id="156aafb3ffe4756913aebda5fd7c4b85" class="idref" href="#156aafb3ffe4756913aebda5fd7c4b85"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:75"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="n:78" class="idref" href="#n:78"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_zero"><span class="id" title="definition">var_zero</span></a> (1 <span class="id" title="notation">+</span> <span class="id" title="notation">(</span>1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:78"><span class="id" title="variable">n</span></a><span class="id" title="notation">)</span>)) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a112197c0c983467c0d3bf88e5b64e7a"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#156aafb3ffe4756913aebda5fd7c4b85"><span class="id" title="variable">a₂</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_zero"><span class="id" title="definition">var_zero</span></a> (1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:78"><span class="id" title="variable">n</span></a>)) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a112197c0c983467c0d3bf88e5b64e7a"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_eq"><span class="id" title="lemma">ca_var_zero_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S_S"><span class="id" title="lemma">ca_var_zero_S_S</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_var_s" class="idref" href="#ca_var_s"><span class="id" title="lemma">ca_var_s</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:79" class="idref" href="#A:79"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:80" class="idref" href="#n:80"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="v:81" class="idref" href="#v:81"><span class="id" title="binder">v</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#var"><span class="id" title="definition">var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:80"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:82" class="idref" href="#a:82"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:79"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#var_suc"><span class="id" title="definition">var_suc</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#v:81"><span class="id" title="variable">v</span></a>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:82"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#v:81"><span class="id" title="variable">v</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_c_eq"><span class="id" title="lemma">combinatory_algebra_c_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_ks_eq"><span class="id" title="lemma">combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">v</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> <span class="id" title="var">p</span> ].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="definition">maponpaths</span> (<a class="idref" href="Realizability.Basics.Completeness.html#ca_var'"><span class="id" title="definition">ca_var'</span></a> <span class="id" title="var">m</span>) <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab122"></a><h1 class="section">5. Combinatory completeness</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="lam_term" class="idref" href="#lam_term"><span class="id" title="definition">lam_term</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:83" class="idref" href="#A:83"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:84" class="idref" href="#t:84"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:83"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:85" class="idref" href="#n:85"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Ht:86" class="idref" href="#Ht:86"><span class="id" title="binder">Ht</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:84"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#n:85"><span class="id" title="variable">n</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:83"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.Completeness.html#ca_var"><span class="id" title="definition">ca_var</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#make_var"><span class="id" title="definition">make_var</span></a> <span class="id" title="var">m</span> <span class="id" title="var">Ht</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#ca_const"><span class="id" title="definition">ca_const</span></a> <span class="id" title="var">n</span> <span class="id" title="var">ca</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'Sn'"><span class="id" title="notation">Sn</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'Sn'"><span class="id" title="notation">n</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">IHt₁</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">Ht</span>) <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">IHt₂</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">Ht</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="lam_term_single" class="idref" href="#lam_term_single"><span class="id" title="lemma">lam_term_single</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:87" class="idref" href="#A:87"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:88" class="idref" href="#t:88"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:87"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Ht:89" class="idref" href="#Ht:89"><span class="id" title="binder">Ht</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:88"><span class="id" title="variable">t</span></a> 1)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:90" class="idref" href="#a:90"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:87"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#lam_term"><span class="id" title="definition">lam_term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:88"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#Ht:89"><span class="id" title="variable">Ht</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:90"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#tm_subst_var"><span class="id" title="definition">tm_subst_var</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:88"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:90"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#Ht:89"><span class="id" title="variable">Ht</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">n</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">assert</span> (0 <span class="id" title="notation">=</span> <span class="id" title="var">n</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">!</span><span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="definition">natlth</span>] <span class="id" title="tactic">in</span> <span class="id" title="var">Ht</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">natlth1tois0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">Ht</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_i_eq"><span class="id" title="lemma">combinatory_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_k_eq"><span class="id" title="lemma">combinatory_algebra_k_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_s_eq"><span class="id" title="lemma">combinatory_algebra_s_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="lam_term_multiple" class="idref" href="#lam_term_multiple"><span class="id" title="lemma">lam_term_multiple</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:91" class="idref" href="#A:91"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:92" class="idref" href="#t:92"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:91"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="n:93" class="idref" href="#n:93"><span class="id" title="binder">n</span></a> : <span class="id" title="abbreviation">ℕ</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Ht:94" class="idref" href="#Ht:94"><span class="id" title="binder">Ht</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped"><span class="id" title="definition">is_well_scoped</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:92"><span class="id" title="variable">t</span></a> (1 <span class="id" title="notation">+</span> <span class="id" title="notation">(</span>1 <span class="id" title="notation">+</span> <a class="idref" href="Realizability.Basics.Completeness.html#n:93"><span class="id" title="variable">n</span></a><span class="id" title="notation">)</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:95" class="idref" href="#a:95"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#A:91"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#lam_term"><span class="id" title="definition">lam_term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:92"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#Ht:94"><span class="id" title="variable">Ht</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:95"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Completeness.html#lam_term"><span class="id" title="definition">lam_term</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#t:92"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#369ed517612305216a733471586e3f68"><span class="id" title="notation">{{</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:95"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#369ed517612305216a733471586e3f68"><span class="id" title="notation">}}</span></a>) (<a class="idref" href="Realizability.Basics.Completeness.html#is_open_tm_subst"><span class="id" title="lemma">is_open_tm_subst</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:92"><span class="id" title="variable">t</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#Ht:94"><span class="id" title="variable">Ht</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#a:95"><span class="id" title="variable">a</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">t</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">m</span> | <span class="id" title="var">ca</span> | <span class="id" title="var">t₁</span> <span class="id" title="var">IHt₁</span> <span class="id" title="var">t₂</span> <span class="id" title="var">IHt₂</span> ].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">destruct</span> <span class="id" title="var">m</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">m</span> ] ; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [ | <span class="id" title="var">n</span> <span class="id" title="var">IHn</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#ca_const_S_eq'"><span class="id" title="lemma">ca_const_S_eq'</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S"><span class="id" title="definition">ca_var_zero_S</span></a>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Completeness.html#ca_var_zero_S_S'"><span class="id" title="lemma">ca_var_zero_S_S'</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">IHn</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">Ht</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_c_eq"><span class="id" title="lemma">combinatory_algebra_c_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_ks_eq"><span class="id" title="lemma">combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">propproperty</span> <span class="id" title="var">_</span> <span class="id" title="var">Ht</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_k_eq"><span class="id" title="lemma">combinatory_algebra_k_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_b_eq"><span class="id" title="lemma">combinatory_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_s_eq"><span class="id" title="lemma">combinatory_algebra_s_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_b_eq"><span class="id" title="lemma">combinatory_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">IHt₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#app_eq"><span class="id" title="lemma">app_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+   The following is a convenient way to use combinatory completeness. This is because
+   one does not need to worry about well-scopedness.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_abs" class="idref" href="#ca_abs"><span class="id" title="definition">ca_abs</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:96" class="idref" href="#A:96"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:97" class="idref" href="#t:97"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Basics.Completeness.html#term"><span class="id" title="inductive">term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#A:96"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Basics.Completeness.html#A:96"><span class="id" title="variable">A</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Realizability.Basics.Completeness.html#lam_term"><span class="id" title="definition">lam_term</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:97"><span class="id" title="variable">t</span></a> (<a class="idref" href="Realizability.Basics.Completeness.html#is_well_scoped_max"><span class="id" title="lemma">is_well_scoped_max</span></a> <a class="idref" href="Realizability.Basics.Completeness.html#t:97"><span class="id" title="variable">t</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="f409cd2b12c87b8c94472eda94cd76d6" class="idref" href="#f409cd2b12c87b8c94472eda94cd76d6"><span class="id" title="notation">&quot;</span></a>'Λ' t" := (<a class="idref" href="Realizability.Basics.Completeness.html#ca_abs"><span class="id" title="definition">ca_abs</span></a> <span class="id" title="var">t</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 200).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

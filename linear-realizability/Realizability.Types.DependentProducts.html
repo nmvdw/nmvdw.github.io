@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Types.DependentProducts</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Types.DependentProducts</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Dependent products of assemblies
+
+<div class="paragraph"> </div>
+
+ In this file, we show that the comprehension category of assemblies supports all
+ dependent products. Specifically, we show that each substitution functor has a
+ right adjoint. Note that the Beck-Chevalley condition for dependent products
+ follows from the Beck-Chevalley condition for dependent sums.
+
+<div class="paragraph"> </div>
+
+ Contents
+ 1. Dependent morphisms
+ 2. Dependent products of assemblies
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Coreflections</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Limits.Pullbacks</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiber</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.DependentSums</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.DependentProducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.DualBeckChevalley</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.SetFamilies.html#"><span class="id" title="library">SetFamilies</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Completeness.html#"><span class="id" title="library">Basics.Completeness</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Combinators.html#"><span class="id" title="library">Basics.Combinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#"><span class="id" title="library">Assemblies.CatOfAssemblies</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#"><span class="id" title="library">Assemblies.AssembliesStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#"><span class="id" title="library">Assemblies.DependentAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.DependentSums.html#"><span class="id" title="library">Types.DependentSums</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">ca</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="DependentAssemblyProduct" class="idref" href="#DependentAssemblyProduct"><span class="id" title="section">DependentAssemblyProduct</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="DependentAssemblyProduct.A" class="idref" href="#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Section</span> <a id="DependentAssemblyProduct.DepProd" class="idref" href="#DependentAssemblyProduct.DepProd"><span class="id" title="section">DepProd</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="aed3f9ab8ba331023710a830cbd5054b" class="idref" href="#aed3f9ab8ba331023710a830cbd5054b"><span class="id" title="variable">Γ₁</span></a> <a id="2adc2a32391a4d26819b96ffa7eb6f87" class="idref" href="#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="DependentAssemblyProduct.DepProd.s" class="idref" href="#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#cbacd99f7fa389b1b89cee2ae3d5f0d0"><span class="id" title="variable">Γ₁</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#9df9fecbb866bb808bfce3cd6bbc34ae"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="DependentAssemblyProduct.DepProd.X" class="idref" href="#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#cbacd99f7fa389b1b89cee2ae3d5f0d0"><span class="id" title="variable">Γ₁</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab271"></a><h1 class="section">1. Dependent morphisms</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="tracks_dependent_mor" class="idref" href="#tracks_dependent_mor"><span class="id" title="definition">tracks_dependent_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:6" class="idref" href="#a:6"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="y:7" class="idref" href="#y:7"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:8" class="idref" href="#f:8"><span class="id" title="binder">f</span></a> : <a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam"><span class="id" title="definition">dep_prod_set_fam</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:7"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">hProp</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= (<span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="x:9" class="idref" href="#x:9"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#assembly_fiber"><span class="id" title="definition">assembly_fiber</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:7"><span class="id" title="variable">y</span></a>) (<a id="b:10" class="idref" href="#b:10"><span class="id" title="binder">b</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.DependentProducts.html#b:10"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:9"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⇒</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#a:6"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#b:10"><span class="id" title="variable">b</span></a>)%<span class="id" title="var">ca</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:8"><span class="id" title="variable">f</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:9"><span class="id" title="variable">x</span></a>)%<span class="id" title="var">logic</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dependent_mor_assembly" class="idref" href="#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="y:11" class="idref" href="#y:11"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="f:12" class="idref" href="#f:12"><span class="id" title="binder">f</span></a> : <a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam"><span class="id" title="definition">dep_prod_set_fam</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:11"><span class="id" title="variable">y</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="a:13" class="idref" href="#a:13"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.DependentProducts.html#tracks_dependent_mor"><span class="id" title="definition">tracks_dependent_mor</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#a:13"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:12"><span class="id" title="variable">f</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="make_dependent_mor_assembly" class="idref" href="#make_dependent_mor_assembly"><span class="id" title="definition">make_dependent_mor_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="y:14" class="idref" href="#y:14"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:15" class="idref" href="#f:15"><span class="id" title="binder">f</span></a> : <a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam"><span class="id" title="definition">dep_prod_set_fam</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:14"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="H:17" class="idref" href="#H:17"><span class="id" title="binder">H</span></a> : <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="a:16" class="idref" href="#a:16"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.DependentProducts.html#tracks_dependent_mor"><span class="id" title="definition">tracks_dependent_mor</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#a:16"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:15"><span class="id" title="variable">f</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:14"><span class="id" title="variable">y</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Realizability.Types.DependentProducts.html#f:15"><span class="id" title="variable">f</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Types.DependentProducts.html#H:17"><span class="id" title="variable">H</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="isaset_dependent_mor_assembly" class="idref" href="#isaset_dependent_mor_assembly"><span class="id" title="lemma">isaset_dependent_mor_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="y:18" class="idref" href="#y:18"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">isaset</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:18"><span class="id" title="variable">y</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">isaset_total2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isasetaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Coercion</span> <a id="dependent_mor_assembly_to_mor" class="idref" href="#dependent_mor_assembly_to_mor"><span class="id" title="definition">dependent_mor_assembly_to_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="y:19" class="idref" href="#y:19"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:20" class="idref" href="#f:20"><span class="id" title="binder">f</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:19"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam"><span class="id" title="definition">dep_prod_set_fam</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:19"><span class="id" title="variable">y</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.DependentProducts.html#f:20"><span class="id" title="variable">f</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dependent_mor_assembly_tracker" class="idref" href="#dependent_mor_assembly_tracker"><span class="id" title="definition">dependent_mor_assembly_tracker</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="y:21" class="idref" href="#y:21"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:22" class="idref" href="#f:22"><span class="id" title="binder">f</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:21"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="a:23" class="idref" href="#a:23"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.DependentProducts.html#tracks_dependent_mor"><span class="id" title="definition">tracks_dependent_mor</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#a:23"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:22"><span class="id" title="variable">f</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="projection">pr2</span> <a class="idref" href="Realizability.Types.DependentProducts.html#f:22"><span class="id" title="variable">f</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="dependent_mor_assembly_eq" class="idref" href="#dependent_mor_assembly_eq"><span class="id" title="lemma">dependent_mor_assembly_eq</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="y:24" class="idref" href="#y:24"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="909371352d5234563aab096a8151a7d8" class="idref" href="#909371352d5234563aab096a8151a7d8"><span class="id" title="binder">f₁</span></a> <a id="b57a3b1dd0f371e83987046f081c0681" class="idref" href="#b57a3b1dd0f371e83987046f081c0681"><span class="id" title="binder">f₂</span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:24"><span class="id" title="variable">y</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:28" class="idref" href="#p:28"><span class="id" title="binder">p</span></a> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="x:27" class="idref" href="#x:27"><span class="id" title="binder">x</span></a> : <span class="id" title="definition">hfiber_hSet</span> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#y:24"><span class="id" title="variable">y</span></a><span class="id" title="notation">),</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.DependentProducts.html#909371352d5234563aab096a8151a7d8"><span class="id" title="variable">f₁</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:27"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.DependentProducts.html#b57a3b1dd0f371e83987046f081c0681"><span class="id" title="variable">f₂</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:27"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.DependentProducts.html#909371352d5234563aab096a8151a7d8"><span class="id" title="variable">f₁</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Types.DependentProducts.html#b57a3b1dd0f371e83987046f081c0681"><span class="id" title="variable">f₂</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam_eq"><span class="id" title="lemma">dep_prod_set_fam_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab272"></a><h1 class="section">2. Dependent products of assemblies</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dep_prod" class="idref" href="#dep_assembly_dep_prod"><span class="id" title="definition">dep_assembly_dep_prod</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">λ</span> <a id="y:29" class="idref" href="#y:29"><span class="id" title="binder"><span id="y:30" class="id">y</span></span></a><span class="id" title="notation">,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly"><span class="id" title="definition">make_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">make_hSet</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <span class="id" title="var">y</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.DependentProducts.html#isaset_dependent_mor_assembly"><span class="id" title="lemma">isaset_dependent_mor_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="a:31" class="idref" href="#a:31"><span class="id" title="binder"><span id="a:33" class="id">a</span></span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>) (<a id="f:32" class="idref" href="#f:32"><span class="id" title="binder"><span id="f:34" class="id">f</span></span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> <span class="id" title="var">y</span><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.DependentProducts.html#tracks_dependent_mor"><span class="id" title="definition">tracks_dependent_mor</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#a:31"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:32"><span class="id" title="variable">f</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">f</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly_tracker"><span class="id" title="definition">dependent_mor_assembly_tracker</span></a> <span class="id" title="var">f</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dep_prod_eval" class="idref" href="#dep_assembly_dep_prod_eval"><span class="id" title="definition">dep_assembly_dep_prod_eval</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism"><span class="id" title="definition">dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_subst"><span class="id" title="definition">dep_assembly_subst</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod"><span class="id" title="definition">dep_assembly_dep_prod</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#aed3f9ab8ba331023710a830cbd5054b"><span class="id" title="variable">Γ₁</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#make_dep_assembly_morphism"><span class="id" title="definition">make_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:35" class="idref" href="#x:35"><span class="id" title="binder"><span id="x:37" class="id">x</span></span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#aed3f9ab8ba331023710a830cbd5054b"><span class="id" title="variable">Γ₁</span></a>) (<a id="f:36" class="idref" href="#f:36"><span class="id" title="binder"><span id="f:38" class="id">f</span></span></a> : <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly"><span class="id" title="definition">dependent_mor_assembly</span></a> (<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:35"><span class="id" title="variable">x</span></a>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam_eval"><span class="id" title="definition">dep_prod_set_fam_eval</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#x:35"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#f:36"><span class="id" title="variable">f</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'T'"><span class="id" title="notation">T</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">ff</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_t_eq"><span class="id" title="lemma">combinatory_algebra_t_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="var">p₂</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dependent_products_coreflection_data" class="idref" href="#dep_assembly_dependent_products_coreflection_data"><span class="id" title="definition">dep_assembly_dependent_products_coreflection_data</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">coreflection_data</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">D</span> := <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">)[{</span><a class="idref" href="Realizability.Types.DependentProducts.html#aed3f9ab8ba331023710a830cbd5054b"><span class="id" title="variable">Γ₁</span></a><span class="id" title="notation">}]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">fiber_functor_from_cleaving</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_coreflection_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod"><span class="id" title="definition">dep_assembly_dep_prod</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_eval"><span class="id" title="definition">dep_assembly_dep_prod_eval</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Section</span> <a id="DependentAssemblyProduct.DepProd.UMP" class="idref" href="#DependentAssemblyProduct.DepProd.UMP"><span class="id" title="section">UMP</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="DependentAssemblyProduct.DepProd.UMP.X'" class="idref" href="#DependentAssemblyProduct.DepProd.UMP.X'"><span class="id" title="variable">X'</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="DependentAssemblyProduct.DepProd.UMP.f" class="idref" href="#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism"><span class="id" title="definition">dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_subst"><span class="id" title="definition">dep_assembly_subst</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#X':39"><span class="id" title="variable">X'</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#aed3f9ab8ba331023710a830cbd5054b"><span class="id" title="variable">Γ₁</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dep_prod_lam" class="idref" href="#dep_assembly_dep_prod_lam"><span class="id" title="definition">dep_assembly_dep_prod_lam</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism"><span class="id" title="definition">dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.X'"><span class="id" title="variable">X'</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod"><span class="id" title="definition">dep_assembly_dep_prod</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#2adc2a32391a4d26819b96ffa7eb6f87"><span class="id" title="variable">Γ₂</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#make_dep_assembly_morphism"><span class="id" title="definition">make_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">yy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.DependentProducts.html#make_dependent_mor_assembly"><span class="id" title="definition">make_dependent_mor_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.SetFamilies.html#dep_prod_set_fam_lam"><span class="id" title="definition">dep_prod_set_fam_lam</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.X'"><span class="id" title="variable">X'</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a> <span class="id" title="var">yy</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_function_track"><span class="id" title="lemma">dep_assembly_morphism_function_track</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a</span> &amp; <span class="id" title="var">p</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">yy</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a'</span> &amp; <span class="id" title="var">p'</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'C'"><span class="id" title="notation">C</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">a</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">a'</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>)%<span class="id" title="var">ca</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span> <span class="id" title="var">q</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_c_eq"><span class="id" title="lemma">combinatory_algebra_c_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="var">p</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">q</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_transportf_realizes"><span class="id" title="lemma">dep_assembly_transportf_realizes</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_function_track"><span class="id" title="lemma">dep_assembly_morphism_function_track</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a</span> &amp; <span class="id" title="var">p</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.Combinators.html#::ca:'lam_d'"><span class="id" title="notation">lam_d</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <span class="id" title="var">a</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>)%<span class="id" title="var">ca</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">yy</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">q₁</span> <span class="id" title="var">q₂</span> <span class="id" title="var">x</span> <span class="id" title="var">b₃</span> <span class="id" title="var">q₃</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.Combinators.html#combinatory_algebra_dep_lam_eq"><span class="id" title="lemma">combinatory_algebra_dep_lam_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="var">p</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">x</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">q₃</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_transportf_realizes"><span class="id" title="lemma">dep_assembly_transportf_realizes</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">q₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="dep_assembly_dep_prod_beta" class="idref" href="#dep_assembly_dep_prod_beta"><span class="id" title="lemma">dep_assembly_dep_prod_beta</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">#(</span><span class="id" title="definition">fiber_functor_from_cleaving</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">dep_assembly_dep_prod_lam</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_eval"><span class="id" title="definition">dep_assembly_dep_prod_eval</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_eq"><span class="id" title="lemma">dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">!</span><span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_comp_dep_assembly"><span class="id" title="lemma">fiber_comp_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_functor_from_cleaving_dep_assembly"><span class="id" title="lemma">fiber_functor_from_cleaving_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="dep_assembly_dep_prod_eta" class="idref" href="#dep_assembly_dep_prod_eta"><span class="id" title="lemma">dep_assembly_dep_prod_eta</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">isaprop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">∑</span> <a id="g:41" class="idref" href="#g:41"><span class="id" title="binder">g</span></a><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP.f"><span class="id" title="variable">f</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">#(</span><span class="id" title="definition">fiber_functor_from_cleaving</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">g</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_eval"><span class="id" title="definition">dep_assembly_dep_prod_eval</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">g₁</span> <span class="id" title="var">g₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#isaset_dep_assembly_morphism"><span class="id" title="lemma">isaset_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_eq"><span class="id" title="lemma">dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">yy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly_eq"><span class="id" title="lemma">dependent_mor_assembly_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">x</span> &amp; <span class="id" title="var">p</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">p</span> := <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_eq_point"><span class="id" title="lemma">dep_assembly_morphism_eq_point</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">!(</span><span class="id" title="projection">pr2</span> <span class="id" title="var">g₁</span><span class="id" title="notation">)</span> <span class="id" title="notation">@</span> <span class="id" title="projection">pr2</span> <span class="id" title="var">g₂</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">yy</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">@</span> <span class="id" title="var">p</span> <span class="id" title="notation">@</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="notation">!</span><span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_comp_dep_assembly"><span class="id" title="lemma">fiber_comp_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_functor_from_cleaving_dep_assembly"><span class="id" title="lemma">fiber_functor_from_cleaving_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_comp_dep_assembly"><span class="id" title="lemma">fiber_comp_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiber_functor_from_cleaving_dep_assembly"><span class="id" title="lemma">fiber_functor_from_cleaving_dep_assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.s"><span class="id" title="variable">s</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd.UMP"><span class="id" title="section">UMP</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="dep_assembly_dependent_products_coreflection_laws" class="idref" href="#dep_assembly_dependent_products_coreflection_laws"><span class="id" title="lemma">dep_assembly_dependent_products_coreflection_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">is_coreflection</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dependent_products_coreflection_data"><span class="id" title="definition">dep_assembly_dependent_products_coreflection_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">f</span> := <span class="id" title="definition">coreflection_data_arrow</span> <span class="id" title="var">X'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscontraprop1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_eta"><span class="id" title="lemma">dep_assembly_dep_prod_eta</span></a> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_lam"><span class="id" title="definition">dep_assembly_dep_prod_lam</span></a> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod_beta"><span class="id" title="lemma">dep_assembly_dep_prod_beta</span></a> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.DepProd"><span class="id" title="section">DepProd</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dependent_products_type" class="idref" href="#dep_assembly_dependent_products_type"><span class="id" title="definition">dep_assembly_dependent_products_type</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="3245b24fc74fe0f48607676c9ca97fbf" class="idref" href="#3245b24fc74fe0f48607676c9ca97fbf"><span class="id" title="binder">Γ₁</span></a> <a id="152172fa35a8b0343d200d26c2332799" class="idref" href="#152172fa35a8b0343d200d26c2332799"><span class="id" title="binder">Γ₂</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="s:44" class="idref" href="#s:44"><span class="id" title="binder">s</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#3245b24fc74fe0f48607676c9ca97fbf"><span class="id" title="variable">Γ₁</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#152172fa35a8b0343d200d26c2332799"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">dependent_product</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>) <a class="idref" href="Realizability.Types.DependentProducts.html#s:44"><span class="id" title="variable">s</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">coreflections_to_is_left_adjoint</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_coreflection</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dependent_products_coreflection_data"><span class="id" title="definition">dep_assembly_dependent_products_coreflection_data</span></a> <span class="id" title="var">s</span> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dependent_products_coreflection_laws"><span class="id" title="lemma">dep_assembly_dependent_products_coreflection_laws</span></a> <span class="id" title="var">s</span> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="dep_assembly_dependent_products" class="idref" href="#dep_assembly_dependent_products"><span class="id" title="definition">dep_assembly_dependent_products</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">has_dependent_products</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct.A"><span class="id" title="variable">A</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">Γ₁</span> <span class="id" title="var">Γ₂</span> <span class="id" title="var">s</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dependent_products_type"><span class="id" title="definition">dep_assembly_dependent_products_type</span></a> <span class="id" title="var">s</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">Γ₁</span> <span class="id" title="var">Γ₂</span> <span class="id" title="var">Γ₃</span> <span class="id" title="var">Γ₄</span> <span class="id" title="var">s₁</span> <span class="id" title="var">s₂</span> <span class="id" title="var">s₃</span> <span class="id" title="var">s₄</span> <span class="id" title="var">p</span> <span class="id" title="var">Hp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">right_from_left_beck_chevalley</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_dependent_sums"><span class="id" title="definition">dep_assembly_dependent_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_dependent_sums"><span class="id" title="definition">dep_assembly_dependent_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_dependent_sums"><span class="id" title="definition">dep_assembly_dependent_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">is_symmetric_isPullback</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">Hp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.DependentProducts.html#DependentAssemblyProduct"><span class="id" title="section">DependentAssemblyProduct</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

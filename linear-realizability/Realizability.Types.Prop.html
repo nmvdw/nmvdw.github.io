@@ -1,0 +1,661 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Types.Prop</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Types.Prop</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Impredicative universe of propositions for assemblies
+
+<div class="paragraph"> </div>
+
+ We establish that the linear realisability model has an impredicative universe of
+ propositions. This universe classifies subsingleton assemblies (i.e., assemblies
+ with at most one element). We show that the universe of propositions contains
+ the following Cartesian type formers:
+<ul class="doclist">
+<li> the empty type
+
+</li>
+<li> the unit type
+
+</li>
+<li> binary products of types
+
+</li>
+<li> dependent products (and thus function types as well)
+
+</li>
+<li> identity types
+
+</li>
+</ul>
+ We also show that it contains the following linear type formers:
+<ul class="doclist">
+<li> the empty linear type (i.e., additive zero)
+
+</li>
+<li> the unit linear type (i.e., additive one)
+
+</li>
+<li> the monoidal unit (i.e., the multiplicative unit)
+
+</li>
+<li> the monoidal product (i.e., the multiplicative conjunction)
+
+</li>
+<li> binary products (i.e., additive conjunction)
+
+</li>
+<li> linear function types (i.e., linear implication)
+
+</li>
+<li> linear ∏-types (i.e., universal quantification)
+
+</li>
+<li> multiplication and linearization, and, as a consequence, the linear exponential
+
+</li>
+<li> equalizers
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+ The following has to be note: each subsingleton assembly is modest. Concretely,
+ this means that the universe of propositions is contained in the impredicative
+ universe of sets. In addition, we can show that the universe of propositions
+ is not a modest set, which makes sense, because it would be inconsistent.
+
+<div class="paragraph"> </div>
+
+ Contents
+ 1. Subsingleton assemblies
+ 2. Universe of propositions
+ 3. Subsingleton families are in the universe
+ 4. Examples of subsingletons families (Cartesian type formers)
+ 5. Subsingleton linear assemblies are classified
+ 6. Examples of subsingletons (linear type formers)
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiber</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#"><span class="id" title="library">Basics.BIAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#"><span class="id" title="library">Basics.LinearCombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#"><span class="id" title="library">Assemblies.CatOfAssemblies</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#"><span class="id" title="library">Assemblies.AssembliesStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#"><span class="id" title="library">Assemblies.DependentAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#"><span class="id" title="library">Assemblies.LinearAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.LinearAssemblyMonoidal.html#"><span class="id" title="library">Assemblies.LinearAssemblyMonoidal</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#"><span class="id" title="library">Assemblies.ModestSet</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.DependentProducts.html#"><span class="id" title="library">Types.DependentProducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.DependentSums.html#"><span class="id" title="library">Types.DependentSums</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.FiberAssembly.html#"><span class="id" title="library">Types.FiberAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.Terms.html#"><span class="id" title="library">Types.Terms</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.ImpredicativeUniverse.html#"><span class="id" title="library">Types.ImpredicativeUniverse</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearFiber.html#"><span class="id" title="library">Types.LinearFiber</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearNonLinear.html#"><span class="id" title="library">Types.LinearNonLinear</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearPi.html#"><span class="id" title="library">Types.LinearPi</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">ca</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab300"></a><h1 class="section">1. Subsingleton assemblies</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="is_subsingleton_dep_assembly" class="idref" href="#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:1" class="idref" href="#A:1"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="da7a5918a812e0216f4a54d21f7406c4" class="idref" href="#da7a5918a812e0216f4a54d21f7406c4"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#A:1"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:3" class="idref" href="#X:3"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#da7a5918a812e0216f4a54d21f7406c4"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="x:4" class="idref" href="#x:4"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Types.Prop.html#da7a5918a812e0216f4a54d21f7406c4"><span class="id" title="variable">Γ</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">isaprop</span> (<a class="idref" href="Realizability.Types.Prop.html#X:3"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.Prop.html#x:4"><span class="id" title="variable">x</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="subsingleton_to_modest_dep_assembly" class="idref" href="#subsingleton_to_modest_dep_assembly"><span class="id" title="lemma">subsingleton_to_modest_dep_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:5" class="idref" href="#A:5"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="6b23b3527a5ae82de0dbe08d52926f19" class="idref" href="#6b23b3527a5ae82de0dbe08d52926f19"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#A:5"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="X:7" class="idref" href="#X:7"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#6b23b3527a5ae82de0dbe08d52926f19"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:8" class="idref" href="#HX:8"><span class="id" title="binder">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:7"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.ImpredicativeUniverse.html#is_modest_dep_assembly"><span class="id" title="definition">is_modest_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:7"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">a</span> <span class="id" title="var">xx₁</span> <span class="id" title="var">xx₂</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="PropUniverse" class="idref" href="#PropUniverse"><span class="id" title="section">PropUniverse</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="PropUniverse.A" class="idref" href="#PropUniverse.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab301"></a><h1 class="section">2. Universe of propositions</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_prop_universe_type" class="idref" href="#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="2c1ebf9f6f644b76d36a0d699f8e9ac4" class="idref" href="#2c1ebf9f6f644b76d36a0d699f8e9ac4"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#2c1ebf9f6f644b76d36a0d699f8e9ac4"><span class="id" title="variable">Γ</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="notation">λ</span> <a id="x:11" class="idref" href="#x:11"><span class="id" title="binder">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#discrete_assembly"><span class="id" title="definition">discrete_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a> (<span class="id" title="definition">funset</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a> <span class="id" title="definition">hPropset</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="not_modest_assembly_prop_universe_type" class="idref" href="#not_modest_assembly_prop_universe_type"><span class="id" title="lemma">not_modest_assembly_prop_universe_type</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="7adcac760179e19a0bb37c9e1720bc22" class="idref" href="#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="H:13" class="idref" href="#H:13"><span class="id" title="binder">H</span></a> : <a class="idref" href="Realizability.Types.ImpredicativeUniverse.html#is_modest_dep_assembly"><span class="id" title="definition">is_modest_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Types.Prop.html#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:14" class="idref" href="#x:14"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Types.Prop.html#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="notation">∅</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">H</span> <span class="id" title="var">x</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'I'"><span class="id" title="notation">I</span></a> (<span class="id" title="notation">λ</span> <span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="definition">htrue</span>) (<span class="id" title="notation">λ</span> <span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="definition">hfalse</span>) <span class="id" title="constructor">tt</span> <span class="id" title="constructor">tt</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="definition">eqtohomot</span> <span class="id" title="var">H</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'I'"><span class="id" title="notation">I</span></a>) <span class="id" title="keyword">as</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">transportf</span> (<span class="id" title="notation">λ</span> <a id="x:15" class="idref" href="#x:15"><span class="id" title="binder"><span id="x:16" class="id">x</span></span></a><span class="id" title="notation">,</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.Prop.html#x:15"><span class="id" title="variable">x</span></a>) <span class="id" title="var">p</span> <span class="id" title="constructor">tt</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_prop_universe_el" class="idref" href="#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="de99c0e007bd311d76da1801ff347713" class="idref" href="#de99c0e007bd311d76da1801ff347713"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:18" class="idref" href="#t:18"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Types.Prop.html#de99c0e007bd311d76da1801ff347713"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#de99c0e007bd311d76da1801ff347713"><span class="id" title="variable">Γ</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly"><span class="id" title="definition">make_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="definition">hProp_to_hSet</span> (<span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="a:19" class="idref" href="#a:19"><span class="id" title="binder"><span id="a:20" class="id">a</span></span></a> : <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><span class="id" title="var">t</span> <span class="id" title="var">x</span> <a class="idref" href="Realizability.Types.Prop.html#a:19"><span class="id" title="variable">a</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="a:21" class="idref" href="#a:21"><span class="id" title="binder"><span id="a:22" class="id">a</span></span></a> <span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="notation">(</span><span class="id" title="var">t</span> <span class="id" title="var">x</span> <a class="idref" href="Realizability.Types.Prop.html#a:21"><span class="id" title="variable">a</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> ? ? ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="p:23" class="idref" href="#p:23"><span class="id" title="binder"><span id="p:24" class="id">p</span></span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Types.Prop.html#p:23"><span class="id" title="variable">p</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_dep_assembly_assembly_prop_universe_el" class="idref" href="#is_subsingleton_dep_assembly_assembly_prop_universe_el"><span class="id" title="lemma">is_subsingleton_dep_assembly_assembly_prop_universe_el</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="8ca488d962adcdfae0a5af1368ee12c6" class="idref" href="#8ca488d962adcdfae0a5af1368ee12c6"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:26" class="idref" href="#t:26"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Types.Prop.html#8ca488d962adcdfae0a5af1368ee12c6"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> <a class="idref" href="Realizability.Types.Prop.html#t:26"><span class="id" title="variable">t</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab302"></a><h1 class="section">3. Subsingleton families are in the universe</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Section</span> <a id="PropUniverse.PropUniverseIso" class="idref" href="#PropUniverse.PropUniverseIso"><span class="id" title="section">PropUniverseIso</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="d0dc3ae6eddcaa1266f58894fd57cd76" class="idref" href="#d0dc3ae6eddcaa1266f58894fd57cd76"><span class="id" title="variable">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="PropUniverse.PropUniverseIso.X" class="idref" href="#PropUniverse.PropUniverseIso.X"><span class="id" title="variable">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#4832fec869a4ebb2d0fe43325389536a"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="PropUniverse.PropUniverseIso.HX" class="idref" href="#PropUniverse.PropUniverseIso.HX"><span class="id" title="variable">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:28"><span class="id" title="variable">X</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="subsingleton_to_prop" class="idref" href="#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Types.Prop.html#d0dc3ae6eddcaa1266f58894fd57cd76"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.Terms.html#make_assembly_term"><span class="id" title="definition">make_assembly_term</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:30" class="idref" href="#x:30"><span class="id" title="binder"><span id="x:33" class="id">x</span></span></a> <a id="a:31" class="idref" href="#a:31"><span class="id" title="binder"><span id="a:34" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="xx:32" class="idref" href="#xx:32"><span class="id" title="binder"><span id="xx:35" class="id">xx</span></span></a> : <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.X"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Types.Prop.html#x:30"><span class="id" title="variable">x</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Types.Prop.html#a:31"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Types.Prop.html#xx:32"><span class="id" title="variable">xx</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'I'"><span class="id" title="notation">I</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="constructor">tt</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="subsingleton_to_prop_mor" class="idref" href="#subsingleton_to_prop_mor"><span class="id" title="definition">subsingleton_to_prop_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism"><span class="id" title="definition">dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#d0dc3ae6eddcaa1266f58894fd57cd76"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#make_dep_assembly_morphism"><span class="id" title="definition">make_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span> ; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.HX"><span class="id" title="variable">HX</span></a> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">xx</span>) ; <span class="id" title="var">revert</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span> ; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.HX"><span class="id" title="variable">HX</span></a> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:36" class="idref" href="#x:36"><span class="id" title="binder"><span id="x:37" class="id">x</span></span></a><span class="id" title="notation">,</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.Prop.html#x:36"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">×</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_dep_through_squash</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred_isaprop</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">xx</span>) ; <span class="id" title="var">revert</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_dep_through_squash</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred_isaprop</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">xx</span> &amp; <span class="id" title="var">pp</span>) <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">q₁</span> <span class="id" title="var">q₂</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_ks_eq"><span class="id" title="lemma">combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">yy</span> &amp; <span class="id" title="var">r</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">=</span> <span class="id" title="var">yy</span>) <span class="id" title="keyword">as</span> → <span class="id" title="tactic">by</span> <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.HX"><span class="id" title="variable">HX</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="subsingleton_to_prop_inv" class="idref" href="#subsingleton_to_prop_inv"><span class="id" title="definition">subsingleton_to_prop_inv</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism"><span class="id" title="definition">dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#d0dc3ae6eddcaa1266f58894fd57cd76"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#make_dep_assembly_morphism"><span class="id" title="definition">make_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">xx</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">hinhpr</span> (<span class="id" title="var">a</span> <span class="id" title="notation">,,</span> <span class="id" title="definition">hinhpr</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">×</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra_ks_eq"><span class="id" title="lemma">combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="subsingleton_to_prop_iso_laws" class="idref" href="#subsingleton_to_prop_iso_laws"><span class="id" title="lemma">subsingleton_to_prop_iso_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">is_inverse_in_precat</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">C</span> := <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">)[{</span><span class="id" title="var">_</span><span class="id" title="notation">}]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop_mor"><span class="id" title="definition">subsingleton_to_prop_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop_inv"><span class="id" title="definition">subsingleton_to_prop_inv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_eq"><span class="id" title="lemma">dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_morphism_eq"><span class="id" title="lemma">dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.HX"><span class="id" title="variable">HX</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="subsingleton_to_prop_iso" class="idref" href="#subsingleton_to_prop_iso"><span class="id" title="definition">subsingleton_to_prop_iso</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">z_iso</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">C</span> := <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">)[{</span><span class="id" title="var">_</span><span class="id" title="notation">}]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso.X"><span class="id" title="variable">X</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_z_iso</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop_mor"><span class="id" title="definition">subsingleton_to_prop_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop_inv"><span class="id" title="definition">subsingleton_to_prop_inv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop_iso_laws"><span class="id" title="lemma">subsingleton_to_prop_iso_laws</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.PropUniverseIso"><span class="id" title="section">PropUniverseIso</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab303"></a><h1 class="section">4. Examples of subsingletons families (Cartesian type formers)</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_dep_prod" class="idref" href="#is_subsingleton_dep_prod"><span class="id" title="lemma">is_subsingleton_dep_prod</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="6c4d599d458655ea7d97abc1acc5ba26" class="idref" href="#6c4d599d458655ea7d97abc1acc5ba26"><span class="id" title="binder">Γ₁</span></a> <a id="e84e9b9b7b8635a7f43cb2669ca9655d" class="idref" href="#e84e9b9b7b8635a7f43cb2669ca9655d"><span class="id" title="binder">Γ₂</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="s:40" class="idref" href="#s:40"><span class="id" title="binder">s</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#6c4d599d458655ea7d97abc1acc5ba26"><span class="id" title="variable">Γ₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#e84e9b9b7b8635a7f43cb2669ca9655d"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:41" class="idref" href="#X:41"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#6c4d599d458655ea7d97abc1acc5ba26"><span class="id" title="variable">Γ₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:42" class="idref" href="#HX:42"><span class="id" title="binder">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:41"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dep_prod"><span class="id" title="definition">dep_assembly_dep_prod</span></a> <a class="idref" href="Realizability.Types.Prop.html#s:40"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:41"><span class="id" title="variable">X</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f₁</span> <span class="id" title="var">f₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dependent_mor_assembly_eq"><span class="id" title="lemma">dependent_mor_assembly_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_terminal" class="idref" href="#is_subsingleton_terminal"><span class="id" title="lemma">is_subsingleton_terminal</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="e9496c2a50f70ac86950787b66328346" class="idref" href="#e9496c2a50f70ac86950787b66328346"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#terminal_dep_assembly"><span class="id" title="definition">terminal_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#e9496c2a50f70ac86950787b66328346"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropunit</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_initial" class="idref" href="#is_subsingleton_initial"><span class="id" title="lemma">is_subsingleton_initial</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="ea14d38694f8cf4deaf7317a2f1f13d4" class="idref" href="#ea14d38694f8cf4deaf7317a2f1f13d4"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.FiberAssembly.html#initial_obj_dep_assembly"><span class="id" title="definition">initial_obj_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#ea14d38694f8cf4deaf7317a2f1f13d4"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isapropempty</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_binprod" class="idref" href="#is_subsingleton_binprod"><span class="id" title="lemma">is_subsingleton_binprod</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="4ed02e109199bf6a9ed50eae935afb7c" class="idref" href="#4ed02e109199bf6a9ed50eae935afb7c"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="da5ef233e5935157548213e444e4eba5" class="idref" href="#da5ef233e5935157548213e444e4eba5"><span class="id" title="binder">X₁</span></a> <a id="a95fb8fe5a73ebabb184cff3f9a0d7b9" class="idref" href="#a95fb8fe5a73ebabb184cff3f9a0d7b9"><span class="id" title="binder">X₂</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#4ed02e109199bf6a9ed50eae935afb7c"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="303a77e435e2a6a4a9cd89758c79d729" class="idref" href="#303a77e435e2a6a4a9cd89758c79d729"><span class="id" title="binder">HX₁</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#da5ef233e5935157548213e444e4eba5"><span class="id" title="variable">X₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="fefde52cd75b545e17167e85b0553ca7" class="idref" href="#fefde52cd75b545e17167e85b0553ca7"><span class="id" title="binder">HX₂</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#a95fb8fe5a73ebabb184cff3f9a0d7b9"><span class="id" title="variable">X₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.FiberAssembly.html#binprod_dep_assembly"><span class="id" title="definition">binprod_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#4ed02e109199bf6a9ed50eae935afb7c"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Types.Prop.html#da5ef233e5935157548213e444e4eba5"><span class="id" title="variable">X₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#a95fb8fe5a73ebabb184cff3f9a0d7b9"><span class="id" title="variable">X₂</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropdirprod</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_dep_assembly_ext_id" class="idref" href="#is_subsingleton_dep_assembly_ext_id"><span class="id" title="lemma">is_subsingleton_dep_assembly_ext_id</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="893aef7061fe05b037fc27cff76f1e6f" class="idref" href="#893aef7061fe05b037fc27cff76f1e6f"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:51" class="idref" href="#X:51"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#893aef7061fe05b037fc27cff76f1e6f"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_ext_id"><span class="id" title="definition">dep_assembly_ext_id</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:51"><span class="id" title="variable">X</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ((<span class="id" title="var">x₁</span> &amp; <span class="id" title="var">xx₁</span>) &amp; <span class="id" title="var">xx₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ((<span class="id" title="var">x₂</span> &amp; <span class="id" title="var">yy₁</span>) &amp; <span class="id" title="var">yy₂</span> &amp; <span class="id" title="var">p</span>) ((<span class="id" title="var">x₃</span> &amp; <span class="id" title="var">zz₁</span>) &amp; <span class="id" title="var">zz₂</span> &amp; <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> ×.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">isapropdirprod</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropunit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">isaset_total2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="lemma">isaset_total2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="var">p</span> <span class="id" title="notation">@</span> <span class="id" title="notation">!</span><span class="id" title="var">q</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.Prop.html#PropUniverse"><span class="id" title="section">PropUniverse</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">lca</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="LinearProp" class="idref" href="#LinearProp"><span class="id" title="section">LinearProp</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="LinearProp.A" class="idref" href="#LinearProp.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#linear_combinatory_algebra"><span class="id" title="definition">linear_combinatory_algebra</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a id="LinearProp.AC" class="idref" href="#LinearProp.AC"><span class="id" title="variable">AC</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a> := <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#lca_to_ca"><span class="id" title="definition">lca_to_ca</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.A"><span class="id" title="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Section</span> <a id="LinearProp.UniverseIso" class="idref" href="#LinearProp.UniverseIso"><span class="id" title="section">UniverseIso</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="75dce66eeeb85ba1501110aaeec0b452" class="idref" href="#75dce66eeeb85ba1501110aaeec0b452"><span class="id" title="variable">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="LinearProp.UniverseIso.X" class="idref" href="#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#6c48d2981cee562ec855ecfa4a686fde"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="LinearProp.UniverseIso.HX" class="idref" href="#LinearProp.UniverseIso.HX"><span class="id" title="variable">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:54"><span class="id" title="variable">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab304"></a><h1 class="section">5. Subsingleton linear assemblies are classified</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="linear_subsingleton_to_prop_mor" class="idref" href="#linear_subsingleton_to_prop_mor"><span class="id" title="definition">linear_subsingleton_to_prop_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_morphism"><span class="id" title="definition">lin_dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> (<a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#75dce66eeeb85ba1501110aaeec0b452"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#make_lin_dep_assembly_morphism"><span class="id" title="definition">make_lin_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span> ; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.HX"><span class="id" title="variable">HX</span></a> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">xx</span>) ; <span class="id" title="var">revert</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span> ; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.HX"><span class="id" title="variable">HX</span></a> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:56" class="idref" href="#x:56"><span class="id" title="binder"><span id="x:57" class="id">x</span></span></a><span class="id" title="notation">,</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Types.Prop.html#x:56"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#91fdfa6b3436706200d8eee975d77e06"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#91fdfa6b3436706200d8eee975d77e06"><span class="id" title="notation">×</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_dep_through_squash</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred_isaprop</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">xx</span>) ; <span class="id" title="var">revert</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_dep_through_squash</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred_isaprop</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">xx</span> &amp; <span class="id" title="var">pp</span>) <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">q₁</span> <span class="id" title="var">q₂</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#linear_combinatory_algebra_ks_eq"><span class="id" title="lemma">linear_combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">yy</span> &amp; <span class="id" title="var">r</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">=</span> <span class="id" title="var">yy</span>) <span class="id" title="keyword">as</span> → <span class="id" title="tactic">by</span> <span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.HX"><span class="id" title="variable">HX</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="linear_subsingleton_to_prop_inv" class="idref" href="#linear_subsingleton_to_prop_inv"><span class="id" title="definition">linear_subsingleton_to_prop_inv</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_morphism"><span class="id" title="definition">lin_dep_assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> (<a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#75dce66eeeb85ba1501110aaeec0b452"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#make_lin_dep_assembly_morphism"><span class="id" title="definition">make_lin_dep_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">xx</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">hinhpr</span> (<span class="id" title="var">a</span> <span class="id" title="notation">,,</span> <span class="id" title="definition">hinhpr</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#91fdfa6b3436706200d8eee975d77e06"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#91fdfa6b3436706200d8eee975d77e06"><span class="id" title="notation">×</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">xx</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#linear_combinatory_algebra_ks_eq"><span class="id" title="lemma">linear_combinatory_algebra_ks_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="linear_subsingleton_to_prop_iso_laws" class="idref" href="#linear_subsingleton_to_prop_iso_laws"><span class="id" title="lemma">linear_subsingleton_to_prop_iso_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">is_inverse_in_precat</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">C</span> := <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.LinearAssembly.html#disp_cat_of_lin_dep_assembly"><span class="id" title="definition">disp_cat_of_lin_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">)[{</span><span class="id" title="var">_</span><span class="id" title="notation">}]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#linear_subsingleton_to_prop_mor"><span class="id" title="definition">linear_subsingleton_to_prop_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#linear_subsingleton_to_prop_inv"><span class="id" title="definition">linear_subsingleton_to_prop_inv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_morphism_eq"><span class="id" title="lemma">lin_dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_morphism_eq"><span class="id" title="lemma">lin_dep_assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.HX"><span class="id" title="variable">HX</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="linear_subsingleton_to_prop_iso" class="idref" href="#linear_subsingleton_to_prop_iso"><span class="id" title="definition">linear_subsingleton_to_prop_iso</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">z_iso</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">C</span> := <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.LinearAssembly.html#disp_cat_of_lin_dep_assembly"><span class="id" title="definition">disp_cat_of_lin_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">)[{</span><span class="id" title="var">_</span><span class="id" title="notation">}]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_el"><span class="id" title="definition">assembly_prop_universe_el</span></a> (<a class="idref" href="Realizability.Types.Prop.html#subsingleton_to_prop"><span class="id" title="definition">subsingleton_to_prop</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso.X"><span class="id" title="variable">X</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_z_iso</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#linear_subsingleton_to_prop_mor"><span class="id" title="definition">linear_subsingleton_to_prop_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#linear_subsingleton_to_prop_inv"><span class="id" title="definition">linear_subsingleton_to_prop_inv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.Prop.html#linear_subsingleton_to_prop_iso_laws"><span class="id" title="lemma">linear_subsingleton_to_prop_iso_laws</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.UniverseIso"><span class="id" title="section">UniverseIso</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab305"></a><h1 class="section">6. Examples of subsingletons (linear type formers)</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_lin_unit_dep_assembly" class="idref" href="#is_subsingleton_lin_unit_dep_assembly"><span class="id" title="lemma">is_subsingleton_lin_unit_dep_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="5eea4560b18f98a58cb3519774a6b1ed" class="idref" href="#5eea4560b18f98a58cb3519774a6b1ed"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Assemblies.LinearAssemblyMonoidal.html#unit_dep_assembly"><span class="id" title="definition">unit_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#5eea4560b18f98a58cb3519774a6b1ed"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f₁</span> <span class="id" title="var">f₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropunit</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_monoidal_product_lin_dep_assembly" class="idref" href="#is_subsingleton_monoidal_product_lin_dep_assembly"><span class="id" title="lemma">is_subsingleton_monoidal_product_lin_dep_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="8c3656d4563d72755a783e1c7660c397" class="idref" href="#8c3656d4563d72755a783e1c7660c397"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="5de93583aa9d014979f67f3dfac8282f" class="idref" href="#5de93583aa9d014979f67f3dfac8282f"><span class="id" title="binder">X₁</span></a> <a id="da79ae457beb906b509625f0116479a5" class="idref" href="#da79ae457beb906b509625f0116479a5"><span class="id" title="binder">X₂</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#8c3656d4563d72755a783e1c7660c397"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="959c882a2a06774389cfd5e8a53878d2" class="idref" href="#959c882a2a06774389cfd5e8a53878d2"><span class="id" title="binder">HX₁</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#5de93583aa9d014979f67f3dfac8282f"><span class="id" title="variable">X₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="fd7bc1c548a9d30aaf51d09489cf404c" class="idref" href="#fd7bc1c548a9d30aaf51d09489cf404c"><span class="id" title="binder">HX₂</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#da79ae457beb906b509625f0116479a5"><span class="id" title="variable">X₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Assemblies.LinearAssemblyMonoidal.html#monoidal_product_lin_dep_assembly"><span class="id" title="definition">monoidal_product_lin_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#5de93583aa9d014979f67f3dfac8282f"><span class="id" title="variable">X₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#da79ae457beb906b509625f0116479a5"><span class="id" title="variable">X₂</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropdirprod</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_linear_initial" class="idref" href="#is_subsingleton_linear_initial"><span class="id" title="lemma">is_subsingleton_linear_initial</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="e5cc42bd50c62952777fbd1ca91d0e54" class="idref" href="#e5cc42bd50c62952777fbd1ca91d0e54"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearFiber.html#initial_obj_linear_assembly"><span class="id" title="definition">initial_obj_linear_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#e5cc42bd50c62952777fbd1ca91d0e54"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isapropempty</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_binprod_linear_assembly" class="idref" href="#is_subsingleton_binprod_linear_assembly"><span class="id" title="lemma">is_subsingleton_binprod_linear_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="79e37c9ff12ecc84ba1fac2efe4b1d20" class="idref" href="#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="d40ee0d592eda09c96f9828384c42ba5" class="idref" href="#d40ee0d592eda09c96f9828384c42ba5"><span class="id" title="binder">X₁</span></a> <a id="80bbe3af6e9e08afd3fadb18844f727d" class="idref" href="#80bbe3af6e9e08afd3fadb18844f727d"><span class="id" title="binder">X₂</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="88ed87ae101a268a7f5e87a6dec11758" class="idref" href="#88ed87ae101a268a7f5e87a6dec11758"><span class="id" title="binder">HX₁</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#d40ee0d592eda09c96f9828384c42ba5"><span class="id" title="variable">X₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="497619bb23745509d3e893ef8aeae5f6" class="idref" href="#497619bb23745509d3e893ef8aeae5f6"><span class="id" title="binder">HX₂</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#80bbe3af6e9e08afd3fadb18844f727d"><span class="id" title="variable">X₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearFiber.html#binprod_linear_assembly"><span class="id" title="definition">binprod_linear_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Types.Prop.html#d40ee0d592eda09c96f9828384c42ba5"><span class="id" title="variable">X₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#80bbe3af6e9e08afd3fadb18844f727d"><span class="id" title="variable">X₂</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropdirprod</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">HX₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_linear_assembly_functions" class="idref" href="#is_subsingleton_linear_assembly_functions"><span class="id" title="lemma">is_subsingleton_linear_assembly_functions</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="bc2dca733a7f4eee5d55fb4b87e06b95" class="idref" href="#bc2dca733a7f4eee5d55fb4b87e06b95"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="5e9996eb2a5ffb753a6a219c83433941" class="idref" href="#5e9996eb2a5ffb753a6a219c83433941"><span class="id" title="binder">X₁</span></a> <a id="60a40961fe35623ba013f32d08d4df35" class="idref" href="#60a40961fe35623ba013f32d08d4df35"><span class="id" title="binder">X₂</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#bc2dca733a7f4eee5d55fb4b87e06b95"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="70bf4e7c6ae8b16033738deaa2bbb36a" class="idref" href="#70bf4e7c6ae8b16033738deaa2bbb36a"><span class="id" title="binder">HX₂</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#60a40961fe35623ba013f32d08d4df35"><span class="id" title="variable">X₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearFiber.html#linear_assembly_functions"><span class="id" title="definition">linear_assembly_functions</span></a> <a class="idref" href="Realizability.Types.Prop.html#bc2dca733a7f4eee5d55fb4b87e06b95"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Types.Prop.html#5e9996eb2a5ffb753a6a219c83433941"><span class="id" title="variable">X₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#60a40961fe35623ba013f32d08d4df35"><span class="id" title="variable">X₂</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f₁</span> <span class="id" title="var">f₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearFiber.html#linear_assembly_fiber_function_eq"><span class="id" title="lemma">linear_assembly_fiber_function_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_linear_pi_dep_assembly" class="idref" href="#is_subsingleton_linear_pi_dep_assembly"><span class="id" title="lemma">is_subsingleton_linear_pi_dep_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="4b90788fe98b8423be72060dc7f278da" class="idref" href="#4b90788fe98b8423be72060dc7f278da"><span class="id" title="binder">Γ₁</span></a> <a id="7ad11647b2bb5b2bf47d5a5073f0d441" class="idref" href="#7ad11647b2bb5b2bf47d5a5073f0d441"><span class="id" title="binder">Γ₂</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="s:76" class="idref" href="#s:76"><span class="id" title="binder">s</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#4b90788fe98b8423be72060dc7f278da"><span class="id" title="variable">Γ₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#7ad11647b2bb5b2bf47d5a5073f0d441"><span class="id" title="variable">Γ₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:77" class="idref" href="#X:77"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#4b90788fe98b8423be72060dc7f278da"><span class="id" title="variable">Γ₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:78" class="idref" href="#HX:78"><span class="id" title="binder">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:77"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearPi.html#linear_pi_dep_assembly"><span class="id" title="definition">linear_pi_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#s:76"><span class="id" title="variable">s</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:77"><span class="id" title="variable">X</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f₁</span> <span class="id" title="var">f₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearPi.html#lin_dependent_mor_eq"><span class="id" title="lemma">lin_dependent_mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_excl_lin_assembly" class="idref" href="#is_subsingleton_excl_lin_assembly"><span class="id" title="lemma">is_subsingleton_excl_lin_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="d3a38663d0c0158490276dc8366282f4" class="idref" href="#d3a38663d0c0158490276dc8366282f4"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:80" class="idref" href="#X:80"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#d3a38663d0c0158490276dc8366282f4"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="HX:81" class="idref" href="#HX:81"><span class="id" title="binder">HX</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:80"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearNonLinear.html#excl_lin_assembly"><span class="id" title="definition">excl_lin_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#X:80"><span class="id" title="variable">X</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="is_subsingleton_equalizer_linear_assembly" class="idref" href="#is_subsingleton_equalizer_linear_assembly"><span class="id" title="lemma">is_subsingleton_equalizer_linear_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="b979ed2238d3be87b5669898b8353b94" class="idref" href="#b979ed2238d3be87b5669898b8353b94"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#LinearProp.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="45c1c38d903415f01fd49ca374e01cbf" class="idref" href="#45c1c38d903415f01fd49ca374e01cbf"><span class="id" title="binder">X₁</span></a> <a id="2e8866ac9c96d76361d1a3d00199661d" class="idref" href="#2e8866ac9c96d76361d1a3d00199661d"><span class="id" title="binder">X₂</span></a> : <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly"><span class="id" title="definition">dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#b979ed2238d3be87b5669898b8353b94"><span class="id" title="variable">Γ</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="2d93ec0c36907a383d3b65d9198d1af2" class="idref" href="#2d93ec0c36907a383d3b65d9198d1af2"><span class="id" title="binder">HX₁</span></a> : <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#45c1c38d903415f01fd49ca374e01cbf"><span class="id" title="variable">X₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:86" class="idref" href="#f:86"><span class="id" title="binder">f</span></a> <a id="g:87" class="idref" href="#g:87"><span class="id" title="binder">g</span></a> : <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_morphism"><span class="id" title="definition">lin_dep_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#45c1c38d903415f01fd49ca374e01cbf"><span class="id" title="variable">X₁</span></a> <a class="idref" href="Realizability.Types.Prop.html#2e8866ac9c96d76361d1a3d00199661d"><span class="id" title="variable">X₂</span></a> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism"><span class="id" title="definition">id_assembly_morphism</span></a> <a class="idref" href="Realizability.Types.Prop.html#b979ed2238d3be87b5669898b8353b94"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Prop.html#is_subsingleton_dep_assembly"><span class="id" title="definition">is_subsingleton_dep_assembly</span></a> (<a class="idref" href="Realizability.Types.LinearFiber.html#equalizer_linear_assembly"><span class="id" title="definition">equalizer_linear_assembly</span></a> <a class="idref" href="Realizability.Types.Prop.html#b979ed2238d3be87b5669898b8353b94"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Types.Prop.html#f:86"><span class="id" title="variable">f</span></a> <a class="idref" href="Realizability.Types.Prop.html#g:87"><span class="id" title="variable">g</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">xx₁</span> <span class="id" title="var">xx₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">HX₁</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.Prop.html#LinearProp"><span class="id" title="section">LinearProp</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

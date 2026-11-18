@@ -1,0 +1,707 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Logic.Connectives</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Logic.Connectives</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Connectives for formulas in the realizability model
+
+<div class="paragraph"> </div>
+
+ In this file, we give concrete descriptions of each of the formulas in the linear
+ realizability model. Note that we only give descriptions for the connectives, and
+ that in other files we prove they satisfy the desired rules. We also look at the
+ membership formula since the realizability model supports higher order logic.
+
+<div class="paragraph"> </div>
+
+ Content
+ 1. Cartesian connectives
+ 1.1. Truth formula: ⊤
+ 1.2. Falsity formula: ⊥
+ 1.3. Conjunction: ∧
+ 1.4. Disjunction: ∨
+ 1.5. Implication: ⇒
+ 1.6. Universal quantification: ∀
+ 1.7. Existential quantification: ∃
+ 1.8. Equality: ≡
+ 1.9. Membership: ∈
+ 2. Linear connectives
+ 2.1. Unit for additive conjunction: top
+ 2.2. Unit for additive disjunction: bot
+ 2.3. Multiplicative unit: 1
+ 2.4. The tensor: ⊗
+ 2.5. Linear implication: ⊸
+ 2.6. Additive conjunction: &amp;
+ 2.7. Additive disjunction: +
+ 2.8. Multiplication: M (from linear propositions to Cartesian ones)
+ 2.9. Linearization: L (from Cartesian propositions to linear ones)
+ 2.10. Linear universal quantification: ⊓
+ 2.11. Linear existential: ⊏
+
+<div class="paragraph"> </div>
+
+ Appendix
+ From these concrete descriptions we can immediately see when a formula is satisfied
+ in the model, and we shall give these descriptions below. Recall that a formula `t` in
+ context `Γ : assembly A` is determined by a relation between `Γ` and `A`. We say
+ that `a ⊫_{x} t` if `t` relates `a` and `x`. This relation is determined by the following
+ clauses.
+
+<div class="paragraph"> </div>
+
+ <code>
+</code> Cartesian connectives
+ NOTE:
+   The operations below assume that we are working with some *combinatory algebra* A.
+   In case A is a linear combinatory algebra, then ! needs to be added at the appropriate
+   places, because `a · b` in the combinatory algebra `A!` is defined to be `a · !b`.
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ⊤        always
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ⊥        never
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ ∧ t₂
+        iff
+      π₁ · a ⊫_{x} t₁   and   π₂ · a ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ ∨ t₂
+        iff
+      K = π₁ · a   and   π₂ · a ⊫_{x} t₁
+        or
+      K* = π₁ · a   and   π₂ · a ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫ t₁ ⇒ t₂
+        iff
+      for all b : A: if b ⊫_{x} t₁  then  a · b ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ∀ (y : X) t
+        iff
+      for all y : X and b : A: if b ⊩ y  then  a · b ⊫_{x ,, y} t
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ∃ (y : X) t
+        iff
+      there is y : X such that  π₁ · a ⊩ y  and  π₂ · a ⊫_{x ,, y} t
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} f ≡ g
+        iff
+      f = g
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x ,, t} x ∈ t
+        iff
+      t x a
+
+<div class="paragraph"> </div>
+
+ Linear connectives
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} top        always
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} bot        never
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} 1
+        iff
+      a = I
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ ⊗ t₂
+        iff
+      there exists b₁, b₂ : A such that
+        a = lin_pair · b₁ · b₂
+        b₁ ⊫_{x} t₁
+        b₂ ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ ⊸ t₂
+        iff
+      for all b : A: if b ⊫_{x} t₁  then  a · b ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ &amp; t₂
+        iff
+      there are b c₁ c₂ : A such that
+        a = lin_pair · b · (lin_pair · (!c₁) · (!c₂))
+        c₁ · b ⊫_{x} t₁
+        c₂ · b ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} t₁ + t₂
+        iff
+      there is b : A such that
+          a = lin_pair · lca_bincoprod_left · b  and b ⊫_{x} t₁
+        or
+          a = lin_pair · lca_bincoprod_right · b  and b ⊫_{x} t₂
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} M t
+        iff
+      a ⊫_{x} t
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} L t
+        iff
+      there is b : A such that
+        a = !b
+        b ⊫_{x} t
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ⊓ (y : X) t
+        iff
+      for all y : X and b : A such that b ⊩ y, we have a · !b ⊫_{x ,, y} t
+
+<div class="paragraph"> </div>
+
+      a ⊫_{x} ⊏ (y : X) t
+        iff
+      there are y : X and b c : A such that
+        a = lin_pair · (!b) · c
+        b ⊩ y
+        c ⊫_{x ,, y} t
+ &gt;&gt;
+
+<div class="paragraph"> </div>
+
+ To understand membership `∈`, note the following:
+<ul class="doclist">
+<li> The powerset of an assembly `Γ` is the function space from `Γ` to `Prop`.
+
+</li>
+<li> Hence, terms of the powerset are literally the same as formulas.
+
+</li>
+<li> For membership, we work in a context with `x : Γ` and `t` in the powerset.
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+ For the tensor `⊗`, recall that `lin_pair` is defined as the λ-term
+     `λ x λ y λ z. z x y`
+
+<div class="paragraph"> </div>
+
+ For the additive disjunction `+`, we use the combinators `lca_bincoprod_left`
+ and `lca_bincoprod_right`. These satisfy the following equations:
+ ```
+ lca_bincoprod_left · (!a₂) · b₁ · (!a₁) · b₂ = a₁ · b₁ · b₂
+ lca_bincoprod_right · (!a₂) · b₁ · (!a₁) · b₂ = a₂ · b₁ · b₂
+ ```
+
+<div class="paragraph"> </div>
+
+ We can also interpret equality as a linear connective, and then we get the
+ same concrete description as for the Cartesian case. The same can be said
+ for membership.
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Combinators.html#"><span class="id" title="library">Basics.Combinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#"><span class="id" title="library">Basics.BIAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#"><span class="id" title="library">Basics.LinearCombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#"><span class="id" title="library">Basics.LinearCombinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#"><span class="id" title="library">Assemblies.CatOfAssemblies</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#"><span class="id" title="library">Assemblies.AssembliesStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#"><span class="id" title="library">Assemblies.LinearAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.Terms.html#"><span class="id" title="library">Types.Terms</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.Prop.html#"><span class="id" title="library">Types.Prop</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Logic.Formulas.html#"><span class="id" title="library">Logic.Formulas</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">ca</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">logic</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab318"></a><h1 class="section">1. Cartesian connectives</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a id="CartesianConnectives" class="idref" href="#CartesianConnectives"><span class="id" title="section">CartesianConnectives</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="CartesianConnectives.A" class="idref" href="#CartesianConnectives.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a>}.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab319"></a><h2 class="section">1.1. Truth formula: ⊤</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_truth_prop" class="idref" href="#assembly_truth_prop"><span class="id" title="definition">assembly_truth_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="da7a5918a812e0216f4a54d21f7406c4" class="idref" href="#da7a5918a812e0216f4a54d21f7406c4"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#da7a5918a812e0216f4a54d21f7406c4"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:3" class="idref" href="#x:3"><span class="id" title="binder"><span id="x:5" class="id">x</span></span></a> <a id="a:4" class="idref" href="#a:4"><span class="id" title="binder"><span id="a:6" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="definition">htrue</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab320"></a><h2 class="section">1.2. Falsity formula: ⊥</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_false_prop" class="idref" href="#assembly_false_prop"><span class="id" title="definition">assembly_false_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="de9bdb4e9c2be34cf9b5e2f20d66b06e" class="idref" href="#de9bdb4e9c2be34cf9b5e2f20d66b06e"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#de9bdb4e9c2be34cf9b5e2f20d66b06e"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:8" class="idref" href="#x:8"><span class="id" title="binder"><span id="x:10" class="id">x</span></span></a> <a id="a:9" class="idref" href="#a:9"><span class="id" title="binder"><span id="a:11" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="definition">hfalse</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab321"></a><h2 class="section">1.3. Conjunction: ∧</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_conj_prop" class="idref" href="#assembly_conj_prop"><span class="id" title="definition">assembly_conj_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="7adcac760179e19a0bb37c9e1720bc22" class="idref" href="#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="c9c8c21f39a3746adef8f3b7fd0a1c28" class="idref" href="#c9c8c21f39a3746adef8f3b7fd0a1c28"><span class="id" title="binder">t₁</span></a> <a id="64e9694a4d15ea9a2d21fa06ef5db9a2" class="idref" href="#64e9694a4d15ea9a2d21fa06ef5db9a2"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#7adcac760179e19a0bb37c9e1720bc22"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:15" class="idref" href="#x:15"><span class="id" title="binder"><span id="x:17" class="id">x</span></span></a> <a id="a:16" class="idref" href="#a:16"><span class="id" title="binder"><span id="a:18" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:15"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:16"><span class="id" title="variable">a</span></a>) <span class="id" title="notation">∧</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:15"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">₂</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:16"><span class="id" title="variable">a</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab322"></a><h2 class="section">1.4. Disjunction: ∨</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_disj_prop" class="idref" href="#assembly_disj_prop"><span class="id" title="definition">assembly_disj_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="d2f974a479ebcd81c5829843a3f7c760" class="idref" href="#d2f974a479ebcd81c5829843a3f7c760"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="d2fc9be5ec87958c53fd07bbb96abb94" class="idref" href="#d2fc9be5ec87958c53fd07bbb96abb94"><span class="id" title="binder">t₁</span></a> <a id="b89d855bc4ac63be6bd1cae836db255e" class="idref" href="#b89d855bc4ac63be6bd1cae836db255e"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#d2f974a479ebcd81c5829843a3f7c760"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#d2f974a479ebcd81c5829843a3f7c760"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:22" class="idref" href="#x:22"><span class="id" title="binder"><span id="x:24" class="id">x</span></span></a> <a id="a:23" class="idref" href="#a:23"><span class="id" title="binder"><span id="a:25" class="id">a</span></span></a><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#::ca:'K'"><span class="id" title="notation">K</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:23"><span class="id" title="variable">a</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">∧</span> <span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:22"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">₂</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:23"><span class="id" title="variable">a</span></a>)<span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∨</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">K</span></a><a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#49b51ef298e3bea0dff3137cbe5e81f5"><span class="id" title="notation">×</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:23"><span class="id" title="variable">a</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">∧</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:22"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">₂</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:23"><span class="id" title="variable">a</span></a>)<span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab323"></a><h2 class="section">1.5. Implication: ⇒</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_impl_prop" class="idref" href="#assembly_impl_prop"><span class="id" title="definition">assembly_impl_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="1e846e5538fdc853a2cbe279f179228e" class="idref" href="#1e846e5538fdc853a2cbe279f179228e"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="9b51e4a6a4164e04c7ac32e5e7b90c6b" class="idref" href="#9b51e4a6a4164e04c7ac32e5e7b90c6b"><span class="id" title="binder">t₁</span></a> <a id="a6f1f4985d0b77aabd66f6b1d26c8045" class="idref" href="#a6f1f4985d0b77aabd66f6b1d26c8045"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#1e846e5538fdc853a2cbe279f179228e"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#1e846e5538fdc853a2cbe279f179228e"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:29" class="idref" href="#x:29"><span class="id" title="binder"><span id="x:32" class="id">x</span></span></a> <a id="a:30" class="idref" href="#a:30"><span class="id" title="binder"><span id="a:33" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="b:31" class="idref" href="#b:31"><span class="id" title="binder"><span id="b:34" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:29"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:31"><span class="id" title="variable">b</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span> <span class="id" title="notation">⇒</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:29"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Logic.Connectives.html#a:30"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:31"><span class="id" title="variable">b</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab324"></a><h2 class="section">1.6. Universal quantification: ∀</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_forall_prop" class="idref" href="#assembly_forall_prop"><span class="id" title="definition">assembly_forall_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="a0f0bd398ad1ac70bdd831a240f6dcbd" class="idref" href="#a0f0bd398ad1ac70bdd831a240f6dcbd"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:36" class="idref" href="#X:36"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:37" class="idref" href="#t:37"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a0f0bd398ad1ac70bdd831a240f6dcbd"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:36"><span class="id" title="variable">X</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a0f0bd398ad1ac70bdd831a240f6dcbd"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:38" class="idref" href="#x:38"><span class="id" title="binder"><span id="x:42" class="id">x</span></span></a> <a id="a:39" class="idref" href="#a:39"><span class="id" title="binder"><span id="a:43" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="y:40" class="idref" href="#y:40"><span class="id" title="binder"><span id="y:44" class="id">y</span></span></a> : <span class="id" title="var">X</span>) (<a id="b:41" class="idref" href="#b:41"><span class="id" title="binder"><span id="b:45" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Logic.Connectives.html#b:41"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#y:40"><span class="id" title="variable">y</span></a> <span class="id" title="notation">⇒</span> <span class="id" title="var">t</span> (<a class="idref" href="Realizability.Logic.Connectives.html#x:38"><span class="id" title="variable">x</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Logic.Connectives.html#y:40"><span class="id" title="variable">y</span></a>) (<a class="idref" href="Realizability.Logic.Connectives.html#a:39"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:41"><span class="id" title="variable">b</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab325"></a><h2 class="section">1.7. Existential quantification: ∃</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_exists_prop" class="idref" href="#assembly_exists_prop"><span class="id" title="definition">assembly_exists_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="c961ade242766a9739c5649c6c6965b1" class="idref" href="#c961ade242766a9739c5649c6c6965b1"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:47" class="idref" href="#X:47"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:48" class="idref" href="#t:48"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#c961ade242766a9739c5649c6c6965b1"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:47"><span class="id" title="variable">X</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#c961ade242766a9739c5649c6c6965b1"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:49" class="idref" href="#x:49"><span class="id" title="binder"><span id="x:52" class="id">x</span></span></a> <a id="a:50" class="idref" href="#a:50"><span class="id" title="binder"><span id="a:53" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="y:51" class="idref" href="#y:51"><span class="id" title="binder"><span id="y:54" class="id">y</span></span></a> : <span class="id" title="var">X</span><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#5a6a8db9b89015a39aab97f1efbcce3b"><span class="id" title="notation">₁</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:50"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#y:51"><span class="id" title="variable">y</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">∧</span> <span class="id" title="var">t</span> (<a class="idref" href="Realizability.Logic.Connectives.html#x:49"><span class="id" title="variable">x</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Logic.Connectives.html#y:51"><span class="id" title="variable">y</span></a>) (<a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">π</span></a><a class="idref" href="Realizability.Basics.Combinators.html#29997e946188a0a75e627d8e09f2527d"><span class="id" title="notation">₂</span></a> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#b23a03df7bc9baf3f79b067685b48bad"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#a:50"><span class="id" title="variable">a</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab326"></a><h2 class="section">1.8. Equality: ≡</h2>
+
+<div class="paragraph"> </div>
+
+     Note that the following formula is needed to get equality as a left adjoint.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_equality_prop" class="idref" href="#assembly_equality_prop"><span class="id" title="definition">assembly_equality_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="069a6ed60f1a903e9f642e1eacf76b8d" class="idref" href="#069a6ed60f1a903e9f642e1eacf76b8d"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:56" class="idref" href="#t:56"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#069a6ed60f1a903e9f642e1eacf76b8d"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#069a6ed60f1a903e9f642e1eacf76b8d"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#069a6ed60f1a903e9f642e1eacf76b8d"><span class="id" title="variable">Γ</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="xy:57" class="idref" href="#xy:57"><span class="id" title="binder"><span id="xy:59" class="id">xy</span></span></a> <a id="a:58" class="idref" href="#a:58"><span class="id" title="binder"><span id="a:60" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Logic.Connectives.html#xy:57"><span class="id" title="variable">xy</span></a> <span class="id" title="notation">=</span> <span class="id" title="projection">pr2</span> <a class="idref" href="Realizability.Logic.Connectives.html#xy:57"><span class="id" title="variable">xy</span></a> <span class="id" title="notation">∧</span> <span class="id" title="var">t</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Logic.Connectives.html#xy:57"><span class="id" title="variable">xy</span></a>) <a class="idref" href="Realizability.Logic.Connectives.html#a:58"><span class="id" title="variable">a</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_eq_prop" class="idref" href="#assembly_eq_prop"><span class="id" title="definition">assembly_eq_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="316bf51392b35e821b63bde80bf611ff" class="idref" href="#316bf51392b35e821b63bde80bf611ff"><span class="id" title="binder">Γ</span></a> <a id="X:62" class="idref" href="#X:62"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="35d857c0e95a4e475ea24230d7540a92" class="idref" href="#35d857c0e95a4e475ea24230d7540a92"><span class="id" title="binder">t₁</span></a> <a id="4f57cdb3928a3d9a9470c7fbe783d20c" class="idref" href="#4f57cdb3928a3d9a9470c7fbe783d20c"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#316bf51392b35e821b63bde80bf611ff"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:62"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#316bf51392b35e821b63bde80bf611ff"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Realizability.Types.Terms.html#subst_assembly_term"><span class="id" title="definition">subst_assembly_term</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#pair_assembly_morphism"><span class="id" title="definition">pair_assembly_morphism</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#35d857c0e95a4e475ea24230d7540a92"><span class="id" title="variable">t₁</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#4f57cdb3928a3d9a9470c7fbe783d20c"><span class="id" title="variable">t₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Logic.Connectives.html#assembly_equality_prop"><span class="id" title="definition">assembly_equality_prop</span></a> (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_truth_prop"><span class="id" title="definition">assembly_truth_prop</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:62"><span class="id" title="variable">X</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab327"></a><h2 class="section">1.9. Membership: ∈</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_in_prop" class="idref" href="#assembly_in_prop"><span class="id" title="definition">assembly_in_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="79e37c9ff12ecc84ba1fac2efe4b1d20" class="idref" href="#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Logic.Connectives.html#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="variable">Γ</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#function_assembly"><span class="id" title="definition">function_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#79e37c9ff12ecc84ba1fac2efe4b1d20"><span class="id" title="variable">Γ</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#discrete_assembly"><span class="id" title="definition">discrete_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a> (<span class="id" title="definition">funset</span> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives.A"><span class="id" title="variable">A</span></a> <span class="id" title="definition">hPropset</span>))))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="xt:66" class="idref" href="#xt:66"><span class="id" title="binder"><span id="xt:68" class="id">xt</span></span></a> <a id="a:67" class="idref" href="#a:67"><span class="id" title="binder"><span id="a:69" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">pr12</span> <a class="idref" href="Realizability.Logic.Connectives.html#xt:66"><span class="id" title="variable">xt</span></a> <span class="id" title="notation">(</span><span class="id" title="notation">pr1</span> <span class="id" title="notation">xt</span><span class="id" title="notation">)</span> <span class="id" title="notation">a</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Logic.Connectives.html#CartesianConnectives"><span class="id" title="section">CartesianConnectives</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Close</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">ca</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">lca</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab328"></a><h1 class="section">2. Linear connectives</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a id="LinearConnectives" class="idref" href="#LinearConnectives"><span class="id" title="section">LinearConnectives</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="LinearConnectives.A" class="idref" href="#LinearConnectives.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#linear_combinatory_algebra"><span class="id" title="definition">linear_combinatory_algebra</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a id="LinearConnectives.AC" class="idref" href="#LinearConnectives.AC"><span class="id" title="variable">AC</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a> := <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#lca_to_ca"><span class="id" title="definition">lca_to_ca</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab329"></a><h1 class="section">2.1. Unit for additive conjunction: top</h1>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_truth_lin_prop" class="idref" href="#assembly_truth_lin_prop"><span class="id" title="definition">assembly_truth_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="ae54ab5c4475beb427c8e416da54c258" class="idref" href="#ae54ab5c4475beb427c8e416da54c258"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#ae54ab5c4475beb427c8e416da54c258"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:72" class="idref" href="#x:72"><span class="id" title="binder"><span id="x:74" class="id">x</span></span></a> <a id="a:73" class="idref" href="#a:73"><span class="id" title="binder"><span id="a:75" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="definition">htrue</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab330"></a><h2 class="section">2.2. Unit for additive disjunction: bot</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_false_lin_prop" class="idref" href="#assembly_false_lin_prop"><span class="id" title="definition">assembly_false_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="885e6108c1350c686de92430329090ea" class="idref" href="#885e6108c1350c686de92430329090ea"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#885e6108c1350c686de92430329090ea"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:77" class="idref" href="#x:77"><span class="id" title="binder"><span id="x:79" class="id">x</span></span></a> <a id="a:78" class="idref" href="#a:78"><span class="id" title="binder"><span id="a:80" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="definition">hfalse</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab331"></a><h2 class="section">2.3. Multiplicative unit: 1</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_unit_lin_prop" class="idref" href="#assembly_unit_lin_prop"><span class="id" title="definition">assembly_unit_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="4831eb60b197cbef5f51c931bd3003ef" class="idref" href="#4831eb60b197cbef5f51c931bd3003ef"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#4831eb60b197cbef5f51c931bd3003ef"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:82" class="idref" href="#x:82"><span class="id" title="binder"><span id="x:84" class="id">x</span></span></a> <a id="a:83" class="idref" href="#a:83"><span class="id" title="binder"><span id="a:85" class="id">a</span></span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Logic.Connectives.html#a:83"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#::lca:'I'"><span class="id" title="notation">I</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab332"></a><h2 class="section">2.4. The tensor: ⊗</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_tensor_lin_prop" class="idref" href="#assembly_tensor_lin_prop"><span class="id" title="definition">assembly_tensor_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="d5364bc5fc249fbedcb7da053e2ed862" class="idref" href="#d5364bc5fc249fbedcb7da053e2ed862"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="1fc3b703fe695aacb427e167a36ec3aa" class="idref" href="#1fc3b703fe695aacb427e167a36ec3aa"><span class="id" title="binder">t₁</span></a> <a id="52e3c88ecf05ac94cc099a9e7f87e580" class="idref" href="#52e3c88ecf05ac94cc099a9e7f87e580"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#d5364bc5fc249fbedcb7da053e2ed862"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#d5364bc5fc249fbedcb7da053e2ed862"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:89" class="idref" href="#x:89"><span class="id" title="binder"><span id="x:93" class="id">x</span></span></a> <a id="a:90" class="idref" href="#a:90"><span class="id" title="binder"><span id="a:94" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="f64265a5c4ee85f7ebbf91bd8917752d" class="idref" href="#f64265a5c4ee85f7ebbf91bd8917752d"><span class="id" title="binder"><span id="45a15af87811a789ca19229ee12dc453" class="id">b₁</span></span></a> <a id="023909cc8e8a4a257a9437fe715e25f2" class="idref" href="#023909cc8e8a4a257a9437fe715e25f2"><span class="id" title="binder"><span id="2a7e293b398b6519f101a938c07d48b7" class="id">b₂</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:90"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#f64265a5c4ee85f7ebbf91bd8917752d"><span class="id" title="variable">b₁</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#023909cc8e8a4a257a9437fe715e25f2"><span class="id" title="variable">b₂</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">∧</span> <span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:89"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#f64265a5c4ee85f7ebbf91bd8917752d"><span class="id" title="variable">b₁</span></a> <span class="id" title="notation">∧</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:89"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#023909cc8e8a4a257a9437fe715e25f2"><span class="id" title="variable">b₂</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab333"></a><h2 class="section">2.5. Linear implication: ⊸</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_impl_lin_prop" class="idref" href="#assembly_impl_lin_prop"><span class="id" title="definition">assembly_impl_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="f7367dffae2db2afe9f8d9f01aa6a6e7" class="idref" href="#f7367dffae2db2afe9f8d9f01aa6a6e7"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="b0e827e00891e5c1851069db396a9986" class="idref" href="#b0e827e00891e5c1851069db396a9986"><span class="id" title="binder">t₁</span></a> <a id="22ea2a2175317cf30c6383cd8baa5e85" class="idref" href="#22ea2a2175317cf30c6383cd8baa5e85"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#f7367dffae2db2afe9f8d9f01aa6a6e7"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#f7367dffae2db2afe9f8d9f01aa6a6e7"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:100" class="idref" href="#x:100"><span class="id" title="binder"><span id="x:103" class="id">x</span></span></a> (<a id="a:101" class="idref" href="#a:101"><span class="id" title="binder"><span id="a:104" class="id">a</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="b:102" class="idref" href="#b:102"><span class="id" title="binder"><span id="b:105" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:100"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:102"><span class="id" title="variable">b</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span> <span class="id" title="notation">⇒</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:100"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Logic.Connectives.html#a:101"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:102"><span class="id" title="variable">b</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab334"></a><h2 class="section">2.6. Additive conjunction: &amp;</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_conj_lin_prop" class="idref" href="#assembly_conj_lin_prop"><span class="id" title="definition">assembly_conj_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="b3c7ccaae8c465e07e25793f53653087" class="idref" href="#b3c7ccaae8c465e07e25793f53653087"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="eb361de6a4eb73e02f9ef2fa66d03101" class="idref" href="#eb361de6a4eb73e02f9ef2fa66d03101"><span class="id" title="binder">t₁</span></a> <a id="ed8e0cda2a17b0126f045e26b3fa85da" class="idref" href="#ed8e0cda2a17b0126f045e26b3fa85da"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b3c7ccaae8c465e07e25793f53653087"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b3c7ccaae8c465e07e25793f53653087"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:109" class="idref" href="#x:109"><span class="id" title="binder"><span id="x:114" class="id">x</span></span></a> : <span class="id" title="var">Γ</span>) (<a id="a:110" class="idref" href="#a:110"><span class="id" title="binder"><span id="a:115" class="id">a</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="b:111" class="idref" href="#b:111"><span class="id" title="binder"><span id="b:116" class="id">b</span></span></a> <a id="7450d27ba85f368a9a7422b8e9706f80" class="idref" href="#7450d27ba85f368a9a7422b8e9706f80"><span class="id" title="binder"><span id="4e5b62788bc337e4774ac6ef77245288" class="id">c₁</span></span></a> <a id="69697447c13bc0c5451e2e30d6b1b117" class="idref" href="#69697447c13bc0c5451e2e30d6b1b117"><span class="id" title="binder"><span id="1bb25dcc21040ef7ff501bb507a48d8e" class="id">c₂</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:110"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:111"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">(</span></a><a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">(</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#6a86a41a709fb38dd8d877b745c091a3"><span class="id" title="notation">!</span></a><a class="idref" href="Realizability.Logic.Connectives.html#7450d27ba85f368a9a7422b8e9706f80"><span class="id" title="variable">c₁</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">)</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">(</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#6a86a41a709fb38dd8d877b745c091a3"><span class="id" title="notation">!</span></a><a class="idref" href="Realizability.Logic.Connectives.html#69697447c13bc0c5451e2e30d6b1b117"><span class="id" title="variable">c₂</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">))</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∧</span> <span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:109"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Logic.Connectives.html#7450d27ba85f368a9a7422b8e9706f80"><span class="id" title="variable">c₁</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:111"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∧</span> <span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:109"><span class="id" title="variable">x</span></a> (<a class="idref" href="Realizability.Logic.Connectives.html#69697447c13bc0c5451e2e30d6b1b117"><span class="id" title="variable">c₂</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:111"><span class="id" title="variable">b</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab335"></a><h2 class="section">2.7. Additive disjunction: +</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_disj_lin_prop" class="idref" href="#assembly_disj_lin_prop"><span class="id" title="definition">assembly_disj_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="e6bb8b3e7b4f2d9663b568c177a5d39b" class="idref" href="#e6bb8b3e7b4f2d9663b568c177a5d39b"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="dc7b68ca8c36b7542ec50286abd9f9f4" class="idref" href="#dc7b68ca8c36b7542ec50286abd9f9f4"><span class="id" title="binder">t₁</span></a> <a id="2a5154509e714ff74ebe70ae8a472a39" class="idref" href="#2a5154509e714ff74ebe70ae8a472a39"><span class="id" title="binder">t₂</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#e6bb8b3e7b4f2d9663b568c177a5d39b"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#e6bb8b3e7b4f2d9663b568c177a5d39b"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:122" class="idref" href="#x:122"><span class="id" title="binder"><span id="x:125" class="id">x</span></span></a> : <span class="id" title="var">Γ</span>) (<a id="a:123" class="idref" href="#a:123"><span class="id" title="binder"><span id="a:126" class="id">a</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="b:124" class="idref" href="#b:124"><span class="id" title="binder"><span id="b:127" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:123"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinators.html#lca_bincoprod_left"><span class="id" title="definition">lca_bincoprod_left</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:124"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">×</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">t₁</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:122"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:124"><span class="id" title="variable">b</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∨</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:123"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinators.html#lca_bincoprod_right"><span class="id" title="definition">lca_bincoprod_right</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:124"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">×</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">t₂</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:122"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:124"><span class="id" title="variable">b</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span><span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab336"></a><h2 class="section">2.8. Multiplication: M (from linear propositions to Cartesian ones)</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_lin_prop_to_prop" class="idref" href="#assembly_lin_prop_to_prop"><span class="id" title="definition">assembly_lin_prop_to_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="8efffc592e6af918f5f06b910eadbcf9" class="idref" href="#8efffc592e6af918f5f06b910eadbcf9"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:129" class="idref" href="#t:129"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#8efffc592e6af918f5f06b910eadbcf9"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#8efffc592e6af918f5f06b910eadbcf9"><span class="id" title="variable">Γ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Realizability.Logic.Connectives.html#t:129"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab337"></a><h2 class="section">2.9. Linearization: L (from Cartesian propositions to linear ones)</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_prop_to_lin_prop" class="idref" href="#assembly_prop_to_lin_prop"><span class="id" title="definition">assembly_prop_to_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="6d5a25013c15bde3ab5fe007c2c81f34" class="idref" href="#6d5a25013c15bde3ab5fe007c2c81f34"><span class="id" title="binder">Γ</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:131" class="idref" href="#t:131"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#6d5a25013c15bde3ab5fe007c2c81f34"><span class="id" title="variable">Γ</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#6d5a25013c15bde3ab5fe007c2c81f34"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:132" class="idref" href="#x:132"><span class="id" title="binder"><span id="x:135" class="id">x</span></span></a> : <span class="id" title="var">Γ</span>) (<a id="a:133" class="idref" href="#a:133"><span class="id" title="binder"><span id="a:136" class="id">a</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="b:134" class="idref" href="#b:134"><span class="id" title="binder"><span id="b:137" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:133"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#6a86a41a709fb38dd8d877b745c091a3"><span class="id" title="notation">!</span></a><a class="idref" href="Realizability.Logic.Connectives.html#b:134"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">∧</span> <span class="id" title="var">t</span> <a class="idref" href="Realizability.Logic.Connectives.html#x:132"><span class="id" title="variable">x</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:134"><span class="id" title="variable">b</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab338"></a><h2 class="section">2.10. Linear universal quantification: ⊓</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_forall_lin_prop" class="idref" href="#assembly_forall_lin_prop"><span class="id" title="definition">assembly_forall_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="95326f8d0825c1ba274f0ebe6b4b68f1" class="idref" href="#95326f8d0825c1ba274f0ebe6b4b68f1"><span class="id" title="binder">Γ</span></a> <a id="X:139" class="idref" href="#X:139"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:140" class="idref" href="#t:140"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#95326f8d0825c1ba274f0ebe6b4b68f1"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:139"><span class="id" title="variable">X</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#95326f8d0825c1ba274f0ebe6b4b68f1"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:141" class="idref" href="#x:141"><span class="id" title="binder"><span id="x:145" class="id">x</span></span></a> <a id="a:142" class="idref" href="#a:142"><span class="id" title="binder"><span id="a:146" class="id">a</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="y:143" class="idref" href="#y:143"><span class="id" title="binder"><span id="y:147" class="id">y</span></span></a> : <span class="id" title="var">X</span>) (<a id="b:144" class="idref" href="#b:144"><span class="id" title="binder"><span id="b:148" class="id">b</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Logic.Connectives.html#b:144"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#y:143"><span class="id" title="variable">y</span></a> <span class="id" title="notation">⇒</span> <span class="id" title="var">t</span> (<a class="idref" href="Realizability.Logic.Connectives.html#x:141"><span class="id" title="variable">x</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Logic.Connectives.html#y:143"><span class="id" title="variable">y</span></a>) (<a class="idref" href="Realizability.Logic.Connectives.html#a:142"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#b:144"><span class="id" title="variable">b</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab339"></a><h2 class="section">2.11. Linear existential: ⊏</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="assembly_exists_lin_prop" class="idref" href="#assembly_exists_lin_prop"><span class="id" title="definition">assembly_exists_lin_prop</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="440a89464125d1cfa811823a23fa22a3" class="idref" href="#440a89464125d1cfa811823a23fa22a3"><span class="id" title="binder">Γ</span></a> <a id="X:150" class="idref" href="#X:150"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.AC"><span class="id" title="variable">AC</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="t:151" class="idref" href="#t:151"><span class="id" title="binder">t</span></a> : <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> (<a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#prod_assembly"><span class="id" title="definition">prod_assembly</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#440a89464125d1cfa811823a23fa22a3"><span class="id" title="variable">Γ</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#X:150"><span class="id" title="variable">X</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.Terms.html#assembly_term"><span class="id" title="definition">assembly_term</span></a> (<a class="idref" href="Realizability.Types.Prop.html#assembly_prop_universe_type"><span class="id" title="definition">assembly_prop_universe_type</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#440a89464125d1cfa811823a23fa22a3"><span class="id" title="variable">Γ</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Logic.Formulas.html#make_assembly_prop"><span class="id" title="definition">make_assembly_prop</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:152" class="idref" href="#x:152"><span class="id" title="binder"><span id="x:157" class="id">x</span></span></a> <a id="a:153" class="idref" href="#a:153"><span class="id" title="binder"><span id="a:158" class="id">a</span></span></a><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="y:154" class="idref" href="#y:154"><span class="id" title="binder"><span id="y:159" class="id">y</span></span></a> : <span class="id" title="var">X</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="b:155" class="idref" href="#b:155"><span class="id" title="binder"><span id="b:160" class="id">b</span></span></a> <a id="c:156" class="idref" href="#c:156"><span class="id" title="binder"><span id="c:161" class="id">c</span></span></a> : <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives.A"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#a:153"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#::lca:'lin_pair'"><span class="id" title="notation">lin_pair</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">(</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#6a86a41a709fb38dd8d877b745c091a3"><span class="id" title="notation">!</span></a><a class="idref" href="Realizability.Logic.Connectives.html#b:155"><span class="id" title="variable">b</span></a><a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">)</span></a> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#5a45698685c80778c6e06739b6c68b4a"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#c:156"><span class="id" title="variable">c</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">×</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="Realizability.Logic.Connectives.html#b:155"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Logic.Connectives.html#y:154"><span class="id" title="variable">y</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">×</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">t</span> (<a class="idref" href="Realizability.Logic.Connectives.html#x:152"><span class="id" title="variable">x</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Logic.Connectives.html#y:154"><span class="id" title="variable">y</span></a>) <a class="idref" href="Realizability.Logic.Connectives.html#c:156"><span class="id" title="variable">c</span></a> : <span class="id" title="definition">hProp</span><span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Logic.Connectives.html#LinearConnectives"><span class="id" title="section">LinearConnectives</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a id="b8f37cb1c71f2940b072a83feb1a804d" class="idref" href="#b8f37cb1c71f2940b072a83feb1a804d"><span class="id" title="notation">&quot;</span></a>'⊤'" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_truth_prop"><span class="id" title="definition">assembly_truth_prop</span></a> <span class="id" title="var">_</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="16948f463693d1160f8a67b54b539866" class="idref" href="#16948f463693d1160f8a67b54b539866"><span class="id" title="notation">&quot;</span></a>'⊥'" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_false_prop"><span class="id" title="definition">assembly_false_prop</span></a> <span class="id" title="var">_</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="eba8cd5a5ea9e00bc62b3d3efcc98ecd" class="idref" href="#eba8cd5a5ea9e00bc62b3d3efcc98ecd"><span class="id" title="notation">&quot;</span></a>t₁ ∧ t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_conj_prop"><span class="id" title="definition">assembly_conj_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="270dafef4b3236d530455f30aca3d387" class="idref" href="#270dafef4b3236d530455f30aca3d387"><span class="id" title="notation">&quot;</span></a>t₁ ∨ t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_conj_prop"><span class="id" title="definition">assembly_conj_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="256da138a7ece147edbedf914a9dddb9" class="idref" href="#256da138a7ece147edbedf914a9dddb9"><span class="id" title="notation">&quot;</span></a>t₁ ⇒ t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_conj_prop"><span class="id" title="definition">assembly_conj_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="a913276e1dde6c877c9a09fe66911c6b" class="idref" href="#a913276e1dde6c877c9a09fe66911c6b"><span class="id" title="notation">&quot;</span></a>∀a t" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_forall_prop"><span class="id" title="definition">assembly_forall_prop</span></a> <span class="id" title="var">t</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 10) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="2bfcdaaae97841ac799cf0b3f52f7733" class="idref" href="#2bfcdaaae97841ac799cf0b3f52f7733"><span class="id" title="notation">&quot;</span></a>∃a t" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_exists_prop"><span class="id" title="definition">assembly_exists_prop</span></a> <span class="id" title="var">t</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 10) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="12830233bd0eb788fa78fd4d0e63ad6d" class="idref" href="#12830233bd0eb788fa78fd4d0e63ad6d"><span class="id" title="notation">&quot;</span></a>t₁ ≡ t₂ " := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_eq_prop"><span class="id" title="definition">assembly_eq_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="::assembly:'top'" class="idref" href="#::assembly:'top'"><span class="id" title="notation">&quot;</span></a>'top'" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_truth_lin_prop"><span class="id" title="definition">assembly_truth_lin_prop</span></a> <span class="id" title="var">_</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="::assembly:'bot'" class="idref" href="#::assembly:'bot'"><span class="id" title="notation">&quot;</span></a>'bot'" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_false_lin_prop"><span class="id" title="definition">assembly_false_lin_prop</span></a> <span class="id" title="var">_</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="2e8d10bb70da2f36a9205c81191aac95" class="idref" href="#2e8d10bb70da2f36a9205c81191aac95"><span class="id" title="notation">&quot;</span></a>'𝟙'" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_unit_lin_prop"><span class="id" title="definition">assembly_unit_lin_prop</span></a> <span class="id" title="var">_</span>) : <span class="id" title="var">assembly</span>. <span class="id" title="keyword">Notation</span> <a id="2a59d7665f8b2d8f91652da942ba796d" class="idref" href="#2a59d7665f8b2d8f91652da942ba796d"><span class="id" title="notation">&quot;</span></a>t₁ ⊗ t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_tensor_lin_prop"><span class="id" title="definition">assembly_tensor_lin_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>. <span class="id" title="keyword">Notation</span> <a id="301e739a30ebcd4397a743bc9540e643" class="idref" href="#301e739a30ebcd4397a743bc9540e643"><span class="id" title="notation">&quot;</span></a>t₁ ⊸ t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_tensor_lin_prop"><span class="id" title="definition">assembly_tensor_lin_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 45, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="var">assembly</span>. <span class="id" title="keyword">Notation</span> <a id="::assembly:x_'&amp;'_x" class="idref" href="#::assembly:x_'&amp;'_x"><span class="id" title="notation">&quot;</span></a>t₁ &amp; t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_conj_lin_prop"><span class="id" title="definition">assembly_conj_lin_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 80, <span class="id" title="tactic">right</span> <span class="id" title="keyword">associativity</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="6c0ecffe817ba7eba89737a09c821fb3" class="idref" href="#6c0ecffe817ba7eba89737a09c821fb3"><span class="id" title="notation">&quot;</span></a>t₁ + t₂" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_disj_lin_prop"><span class="id" title="definition">assembly_disj_lin_prop</span></a> <span class="id" title="var">t₁</span> <span class="id" title="var">t₂</span>) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="::assembly:'M'" class="idref" href="#::assembly:'M'"><span class="id" title="notation">&quot;</span></a>'M'" := <a class="idref" href="Realizability.Logic.Connectives.html#assembly_lin_prop_to_prop"><span class="id" title="definition">assembly_lin_prop_to_prop</span></a> : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="::assembly:'L'" class="idref" href="#::assembly:'L'"><span class="id" title="notation">&quot;</span></a>'L'" := <a class="idref" href="Realizability.Logic.Connectives.html#assembly_prop_to_lin_prop"><span class="id" title="definition">assembly_prop_to_lin_prop</span></a> : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="fdf3605d0a695b60ef8efb32a4978b20" class="idref" href="#fdf3605d0a695b60ef8efb32a4978b20"><span class="id" title="notation">&quot;</span></a>⊓a t" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_forall_lin_prop"><span class="id" title="definition">assembly_forall_lin_prop</span></a> <span class="id" title="var">t</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 10) : <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Notation</span> <a id="83ab8de1ccfd074ea794fb9d22a60b22" class="idref" href="#83ab8de1ccfd074ea794fb9d22a60b22"><span class="id" title="notation">&quot;</span></a>⊏a t" := (<a class="idref" href="Realizability.Logic.Connectives.html#assembly_exists_lin_prop"><span class="id" title="definition">assembly_exists_lin_prop</span></a> <span class="id" title="var">t</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 10) : <span class="id" title="var">assembly</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

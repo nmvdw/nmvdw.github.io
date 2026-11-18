@@ -1,0 +1,705 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Assemblies.ModestSetEquiv</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Assemblies.ModestSetEquiv</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Equivalence between PERs and modest sets
+
+<div class="paragraph"> </div>
+
+ We show that the categories of PERs and modest sets are equivalent.
+
+<div class="paragraph"> </div>
+
+ Contents
+ 1. Every PER gives rise to a modest set
+ 2. Morphisms of PERs give morphisms of modest sets
+ 3. The functor from PERs to modest sets
+ 4. Modest sets to PERs
+ 5. Morphisms of modest sets give rise to morphisms of PERs
+ 6. Fullness and faithfulness
+ 7. Equivalence between PERs and modest sets
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Equivalences.Core</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#"><span class="id" title="library">Basics.BIAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Completeness.html#"><span class="id" title="library">Basics.Completeness</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Combinators.html#"><span class="id" title="library">Basics.Combinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#"><span class="id" title="library">Assemblies.CatOfAssemblies</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#"><span class="id" title="library">Assemblies.AssembliesStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#"><span class="id" title="library">Assemblies.ModestSet</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#"><span class="id" title="library">Assemblies.PartialEqRel</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">bi</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">assembly</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab228"></a><h1 class="section">1. Every PER gives rise to a modest set</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="per_to_assembly_rel" class="idref" href="#per_to_assembly_rel"><span class="id" title="definition">per_to_assembly_rel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:1" class="idref" href="#A:1"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:2" class="idref" href="#R:2"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:1"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:3" class="idref" href="#a:3"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:1"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot"><span class="id" title="definition">dom_ca_per_quot</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#R:2"><span class="id" title="variable">R</span></a> <span class="id" title="notation">→</span> <span class="id" title="definition">hProp</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">setquotuniv</span> <span class="id" title="var">_</span> <span class="id" title="definition">hPropset</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:4" class="idref" href="#x:4"><span class="id" title="binder"><span id="x:5" class="id">x</span></span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <span class="id" title="var">R</span><span class="id" title="notation">),</span> <span class="id" title="var">R</span> <span class="id" title="var">a</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:4"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">x₁</span> <span class="id" title="var">x₂</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_weq_left"><span class="id" title="lemma">ca_per_weq_left</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="per_to_assembly" class="idref" href="#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:6" class="idref" href="#A:6"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:7" class="idref" href="#R:7"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:6"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly"><span class="id" title="definition">assembly</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:6"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly'"><span class="id" title="definition">make_assembly'</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot"><span class="id" title="definition">dom_ca_per_quot</span></a> <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly_rel"><span class="id" title="definition">per_to_assembly_rel</span></a> <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_el"><span class="id" title="definition">dom_ca_per_el</span></a> <span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="per_to_assembly_on_eq" class="idref" href="#per_to_assembly_on_eq"><span class="id" title="definition">per_to_assembly_on_eq</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:8" class="idref" href="#A:8"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="2b0f64da0b33c01bd61e4452e2e0d1c0" class="idref" href="#2b0f64da0b33c01bd61e4452e2e0d1c0"><span class="id" title="binder">R₁</span></a> <a id="1419b3f454c46b18685df0c98a044d49" class="idref" href="#1419b3f454c46b18685df0c98a044d49"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:8"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:11" class="idref" href="#p:11"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#2b0f64da0b33c01bd61e4452e2e0d1c0"><span class="id" title="variable">R₁</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#1419b3f454c46b18685df0c98a044d49"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism"><span class="id" title="definition">assembly_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#2b0f64da0b33c01bd61e4452e2e0d1c0"><span class="id" title="variable">R₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#1419b3f454c46b18685df0c98a044d49"><span class="id" title="variable">R₂</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly_morphism"><span class="id" title="definition">make_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="lemma">setquotuniv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">refine</span> (<span class="id" title="notation">λ</span> <a id="x:12" class="idref" href="#x:12"><span class="id" title="binder"><span id="x:13" class="id">x</span></span></a><span class="id" title="notation">,</span> <span class="id" title="lemma">setquotpr</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> × ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">induction</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.BIAlgebra.html#::bi:'I'"><span class="id" title="notation">I</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> × ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="per_to_assembly_on_eq_idpath" class="idref" href="#per_to_assembly_on_eq_idpath"><span class="id" title="lemma">per_to_assembly_on_eq_idpath</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:14" class="idref" href="#A:14"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:15" class="idref" href="#R:15"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:14"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly_on_eq"><span class="id" title="definition">per_to_assembly_on_eq</span></a> (<span class="id" title="abbreviation">idpath</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#R:15"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#id_assembly_morphism_bi"><span class="id" title="definition">id_assembly_morphism_bi</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#R:15"><span class="id" title="variable">R</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism_eq"><span class="id" title="lemma">assembly_morphism_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="per_to_assembly_on_eq_path" class="idref" href="#per_to_assembly_on_eq_path"><span class="id" title="lemma">per_to_assembly_on_eq_path</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:16" class="idref" href="#A:16"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="c21794bf009a3e23fc66a64b5e7f4fd9" class="idref" href="#c21794bf009a3e23fc66a64b5e7f4fd9"><span class="id" title="binder">R₁</span></a> <a id="9c005f0e7b315c9d3707eb7cb1eba760" class="idref" href="#9c005f0e7b315c9d3707eb7cb1eba760"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:16"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a3b7b9ffb29717c1fad3e6dca30556f7" class="idref" href="#a3b7b9ffb29717c1fad3e6dca30556f7"><span class="id" title="binder">p₁</span></a> <a id="bebc57d3bd67707f5761316e909a863e" class="idref" href="#bebc57d3bd67707f5761316e909a863e"><span class="id" title="binder">p₂</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c21794bf009a3e23fc66a64b5e7f4fd9"><span class="id" title="variable">R₁</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#9c005f0e7b315c9d3707eb7cb1eba760"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="x:21" class="idref" href="#x:21"><span class="id" title="binder">x</span></a> <a id="y:22" class="idref" href="#y:22"><span class="id" title="binder">y</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c21794bf009a3e23fc66a64b5e7f4fd9"><span class="id" title="variable">R₁</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="r:23" class="idref" href="#r:23"><span class="id" title="binder">r</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:21"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#y:22"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly_on_eq"><span class="id" title="definition">per_to_assembly_on_eq</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#a3b7b9ffb29717c1fad3e6dca30556f7"><span class="id" title="variable">p₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:21"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly_on_eq"><span class="id" title="definition">per_to_assembly_on_eq</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#bebc57d3bd67707f5761316e909a863e"><span class="id" title="variable">p₂</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#y:22"><span class="id" title="variable">y</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">p₁</span> <span class="id" title="notation">=</span> <span class="id" title="var">p₂</span>) <span class="id" title="keyword">as</span> →.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#isaset_ca_per"><span class="id" title="lemma">isaset_ca_per</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="per_to_modest_set" class="idref" href="#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:24" class="idref" href="#A:24"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:25" class="idref" href="#R:25"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:24"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:24"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#make_modest_set"><span class="id" title="definition">make_modest_set</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_assembly"><span class="id" title="definition">per_to_assembly</span></a> <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x₁</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> × ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">p₂</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p₁</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="per_to_modest_set_trans" class="idref" href="#per_to_modest_set_trans"><span class="id" title="lemma">per_to_modest_set_trans</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:26" class="idref" href="#A:26"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:27" class="idref" href="#R:27"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:26"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="8f5c14cd43e490484b4280350f6aa82d" class="idref" href="#8f5c14cd43e490484b4280350f6aa82d"><span class="id" title="binder">a₁</span></a> <a id="c610782f5a931baaa02fd2a513ee574b" class="idref" href="#c610782f5a931baaa02fd2a513ee574b"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:26"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="z:30" class="idref" href="#z:30"><span class="id" title="binder">z</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#R:27"><span class="id" title="variable">R</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#8f5c14cd43e490484b4280350f6aa82d"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#z:30"><span class="id" title="variable">z</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c610782f5a931baaa02fd2a513ee574b"><span class="id" title="variable">a₂</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#z:30"><span class="id" title="variable">z</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#R:27"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#8f5c14cd43e490484b4280350f6aa82d"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c610782f5a931baaa02fd2a513ee574b"><span class="id" title="variable">a₂</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 (<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span> ; <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p₁</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p₂</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab229"></a><h1 class="section">2. Morphisms of PERs give morphisms of modest sets</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="per_to_modest_set_morphism" class="idref" href="#per_to_modest_set_morphism"><span class="id" title="definition">per_to_modest_set_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:31" class="idref" href="#A:31"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="e1d7b674c55a77e914c36a3444aa2387" class="idref" href="#e1d7b674c55a77e914c36a3444aa2387"><span class="id" title="binder">R₁</span></a> <a id="b1b5e8bf75dec2fee1d8180d4056f394" class="idref" href="#b1b5e8bf75dec2fee1d8180d4056f394"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:31"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="e1c460f07e68babf0246822351fc594f" class="idref" href="#e1c460f07e68babf0246822351fc594f"><span class="id" title="binder">φ</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#e1d7b674c55a77e914c36a3444aa2387"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#b1b5e8bf75dec2fee1d8180d4056f394"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#e1d7b674c55a77e914c36a3444aa2387"><span class="id" title="variable">R₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#b1b5e8bf75dec2fee1d8180d4056f394"><span class="id" title="variable">R₂</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#make_modest_set_morphism"><span class="id" title="definition">make_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly_morphism"><span class="id" title="definition">make_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism_function"><span class="id" title="definition">ca_per_morphism_function</span></a> φ).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">revert</span> φ ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">a</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">b</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b'</span> <span class="id" title="var">p</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab230"></a><h1 class="section">3. The functor from PERs to modest sets</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_per_to_modest_set_functor_data" class="idref" href="#ca_per_to_modest_set_functor_data"><span class="id" title="definition">ca_per_to_modest_set_functor_data</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:35" class="idref" href="#A:35"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">functor_data</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#cat_of_ca_pers"><span class="id" title="definition">cat_of_ca_pers</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:35"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSet.html#cat_of_modest_set"><span class="id" title="definition">cat_of_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:35"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_functor_data</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="f06109c18237cc73bbbab6fdf140cb94" class="idref" href="#f06109c18237cc73bbbab6fdf140cb94"><span class="id" title="binder"><span id="e1547d3802f74ec75531c36840a5933f" class="id">φ</span></span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set_morphism"><span class="id" title="definition">per_to_modest_set_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#f06109c18237cc73bbbab6fdf140cb94"><span class="id" title="variable">φ</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_per_to_modest_set_functor_laws" class="idref" href="#ca_per_to_modest_set_functor_laws"><span class="id" title="lemma">ca_per_to_modest_set_functor_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:38" class="idref" href="#A:38"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_functor</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor_data"><span class="id" title="definition">ca_per_to_modest_set_functor_data</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:38"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism"><span class="id" title="lemma">eq_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R₁</span> <span class="id" title="var">R₂</span> <span class="id" title="var">R₃</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism"><span class="id" title="lemma">eq_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">b</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_per_to_modest_set_functor" class="idref" href="#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:39" class="idref" href="#A:39"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#cat_of_ca_pers"><span class="id" title="definition">cat_of_ca_pers</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:39"><span class="id" title="variable">A</span></a> <span class="id" title="notation">⟶</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#cat_of_modest_set"><span class="id" title="definition">cat_of_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:39"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_functor</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor_data"><span class="id" title="definition">ca_per_to_modest_set_functor_data</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor_laws"><span class="id" title="lemma">ca_per_to_modest_set_functor_laws</span></a> <span class="id" title="var">A</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab231"></a><h1 class="section">4. Modest sets to PERs</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="modest_set_to_per_hrel" class="idref" href="#modest_set_to_per_hrel"><span class="id" title="definition">modest_set_to_per_hrel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:40" class="idref" href="#A:40"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:41" class="idref" href="#X:41"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:40"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hrel</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:40"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_hProp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="x:42" class="idref" href="#x:42"><span class="id" title="binder"><span id="x:43" class="id">x</span></span></a> : <span class="id" title="var">X</span><span class="id" title="notation">),</span> <span class="id" title="var">a₁</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:42"><span class="id" title="variable">x</span></a> <span class="id" title="notation">∧</span> <span class="id" title="var">a₂</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:42"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="lemma">isaproptotal2</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x₁</span> <span class="id" title="var">x₂</span> [ <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span> ] [ <span class="id" title="var">q₁</span> <span class="id" title="var">q₂</span> ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a> <span class="id" title="var">X</span> <span class="id" title="var">p₁</span> <span class="id" title="var">q₁</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="modest_set_to_per" class="idref" href="#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:44" class="idref" href="#A:44"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:45" class="idref" href="#X:45"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:44"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:44"><span class="id" title="variable">A</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_ca_per"><span class="id" title="definition">make_ca_per</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_hrel"><span class="id" title="definition">modest_set_to_per_hrel</span></a> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> ( <span class="id" title="var">x</span> &amp; <span class="id" title="var">p₁</span> &amp; <span class="id" title="var">p₂</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p₂</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p₁</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> <span class="id" title="var">a₃</span> ( <span class="id" title="var">x</span> &amp; <span class="id" title="var">p₁</span> &amp; <span class="id" title="var">p₂</span> ) ( <span class="id" title="var">y</span> &amp; <span class="id" title="var">q₁</span> &amp; <span class="id" title="var">q₂</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a> <span class="id" title="var">X</span> <span class="id" title="var">p₂</span> <span class="id" title="var">q₁</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">r</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">r</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p₁</span> <span class="id" title="notation">,,</span> <span class="id" title="var">q₂</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="modest_set_to_per_z_iso_mor" class="idref" href="#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:46" class="idref" href="#A:46"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:47" class="idref" href="#X:47"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:46"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:47"><span class="id" title="variable">X</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:47"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#make_modest_set_morphism"><span class="id" title="definition">make_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly_morphism"><span class="id" title="definition">make_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="lemma">setquotuniv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="x:48" class="idref" href="#x:48"><span class="id" title="binder"><span id="x:49" class="id">x</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">pr12</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:48"><span class="id" title="variable">x</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a₁</span> &amp; <span class="id" title="var">x₁</span> &amp; <span class="id" title="var">p₁</span> &amp; <span class="id" title="var">q₁</span> ) ( <span class="id" title="var">a₂</span> &amp; <span class="id" title="var">x₂</span> &amp; <span class="id" title="var">p₂</span> &amp; <span class="id" title="var">q₂</span> ) ( <span class="id" title="var">y</span> &amp; <span class="id" title="var">r₁</span> &amp; <span class="id" title="var">r₂</span> ) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">r₁</span>, <span class="id" title="var">r₂</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a> <span class="id" title="var">X</span> <span class="id" title="var">p₁</span> <span class="id" title="var">r₁</span> <span class="id" title="notation">@</span> <span class="id" title="notation">!</span><span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a> <span class="id" title="var">X</span> <span class="id" title="var">p₂</span> <span class="id" title="var">r₂</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.BIAlgebra.html#::bi:'I'"><span class="id" title="notation">I</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span> | ] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">x</span> &amp; <span class="id" title="var">p</span> ) <span class="id" title="var">q</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">p</span>, <span class="id" title="var">q</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a> <span class="id" title="var">X</span> (<span class="id" title="notation">pr12</span> <span class="id" title="var">p</span>) (<span class="id" title="notation">pr22</span> <span class="id" title="var">q</span>)) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">pr12</span> <span class="id" title="var">q</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="unique_fiber_modest_set_to_per_el" class="idref" href="#unique_fiber_modest_set_to_per_el"><span class="id" title="definition">unique_fiber_modest_set_to_per_el</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:50" class="idref" href="#A:50"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="X:51" class="idref" href="#X:51"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:50"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:52" class="idref" href="#x:52"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:51"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="a:53" class="idref" href="#a:53"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:50"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:54" class="idref" href="#p:54"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#a:53"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#2b08797a8fba9c2bd546c89dee632f89"><span class="id" title="notation">⊩</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:52"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∑</span> <a id="b:55" class="idref" href="#b:55"><span class="id" title="binder">b</span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:51"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#b:55"><span class="id" title="variable">b</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:52"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="lemma">setquotpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_dom_ca_per"><span class="id" title="definition">make_dom_ca_per</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="isaprop_fiber_modest_set_to_per" class="idref" href="#isaprop_fiber_modest_set_to_per"><span class="id" title="lemma">isaprop_fiber_modest_set_to_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:56" class="idref" href="#A:56"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="X:57" class="idref" href="#X:57"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:56"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:58" class="idref" href="#x:58"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:57"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">isaprop</span> (<span class="id" title="notation">∑</span> <a id="b:59" class="idref" href="#b:59"><span class="id" title="binder">b</span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:57"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#b:59"><span class="id" title="variable">b</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:58"><span class="id" title="variable">x</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">b₁</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">b₁</span> <span class="id" title="var">q₁</span> ].<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">b₁</span> <span class="id" title="var">q₁</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">b₁</span> &amp; <span class="id" title="var">y₁</span> &amp; <span class="id" title="var">q₁</span>) <span class="id" title="var">r₁</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">b₂</span> <span class="id" title="keyword">as</span> [ <span class="id" title="var">b₂</span> <span class="id" title="var">q₂</span> ].<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">b₂</span> <span class="id" title="var">q₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">b₂</span> &amp; <span class="id" title="var">y₂</span> &amp; <span class="id" title="var">q₂</span>) <span class="id" title="var">r₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span> ; <span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">r₁</span>, <span class="id" title="var">r₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">r₁</span>, <span class="id" title="var">r₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">y₂</span> <span class="id" title="notation">,,</span> <span class="id" title="projection">pr1</span> <span class="id" title="var">q₁</span> <span class="id" title="notation">,,</span> <span class="id" title="projection">pr1</span> <span class="id" title="var">q₂</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="unique_fiber_modest_set_to_per" class="idref" href="#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:60" class="idref" href="#A:60"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="X:61" class="idref" href="#X:61"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:60"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="x:62" class="idref" href="#x:62"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:61"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∃!</span> <a id="a:63" class="idref" href="#a:63"><span class="id" title="binder">a</span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:61"><span class="id" title="variable">X</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#a:63"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:62"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">x</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isapropiscontr</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">a</span> &amp; <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscontraprop1</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#isaprop_fiber_modest_set_to_per"><span class="id" title="lemma">isaprop_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per_el"><span class="id" title="definition">unique_fiber_modest_set_to_per_el</span></a> <span class="id" title="var">x</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="modest_set_to_per_z_iso_inv_tracks" class="idref" href="#modest_set_to_per_z_iso_inv_tracks"><span class="id" title="lemma">modest_set_to_per_z_iso_inv_tracks</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:64" class="idref" href="#A:64"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:65" class="idref" href="#X:65"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:64"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∃</span> <span class="id" title="notation">(</span><a id="a:66" class="idref" href="#a:66"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:64"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#tracks_morphism"><span class="id" title="definition">tracks_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#a:66"><span class="id" title="variable">a</span></a> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="x:67" class="idref" href="#x:67"><span class="id" title="binder">x</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:65"><span class="id" title="variable">X</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">pr11</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#x:67"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.BIAlgebra.html#::bi:'I'"><span class="id" title="notation">I</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">x</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> (<span class="id" title="var">b</span> &amp; <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="notation">pr11</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per_el"><span class="id" title="definition">unique_fiber_modest_set_to_per_el</span></a> <span class="id" title="var">x</span> <span class="id" title="var">p</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">as</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="lemma">proofirrelevance</span> <span class="id" title="var">_</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#isaprop_fiber_modest_set_to_per"><span class="id" title="lemma">isaprop_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="modest_set_to_per_z_iso_inv" class="idref" href="#modest_set_to_per_z_iso_inv"><span class="id" title="definition">modest_set_to_per_z_iso_inv</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:68" class="idref" href="#A:68"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:69" class="idref" href="#X:69"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:68"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:69"><span class="id" title="variable">X</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:69"><span class="id" title="variable">X</span></a>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#make_modest_set_morphism"><span class="id" title="definition">make_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#make_assembly_morphism"><span class="id" title="definition">make_assembly_morphism</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">pr11</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span><span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_inv_tracks"><span class="id" title="lemma">modest_set_to_per_z_iso_inv_tracks</span></a> <span class="id" title="var">X</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="modest_set_to_per_z_iso_laws" class="idref" href="#modest_set_to_per_z_iso_laws"><span class="id" title="lemma">modest_set_to_per_z_iso_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:70" class="idref" href="#A:70"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:71" class="idref" href="#X:71"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:70"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_inverse_in_precat</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:71"><span class="id" title="variable">X</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_inv"><span class="id" title="definition">modest_set_to_per_z_iso_inv</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:71"><span class="id" title="variable">X</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism"><span class="id" title="lemma">eq_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a</span> &amp; <span class="id" title="var">x</span> &amp; <span class="id" title="var">p₁</span> &amp; <span class="id" title="var">p₂</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_realizes_el"><span class="id" title="lemma">assembly_realizes_el</span></a> <span class="id" title="var">x</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">b</span> &amp; <span class="id" title="var">q</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="notation">pr11</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per_el"><span class="id" title="definition">unique_fiber_modest_set_to_per_el</span></a> <span class="id" title="var">x</span> <span class="id" title="var">q</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">as</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="lemma">proofirrelevance</span> <span class="id" title="var">_</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#isaprop_fiber_modest_set_to_per"><span class="id" title="lemma">isaprop_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">iscompsetquotpr</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot_eqrel"><span class="id" title="definition">dom_ca_per_quot_eqrel</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a> <span class="id" title="var">X</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">x</span> <span class="id" title="notation">,,</span> <span class="id" title="var">q</span> <span class="id" title="notation">,,</span> <span class="id" title="var">p₁</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism"><span class="id" title="lemma">eq_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">pr21</span> <span class="id" title="notation">(</span><a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#unique_fiber_modest_set_to_per"><span class="id" title="lemma">unique_fiber_modest_set_to_per</span></a> <span class="id" title="var">x</span><span class="id" title="notation">)</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="modest_set_to_per_z_iso" class="idref" href="#modest_set_to_per_z_iso"><span class="id" title="definition">modest_set_to_per_z_iso</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:72" class="idref" href="#A:72"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="X:73" class="idref" href="#X:73"><span class="id" title="binder">X</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set"><span class="id" title="definition">modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:72"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">z_iso</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:73"><span class="id" title="variable">X</span></a>)) <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#X:73"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_z_iso</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_mor"><span class="id" title="definition">modest_set_to_per_z_iso_mor</span></a> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_inv"><span class="id" title="definition">modest_set_to_per_z_iso_inv</span></a> <span class="id" title="var">X</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso_laws"><span class="id" title="lemma">modest_set_to_per_z_iso_laws</span></a> <span class="id" title="var">X</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="split_essentially_surjective_ca_per_to_modest_set_functor" class="idref" href="#split_essentially_surjective_ca_per_to_modest_set_functor"><span class="id" title="definition">split_essentially_surjective_ca_per_to_modest_set_functor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:74" class="idref" href="#A:74"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">split_essentially_surjective</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:74"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per"><span class="id" title="definition">modest_set_to_per</span></a> <span class="id" title="var">X</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#modest_set_to_per_z_iso"><span class="id" title="definition">modest_set_to_per_z_iso</span></a> <span class="id" title="var">X</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab232"></a><h1 class="section">6. Fullness and faithfulness</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a id="Fullness" class="idref" href="#Fullness"><span class="id" title="section">Fullness</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<a id="Fullness.A" class="idref" href="#Fullness.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="805829ca3cecb845cc6b1401b9775caa" class="idref" href="#805829ca3cecb845cc6b1401b9775caa"><span class="id" title="variable">R₁</span></a> <a id="f2a946b0ac1b5d832129a9ef90f0bf99" class="idref" href="#f2a946b0ac1b5d832129a9ef90f0bf99"><span class="id" title="variable">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:75"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Fullness.f" class="idref" href="#Fullness.f"><span class="id" title="variable">f</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#4dc4d5342d80f76a17e04bb33e864ae2"><span class="id" title="variable">R₁</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#4859d58bf08070955dca13f32f8e900b"><span class="id" title="variable">R₂</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="Fullness.a" class="idref" href="#Fullness.a"><span class="id" title="variable">a</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:75"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Fullness.Ha" class="idref" href="#Fullness.Ha"><span class="id" title="variable">Ha</span></a> : <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#tracks_morphism"><span class="id" title="definition">tracks_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#a:79"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#f:78"><span class="id" title="variable">f</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="tracks_morphism_rel" class="idref" href="#tracks_morphism_rel"><span class="id" title="lemma">tracks_morphism_rel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="c75205fcb52ad7be8f7633f79ea0aea3" class="idref" href="#c75205fcb52ad7be8f7633f79ea0aea3"><span class="id" title="binder">b₁</span></a> <a id="9b53dc4b6e72852cd0db15f4ce35a150" class="idref" href="#9b53dc4b6e72852cd0db15f4ce35a150"><span class="id" title="binder">b₂</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.A"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:83" class="idref" href="#p:83"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#805829ca3cecb845cc6b1401b9775caa"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c75205fcb52ad7be8f7633f79ea0aea3"><span class="id" title="variable">b₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#9b53dc4b6e72852cd0db15f4ce35a150"><span class="id" title="variable">b₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:  <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#f2a946b0ac1b5d832129a9ef90f0bf99"><span class="id" title="variable">R₂</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#c75205fcb52ad7be8f7633f79ea0aea3"><span class="id" title="variable">b₁</span></a>)%<span class="id" title="var">bi</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#9b53dc4b6e72852cd0db15f4ce35a150"><span class="id" title="variable">b₂</span></a>)%<span class="id" title="var">bi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#refl_l_ca_per"><span class="id" title="lemma">refl_l_ca_per</span></a> <span class="id" title="var">p</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">x₁</span> := <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_dom_ca_per"><span class="id" title="definition">make_dom_ca_per</span></a> <span class="id" title="var">b₁</span> <span class="id" title="var">q₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">y₁</span> := <span class="id" title="lemma">setquotpr</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot_eqrel"><span class="id" title="definition">dom_ca_per_quot_eqrel</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#805829ca3cecb845cc6b1401b9775caa"><span class="id" title="variable">R₁</span></a>) <span class="id" title="var">x₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.Ha"><span class="id" title="variable">Ha</span></a> <span class="id" title="var">b₁</span> <span class="id" title="var">y₁</span> <span class="id" title="var">q₁</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">Hf₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#refl_r_ca_per"><span class="id" title="lemma">refl_r_ca_per</span></a> <span class="id" title="var">p</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">x₂</span> := <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_dom_ca_per"><span class="id" title="definition">make_dom_ca_per</span></a> <span class="id" title="var">b₂</span> <span class="id" title="var">q₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">y₂</span> := <span class="id" title="lemma">setquotpr</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot_eqrel"><span class="id" title="definition">dom_ca_per_quot_eqrel</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#805829ca3cecb845cc6b1401b9775caa"><span class="id" title="variable">R₁</span></a>) <span class="id" title="var">x₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.Ha"><span class="id" title="variable">Ha</span></a> <span class="id" title="var">b₂</span> <span class="id" title="var">y₁</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p</span>)) <span class="id" title="keyword">as</span> <span class="id" title="var">Hf₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set_trans"><span class="id" title="lemma">per_to_modest_set_trans</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">Hf₁</span> <span class="id" title="var">Hf₂</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="full_ca_per_to_modest_set_functor_mor" class="idref" href="#full_ca_per_to_modest_set_functor_mor"><span class="id" title="definition">full_ca_per_to_modest_set_functor_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#805829ca3cecb845cc6b1401b9775caa"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#f2a946b0ac1b5d832129a9ef90f0bf99"><span class="id" title="variable">R₂</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#tracks_morphism_rel"><span class="id" title="lemma">tracks_morphism_rel</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proposition</span> <a id="full_ca_per_to_modest_set_functor_eq" class="idref" href="#full_ca_per_to_modest_set_functor_eq"><span class="id" title="lemma">full_ca_per_to_modest_set_functor_eq</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set_morphism"><span class="id" title="definition">per_to_modest_set_morphism</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#full_ca_per_to_modest_set_functor_mor"><span class="id" title="definition">full_ca_per_to_modest_set_functor_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.f"><span class="id" title="variable">f</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism"><span class="id" title="lemma">eq_modest_set_morphism</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSet.html#is_modest_modest_set"><span class="id" title="lemma">is_modest_modest_set</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <span class="id" title="var">x</span>)%<span class="id" title="var">bi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#tracks_morphism_rel"><span class="id" title="lemma">tracks_morphism_rel</span></a> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness.Ha"><span class="id" title="variable">Ha</span></a> <span class="id" title="var">x</span> (<span class="id" title="lemma">setquotpr</span> <span class="id" title="var">_</span> <span class="id" title="var">x</span>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a> <span class="id" title="var">x</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#Fullness"><span class="id" title="section">Fullness</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="full_ca_per_to_modest_set_functor" class="idref" href="#full_ca_per_to_modest_set_functor"><span class="id" title="lemma">full_ca_per_to_modest_set_functor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:84" class="idref" href="#A:84"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">full</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:84"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="3914ea2cedac06c16df331ce88891378" class="idref" href="#3914ea2cedac06c16df331ce88891378"><span class="id" title="binder"><span id="748f078900201c8707e88589766363a3" class="id">R₁</span></span></a> <a id="e968410341852cde59382b2fd76d7daf" class="idref" href="#e968410341852cde59382b2fd76d7daf"><span class="id" title="binder"><span id="d0be3cee3c43b93f7f831e7827d50b07" class="id">R₂</span></span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <span class="id" title="var">A</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:87" class="idref" href="#f:87"><span class="id" title="binder"><span id="f:90" class="id">f</span></span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#3914ea2cedac06c16df331ce88891378"><span class="id" title="variable">R₁</span></a>) (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#e968410341852cde59382b2fd76d7daf"><span class="id" title="variable">R₂</span></a>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">pose</span> <span class="id" title="var">proof</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#assembly_morphism_tracked"><span class="id" title="lemma">assembly_morphism_tracked</span></a> <span class="id" title="var">f</span>) <span class="id" title="keyword">as</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">factor_through_squash_hProp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> ( <span class="id" title="var">a</span> &amp; <span class="id" title="var">Ha</span> ).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">hinhpr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#full_ca_per_to_modest_set_functor_mor"><span class="id" title="definition">full_ca_per_to_modest_set_functor_mor</span></a> <span class="id" title="var">f</span> <span class="id" title="var">Ha</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#full_ca_per_to_modest_set_functor_eq"><span class="id" title="lemma">full_ca_per_to_modest_set_functor_eq</span></a> <span class="id" title="var">f</span> <span class="id" title="var">Ha</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="faithful_ca_per_to_modest_set_functor" class="idref" href="#faithful_ca_per_to_modest_set_functor"><span class="id" title="lemma">faithful_ca_per_to_modest_set_functor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:91" class="idref" href="#A:91"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">faithful</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:91"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="6745e6021438808e32f22ea63f418d88" class="idref" href="#6745e6021438808e32f22ea63f418d88"><span class="id" title="binder"><span id="0b56fde52d66f5c42f30049dc7a36398" class="id">R₁</span></span></a> <a id="28ea85f8e8cce357c2b19c54e34642ee" class="idref" href="#28ea85f8e8cce357c2b19c54e34642ee"><span class="id" title="binder"><span id="80625234be5560fd6ca93ca05a26686f" class="id">R₂</span></span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <span class="id" title="var">A</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="f:94" class="idref" href="#f:94"><span class="id" title="binder"><span id="f:97" class="id">f</span></span></a> : <a class="idref" href="Realizability.Assemblies.ModestSet.html#modest_set_morphism"><span class="id" title="definition">modest_set_morphism</span></a> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#6745e6021438808e32f22ea63f418d88"><span class="id" title="variable">R₁</span></a>) (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#per_to_modest_set"><span class="id" title="definition">per_to_modest_set</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#28ea85f8e8cce357c2b19c54e34642ee"><span class="id" title="variable">R₂</span></a>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [ φ<span class="id" title="var">₁</span> <span class="id" title="var">p₁</span> ] [ φ<span class="id" title="var">₂</span> <span class="id" title="var">p₂</span> ].<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">subtypePath</span> ; [ <span class="id" title="tactic">intro</span> ; <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span> | ].<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> φ<span class="id" title="var">₁</span> φ<span class="id" title="var">₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a₂</span> <span class="id" title="var">p₁</span> <span class="id" title="var">p₂</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">pose</span> (<span class="id" title="var">p</span> := <a class="idref" href="Realizability.Assemblies.ModestSet.html#eq_modest_set_morphism_point"><span class="id" title="lemma">eq_modest_set_morphism_point</span></a> (<span class="id" title="var">p₁</span> <span class="id" title="notation">@</span> <span class="id" title="notation">!</span><span class="id" title="var">p₂</span>) (<span class="id" title="lemma">setquotpr</span> <span class="id" title="var">_</span> (<span class="id" title="var">b</span> <span class="id" title="notation">,,</span> <span class="id" title="var">q</span>))).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">invmap</span> (<span class="id" title="lemma">weqpathsinsetquot</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="fully_faithful_ca_per_to_modest_set_functor" class="idref" href="#fully_faithful_ca_per_to_modest_set_functor"><span class="id" title="lemma">fully_faithful_ca_per_to_modest_set_functor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:98" class="idref" href="#A:98"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">fully_faithful</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:98"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">full_and_faithful_implies_fully_faithful</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#full_ca_per_to_modest_set_functor"><span class="id" title="lemma">full_ca_per_to_modest_set_functor</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#faithful_ca_per_to_modest_set_functor"><span class="id" title="lemma">faithful_ca_per_to_modest_set_functor</span></a> <span class="id" title="var">A</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab233"></a><h1 class="section">7. Equivalence between PERs and modest sets</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_per_modeset_set_equivalence" class="idref" href="#ca_per_modeset_set_equivalence"><span class="id" title="definition">ca_per_modeset_set_equivalence</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:99" class="idref" href="#A:99"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">adj_equivalence_of_cats</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#ca_per_to_modest_set_functor"><span class="id" title="definition">ca_per_to_modest_set_functor</span></a> <a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#A:99"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">rad_equivalence_of_cats'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#fully_faithful_ca_per_to_modest_set_functor"><span class="id" title="lemma">fully_faithful_ca_per_to_modest_set_functor</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.ModestSetEquiv.html#split_essentially_surjective_ca_per_to_modest_set_functor"><span class="id" title="definition">split_essentially_surjective_ca_per_to_modest_set_functor</span></a> <span class="id" title="var">A</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

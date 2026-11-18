@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Types.LinearRealizabilityModel</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Types.LinearRealizabilityModel</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ The linear realizability model
+
+<div class="paragraph"> </div>
+
+ In this file, we construct the linear realizability model. The relevant statements
+ are proved in other files, so here we only collect them and put them together.
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiber</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Functors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.NaturalTransformations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Equivalences</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Codomain</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Codomain.FiberCod</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.FiberwiseTerminal</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.FiberwiseProducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.FiberwiseInitial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.FiberwiseCoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.DependentSums</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fiberwise.DependentProducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.ComprehensionC</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Limits.Terminal</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Limits.Pullbacks</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.WhiskeredBifunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Functors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Symmetric</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Closed</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monoidal.Structure.Cartesian</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.PreservesMonoidalClosed.html#"><span class="id" title="library">PreservesMonoidalClosed</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.FiberwiseMonoidal.html#"><span class="id" title="library">FiberwiseMonoidal</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#"><span class="id" title="library">Basics.BIAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.Combinators.html#"><span class="id" title="library">Basics.Combinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#"><span class="id" title="library">Basics.LinearCombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.LinearCombinators.html#"><span class="id" title="library">Basics.LinearCombinators</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#"><span class="id" title="library">Assemblies.CatOfAssemblies</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.AssembliesStructure.html#"><span class="id" title="library">Assemblies.AssembliesStructure</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#"><span class="id" title="library">Assemblies.DependentAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.LinearAssembly.html#"><span class="id" title="library">Assemblies.LinearAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Assemblies.LinearAssemblyMonoidal.html#"><span class="id" title="library">Assemblies.LinearAssemblyMonoidal</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearCompCat.html#"><span class="id" title="library">Types.LinearCompCat</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.DependentSums.html#"><span class="id" title="library">Types.DependentSums</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.DependentProducts.html#"><span class="id" title="library">Types.DependentProducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.FiberAssembly.html#"><span class="id" title="library">Types.FiberAssembly</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearFiber.html#"><span class="id" title="library">Types.LinearFiber</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearNonLinear.html#"><span class="id" title="library">Types.LinearNonLinear</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearSigma.html#"><span class="id" title="library">Types.LinearSigma</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.LinearPi.html#"><span class="id" title="library">Types.LinearPi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Types.Terms.html#"><span class="id" title="library">Types.Terms</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a id="RealizabilityModel" class="idref" href="#RealizabilityModel"><span class="id" title="section">RealizabilityModel</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<a id="RealizabilityModel.A" class="idref" href="#RealizabilityModel.A"><span class="id" title="variable">A</span></a> : <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#linear_combinatory_algebra"><span class="id" title="definition">linear_combinatory_algebra</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a id="RealizabilityModel.AC" class="idref" href="#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a> : <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#combinatory_algebra"><span class="id" title="definition">combinatory_algebra</span></a> := <a class="idref" href="Realizability.Basics.LinearCombinatoryAlgebra.html#lca_to_ca"><span class="id" title="definition">lca_to_ca</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.A"><span class="id" title="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="realizability_linear_comp_cat_structure" class="idref" href="#realizability_linear_comp_cat_structure"><span class="id" title="definition">realizability_linear_comp_cat_structure</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.LinearCompCat.html#linear_comp_cat_structure"><span class="id" title="definition">linear_comp_cat_structure</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearCompCat.html#make_linear_comp_cat_structure"><span class="id" title="definition">make_linear_comp_cat_structure</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.CatOfAssemblies.html#cat_of_assembly"><span class="id" title="definition">cat_of_assembly</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_cat_of_dep_assembly"><span class="id" title="definition">disp_cat_of_dep_assembly</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.LinearAssembly.html#disp_cat_of_lin_dep_assembly"><span class="id" title="definition">disp_cat_of_lin_dep_assembly</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.A"><span class="id" title="variable">A</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_cleaving"><span class="id" title="definition">dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.LinearAssembly.html#lin_dep_assembly_cleaving"><span class="id" title="definition">lin_dep_assembly_cleaving</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.A"><span class="id" title="variable">A</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#dep_assembly_comprehension"><span class="id" title="definition">dep_assembly_comprehension</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#is_cartesian_dep_assembly_comprehension"><span class="id" title="lemma">is_cartesian_dep_assembly_comprehension</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#disp_functor_ff_dep_assembly_comprehension"><span class="id" title="lemma">disp_functor_ff_dep_assembly_comprehension</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.LinearAssemblyMonoidal.html#fiberwise_symmetric_monoidal_lin_dep_assembly"><span class="id" title="definition">fiberwise_symmetric_monoidal_lin_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="realizability_linear_comp_cat_structure_types" class="idref" href="#realizability_linear_comp_cat_structure_types"><span class="id" title="definition">realizability_linear_comp_cat_structure_types</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.LinearCompCat.html#linear_comp_cat_types"><span class="id" title="definition">linear_comp_cat_types</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#realizability_linear_comp_cat_structure"><span class="id" title="definition">realizability_linear_comp_cat_structure</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.FiberAssembly.html#fiberwise_initial_dep_assembly"><span class="id" title="definition">fiberwise_initial_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.FiberAssembly.html#fiberwise_bincoproducts_dep_assembly"><span class="id" title="definition">fiberwise_bincoproducts_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearCompCat.html#make_strong_cartesian_dep_sums"><span class="id" title="definition">make_strong_cartesian_dep_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_dependent_sums"><span class="id" title="definition">dep_assembly_dependent_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.DependentSums.html#dep_assembly_dependent_sums_strong"><span class="id" title="definition">dep_assembly_dependent_sums_strong</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.DependentProducts.html#dep_assembly_dependent_products"><span class="id" title="definition">dep_assembly_dependent_products</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.LinearAssembly.html#fiberwise_terminal_lin_dep_assembly"><span class="id" title="definition">fiberwise_terminal_lin_dep_assembly</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.A"><span class="id" title="variable">A</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearFiber.html#fiberwise_initial_lin_dep_assembly"><span class="id" title="definition">fiberwise_initial_lin_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearFiber.html#fiberwise_binproducts_lin_dep_assembly"><span class="id" title="definition">fiberwise_binproducts_lin_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearFiber.html#fiberwise_bincoproducts_lin_dep_assembly"><span class="id" title="definition">fiberwise_bincoproducts_lin_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearCompCat.html#make_linear_dep_sums_frobenius"><span class="id" title="definition">make_linear_dep_sums_frobenius</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearSigma.html#lin_dep_assembly_dependent_sums"><span class="id" title="definition">lin_dep_assembly_dependent_sums</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">Γ</span> <span class="id" title="var">Δ</span> <span class="id" title="var">X₁</span> <span class="id" title="var">X₂</span> <span class="id" title="var">s</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.LinearSigma.html#is_z_isomorphism_lin_assembly_frobenius_morphism"><span class="id" title="definition">is_z_isomorphism_lin_assembly_frobenius_morphism</span></a> <span class="id" title="var">s</span> <span class="id" title="var">X₁</span> <span class="id" title="var">X₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> <span class="id" title="var">Γ</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> (<a class="idref" href="Realizability.Types.LinearFiber.html#linear_assembly_sym_mon_closed_cat"><span class="id" title="definition">linear_assembly_sym_mon_closed_cat</span></a> <span class="id" title="var">Γ</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">Γ</span> <span class="id" title="var">Δ</span> <span class="id" title="var">s</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Types.LinearFiber.html#preserves_sym_mon_closed_lin_assembly_fiber_functor"><span class="id" title="definition">preserves_sym_mon_closed_lin_assembly_fiber_functor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearPi.html#lin_dep_assembly_dependent_products"><span class="id" title="definition">lin_dep_assembly_dependent_products</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="realizability_linear_comp_cat" class="idref" href="#realizability_linear_comp_cat"><span class="id" title="definition">realizability_linear_comp_cat</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Realizability.Types.LinearCompCat.html#linear_comp_cat"><span class="id" title="definition">linear_comp_cat</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Types.LinearCompCat.html#make_linear_comp_cat"><span class="id" title="definition">make_linear_comp_cat</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#realizability_linear_comp_cat_structure"><span class="id" title="definition">realizability_linear_comp_cat_structure</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#realizability_linear_comp_cat_structure_types"><span class="id" title="definition">realizability_linear_comp_cat_structure_types</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiberwise_terminal_dep_assembly"><span class="id" title="definition">fiberwise_terminal_dep_assembly</span></a> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel.AC"><span class="id" title="variable">AC</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.DependentAssembly.html#fiberwise_terminal_z_iso"><span class="id" title="definition">fiberwise_terminal_z_iso</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.FiberAssembly.html#fiberwise_binproducts_dep_assembly"><span class="id" title="definition">fiberwise_binproducts_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearNonLinear.html#dep_lin_assembly_adjunction"><span class="id" title="definition">dep_lin_assembly_adjunction</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearNonLinear.html#is_cartesian_dep_to_lin_assembly"><span class="id" title="definition">is_cartesian_dep_to_lin_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Types.LinearNonLinear.html#is_cartesian_lin_to_dep_assembly"><span class="id" title="definition">is_cartesian_lin_to_dep_assembly</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">Γ</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simple</span> <span class="id" title="tactic">refine</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.LinearNonLinear.html#fiber_functor_dep_to_lin_monoidal"><span class="id" title="definition">fiber_functor_dep_to_lin_monoidal</span></a> <span class="id" title="var">Γ</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Types.LinearNonLinear.html#fiber_functor_dep_to_lin_symmetric_monoidal"><span class="id" title="lemma">fiber_functor_dep_to_lin_symmetric_monoidal</span></a> <span class="id" title="var">Γ</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Realizability.Types.LinearRealizabilityModel.html#RealizabilityModel"><span class="id" title="section">RealizabilityModel</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

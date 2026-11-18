@@ -1,0 +1,546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Realizability.Assemblies.PartialEqRel</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Realizability.Assemblies.PartialEqRel</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ Partial equivalence relations
+
+<div class="paragraph"> </div>
+
+ Contents
+ 1. Partial equivalence relations for a combinatory algebra
+ 2. The domain of a PER
+ 3. Morphisms between PERs
+ 4. The identity and composition of PER morphisms
+ 5. The category of PERs
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.CombinatoryAlgebra.html#"><span class="id" title="library">Basics.CombinatoryAlgebra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#"><span class="id" title="library">Basics.BIAlgebra</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">bi</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab223"></a><h1 class="section">1. Partial equivalence relations for a combinatory algebra</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_per" class="idref" href="#ca_per"><span class="id" title="definition">ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:1" class="idref" href="#A:1"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="R:2" class="idref" href="#R:2"><span class="id" title="binder">R</span></a> : <span class="id" title="definition">hrel</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:1"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">issymm</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:2"><span class="id" title="variable">R</span></a> <span class="id" title="notation">×</span> <span class="id" title="definition">istrans</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:2"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="isaset_ca_per" class="idref" href="#isaset_ca_per"><span class="id" title="lemma">isaset_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:3" class="idref" href="#A:3"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">isaset</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:3"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">isaset_total2</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">isaset_hrel</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">isasetaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">isapropdirprod</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">isaprop_issymm</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">isaprop_istrans</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_per_hSet" class="idref" href="#ca_per_hSet"><span class="id" title="definition">ca_per_hSet</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:4" class="idref" href="#A:4"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hSet</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="definition">make_hSet</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:4"><span class="id" title="variable">A</span></a>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#isaset_ca_per"><span class="id" title="lemma">isaset_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:4"><span class="id" title="variable">A</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="make_ca_per" class="idref" href="#make_ca_per"><span class="id" title="definition">make_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:5" class="idref" href="#A:5"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:6" class="idref" href="#R:6"><span class="id" title="binder">R</span></a> : <span class="id" title="definition">hrel</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:5"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="3c43dfe8858d0ada9746ee7f45765838" class="idref" href="#3c43dfe8858d0ada9746ee7f45765838"><span class="id" title="binder">H₁</span></a> : <span class="id" title="definition">issymm</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:6"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="041ac8df1c55ab2b3658f718920cb05d" class="idref" href="#041ac8df1c55ab2b3658f718920cb05d"><span class="id" title="binder">H₂</span></a> : <span class="id" title="definition">istrans</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:6"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:5"><span class="id" title="variable">A</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:6"><span class="id" title="variable">R</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#3c43dfe8858d0ada9746ee7f45765838"><span class="id" title="variable">H₁</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#041ac8df1c55ab2b3658f718920cb05d"><span class="id" title="variable">H₂</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Coercion</span> <a id="hrel_of_ca_per" class="idref" href="#hrel_of_ca_per"><span class="id" title="definition">hrel_of_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:9" class="idref" href="#A:9"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:10" class="idref" href="#R:10"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:9"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hrel</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:9"><span class="id" title="variable">A</span></a><br/>
+&nbsp;&nbsp;:= <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:10"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="issymm_ca_per" class="idref" href="#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:11" class="idref" href="#A:11"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:12" class="idref" href="#R:12"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:11"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="36b36173a16032ce76ab51527644476b" class="idref" href="#36b36173a16032ce76ab51527644476b"><span class="id" title="binder">a₁</span></a> <a id="46006906b5e34a7dcd2df2e3418db5fa" class="idref" href="#46006906b5e34a7dcd2df2e3418db5fa"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:11"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:15" class="idref" href="#p:15"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:12"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#36b36173a16032ce76ab51527644476b"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#46006906b5e34a7dcd2df2e3418db5fa"><span class="id" title="variable">a₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:12"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#46006906b5e34a7dcd2df2e3418db5fa"><span class="id" title="variable">a₂</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#36b36173a16032ce76ab51527644476b"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">pr12</span> <span class="id" title="var">R</span> <span class="id" title="notation">_</span> <span class="id" title="notation">_</span> <span class="id" title="notation">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="istrans_ca_per" class="idref" href="#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:16" class="idref" href="#A:16"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:17" class="idref" href="#R:17"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:16"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="22673a4e43a35f4340bd14a3ff502098" class="idref" href="#22673a4e43a35f4340bd14a3ff502098"><span class="id" title="binder">a₁</span></a> <a id="610e1332ba3187fa805d2c96ba4cc144" class="idref" href="#610e1332ba3187fa805d2c96ba4cc144"><span class="id" title="binder">a₂</span></a> <a id="08de6e251cf52608d86417543d83dd78" class="idref" href="#08de6e251cf52608d86417543d83dd78"><span class="id" title="binder">a₃</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:16"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:21" class="idref" href="#p:21"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:17"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#22673a4e43a35f4340bd14a3ff502098"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#610e1332ba3187fa805d2c96ba4cc144"><span class="id" title="variable">a₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="q:22" class="idref" href="#q:22"><span class="id" title="binder">q</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:17"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#610e1332ba3187fa805d2c96ba4cc144"><span class="id" title="variable">a₂</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#08de6e251cf52608d86417543d83dd78"><span class="id" title="variable">a₃</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:17"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#22673a4e43a35f4340bd14a3ff502098"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#08de6e251cf52608d86417543d83dd78"><span class="id" title="variable">a₃</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">pr22</span> <span class="id" title="var">R</span> <span class="id" title="notation">_</span> <span class="id" title="notation">_</span> <span class="id" title="notation">_</span> <span class="id" title="notation">p</span> <span class="id" title="notation">q</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="refl_l_ca_per" class="idref" href="#refl_l_ca_per"><span class="id" title="lemma">refl_l_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:23" class="idref" href="#A:23"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:24" class="idref" href="#R:24"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:23"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="70dc640786768cc3489d517d7185a537" class="idref" href="#70dc640786768cc3489d517d7185a537"><span class="id" title="binder">a₁</span></a> <a id="79a730596b99487ebb1fcb8c99efb163" class="idref" href="#79a730596b99487ebb1fcb8c99efb163"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:23"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:27" class="idref" href="#p:27"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:24"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#70dc640786768cc3489d517d7185a537"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#79a730596b99487ebb1fcb8c99efb163"><span class="id" title="variable">a₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:24"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#70dc640786768cc3489d517d7185a537"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#70dc640786768cc3489d517d7185a537"><span class="id" title="variable">a₁</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">R</span> <span class="id" title="var">p</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="refl_r_ca_per" class="idref" href="#refl_r_ca_per"><span class="id" title="lemma">refl_r_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:28" class="idref" href="#A:28"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:29" class="idref" href="#R:29"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:28"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="7afe986b4ebe04b7fb5be1a6fd557c9e" class="idref" href="#7afe986b4ebe04b7fb5be1a6fd557c9e"><span class="id" title="binder">a₁</span></a> <a id="107300ad2e1e3b1d879f5afadda6fd5f" class="idref" href="#107300ad2e1e3b1d879f5afadda6fd5f"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:28"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:32" class="idref" href="#p:32"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:29"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#7afe986b4ebe04b7fb5be1a6fd557c9e"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#107300ad2e1e3b1d879f5afadda6fd5f"><span class="id" title="variable">a₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:29"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#107300ad2e1e3b1d879f5afadda6fd5f"><span class="id" title="variable">a₂</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#107300ad2e1e3b1d879f5afadda6fd5f"><span class="id" title="variable">a₂</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#refl_l_ca_per"><span class="id" title="lemma">refl_l_ca_per</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_per_weq_left" class="idref" href="#ca_per_weq_left"><span class="id" title="lemma">ca_per_weq_left</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:33" class="idref" href="#A:33"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:34" class="idref" href="#R:34"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:33"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:35" class="idref" href="#a:35"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:33"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="78149bbe9cef1737439fdaf9da72765a" class="idref" href="#78149bbe9cef1737439fdaf9da72765a"><span class="id" title="binder">x₁</span></a> <a id="476ea552561f24e97d06af521609dbde" class="idref" href="#476ea552561f24e97d06af521609dbde"><span class="id" title="binder">x₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:33"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:38" class="idref" href="#p:38"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:34"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#78149bbe9cef1737439fdaf9da72765a"><span class="id" title="variable">x₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#476ea552561f24e97d06af521609dbde"><span class="id" title="variable">x₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:34"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:35"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#78149bbe9cef1737439fdaf9da72765a"><span class="id" title="variable">x₁</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:34"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:35"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#476ea552561f24e97d06af521609dbde"><span class="id" title="variable">x₂</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">weqtopathshProp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">weqimplimpl</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">q</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">q</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_per_weq_right" class="idref" href="#ca_per_weq_right"><span class="id" title="lemma">ca_per_weq_right</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:39" class="idref" href="#A:39"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:40" class="idref" href="#R:40"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:39"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:41" class="idref" href="#a:41"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:39"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="1ebca72c72d2ecd4df710ef3999c9011" class="idref" href="#1ebca72c72d2ecd4df710ef3999c9011"><span class="id" title="binder">x₁</span></a> <a id="d3c0b47a806eb85ed2651369e8cbfe6f" class="idref" href="#d3c0b47a806eb85ed2651369e8cbfe6f"><span class="id" title="binder">x₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:39"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:44" class="idref" href="#p:44"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:40"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#1ebca72c72d2ecd4df710ef3999c9011"><span class="id" title="variable">x₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d3c0b47a806eb85ed2651369e8cbfe6f"><span class="id" title="variable">x₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:40"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#1ebca72c72d2ecd4df710ef3999c9011"><span class="id" title="variable">x₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:41"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:40"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d3c0b47a806eb85ed2651369e8cbfe6f"><span class="id" title="variable">x₂</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:41"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">weqtopathshProp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">weqimplimpl</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p</span>) <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab224"></a><h1 class="section">2. The domain of a PER</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="dom_ca_per" class="idref" href="#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:45" class="idref" href="#A:45"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:46" class="idref" href="#R:46"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:45"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="a:47" class="idref" href="#a:47"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:45"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:46"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:47"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:47"><span class="id" title="variable">a</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="make_dom_ca_per" class="idref" href="#make_dom_ca_per"><span class="id" title="definition">make_dom_ca_per</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:48" class="idref" href="#A:48"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:49" class="idref" href="#R:49"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:48"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:50" class="idref" href="#a:50"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:48"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:51" class="idref" href="#p:51"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:49"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:50"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:50"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:49"><span class="id" title="variable">R</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:50"><span class="id" title="variable">a</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#p:51"><span class="id" title="variable">p</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Coercion</span> <a id="dom_ca_per_el" class="idref" href="#dom_ca_per_el"><span class="id" title="definition">dom_ca_per_el</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:52" class="idref" href="#A:52"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:53" class="idref" href="#R:53"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:52"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:54" class="idref" href="#a:54"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:53"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:52"><span class="id" title="variable">A</span></a><br/>
+&nbsp;&nbsp;:= <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:54"><span class="id" title="variable">a</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="dom_ca_per_refl" class="idref" href="#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:55" class="idref" href="#A:55"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="R:56" class="idref" href="#R:56"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:55"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="a:57" class="idref" href="#a:57"><span class="id" title="binder">a</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:56"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:56"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:57"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:57"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">a</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="dom_ca_per_quot_iseqrel" class="idref" href="#dom_ca_per_quot_iseqrel"><span class="id" title="lemma">dom_ca_per_quot_iseqrel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:58" class="idref" href="#A:58"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:59" class="idref" href="#R:59"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:58"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">iseqrel</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="244dcee2c493a86a8cc349f5308422f3" class="idref" href="#244dcee2c493a86a8cc349f5308422f3"><span class="id" title="binder">x₁</span></a> <a id="d3c92ff52136cc3acaa299be8a354f98" class="idref" href="#d3c92ff52136cc3acaa299be8a354f98"><span class="id" title="binder">x₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:59"><span class="id" title="variable">R</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:59"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#244dcee2c493a86a8cc349f5308422f3"><span class="id" title="variable">x₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d3c92ff52136cc3acaa299be8a354f98"><span class="id" title="variable">x₂</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x₁</span> <span class="id" title="var">x₂</span> <span class="id" title="var">x₃</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x₁</span> <span class="id" title="var">x₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">R</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="dom_ca_per_quot_eqrel" class="idref" href="#dom_ca_per_quot_eqrel"><span class="id" title="definition">dom_ca_per_quot_eqrel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:62" class="idref" href="#A:62"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:63" class="idref" href="#R:63"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:62"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">eqrel</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:63"><span class="id" title="variable">R</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_eqrel</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><a id="c8375cb852ad694a3caa7de7cd411121" class="idref" href="#c8375cb852ad694a3caa7de7cd411121"><span class="id" title="binder"><span id="d1930dd87598e05410b5a7412ac7ac48" class="id">x₁</span></span></a> <a id="49c363182f78e58998fb6e2f671b1b1e" class="idref" href="#49c363182f78e58998fb6e2f671b1b1e"><span class="id" title="binder"><span id="020b936fb41a6b2b1f19ac862bb220d4" class="id">x₂</span></span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <span class="id" title="var">R</span><span class="id" title="notation">),</span> <span class="id" title="var">R</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#c8375cb852ad694a3caa7de7cd411121"><span class="id" title="variable">x₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#49c363182f78e58998fb6e2f671b1b1e"><span class="id" title="variable">x₂</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot_iseqrel"><span class="id" title="lemma">dom_ca_per_quot_iseqrel</span></a> <span class="id" title="var">R</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="dom_ca_per_quot" class="idref" href="#dom_ca_per_quot"><span class="id" title="definition">dom_ca_per_quot</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:68" class="idref" href="#A:68"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:69" class="idref" href="#R:69"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:68"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hSet</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">setquotinset</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per"><span class="id" title="definition">dom_ca_per</span></a> <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot_eqrel"><span class="id" title="definition">dom_ca_per_quot_eqrel</span></a> <span class="id" title="var">R</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab225"></a><h1 class="section">3. Morphisms between PERs</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="ca_per_tracker" class="idref" href="#ca_per_tracker"><span class="id" title="definition">ca_per_tracker</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:70" class="idref" href="#A:70"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="cce4dcaaefe1ddce921366b92c2b8228" class="idref" href="#cce4dcaaefe1ddce921366b92c2b8228"><span class="id" title="binder">R₁</span></a> <a id="f6f706bd1440a5ca777a0cc6e571edca" class="idref" href="#f6f706bd1440a5ca777a0cc6e571edca"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:70"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><a id="b:73" class="idref" href="#b:73"><span class="id" title="binder">b</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:70"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="4e5046a3774527354b130372cf24e692" class="idref" href="#4e5046a3774527354b130372cf24e692"><span class="id" title="binder">a₁</span></a> <a id="0151d69b1d5b85fa69e8f4083008fb12" class="idref" href="#0151d69b1d5b85fa69e8f4083008fb12"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:70"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#cce4dcaaefe1ddce921366b92c2b8228"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#4e5046a3774527354b130372cf24e692"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#0151d69b1d5b85fa69e8f4083008fb12"><span class="id" title="variable">a₂</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#f6f706bd1440a5ca777a0cc6e571edca"><span class="id" title="variable">R₂</span></a> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:73"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#4e5046a3774527354b130372cf24e692"><span class="id" title="variable">a₁</span></a>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:73"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#0151d69b1d5b85fa69e8f4083008fb12"><span class="id" title="variable">a₂</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="make_ca_per_tracker" class="idref" href="#make_ca_per_tracker"><span class="id" title="definition">make_ca_per_tracker</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:76" class="idref" href="#A:76"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="a7bde8df526bc8de2546d99cf2a858a5" class="idref" href="#a7bde8df526bc8de2546d99cf2a858a5"><span class="id" title="binder">R₁</span></a> <a id="dda924db3cf947cf34da461dfe0af96f" class="idref" href="#dda924db3cf947cf34da461dfe0af96f"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:76"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="b:79" class="idref" href="#b:79"><span class="id" title="binder">b</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:76"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="Hb:82" class="idref" href="#Hb:82"><span class="id" title="binder">Hb</span></a> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><a id="f1259798a0c3e43b0c41f1c94ad26cc2" class="idref" href="#f1259798a0c3e43b0c41f1c94ad26cc2"><span class="id" title="binder">a₁</span></a> <a id="48ac59b5ef06392fa78f17b845c4d6c9" class="idref" href="#48ac59b5ef06392fa78f17b845c4d6c9"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:76"><span class="id" title="variable">A</span></a><span class="id" title="notation">),</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a7bde8df526bc8de2546d99cf2a858a5"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#f1259798a0c3e43b0c41f1c94ad26cc2"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#48ac59b5ef06392fa78f17b845c4d6c9"><span class="id" title="variable">a₂</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dda924db3cf947cf34da461dfe0af96f"><span class="id" title="variable">R₂</span></a> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:79"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#f1259798a0c3e43b0c41f1c94ad26cc2"><span class="id" title="variable">a₁</span></a>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:79"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#48ac59b5ef06392fa78f17b845c4d6c9"><span class="id" title="variable">a₂</span></a>))<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker"><span class="id" title="definition">ca_per_tracker</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a7bde8df526bc8de2546d99cf2a858a5"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dda924db3cf947cf34da461dfe0af96f"><span class="id" title="variable">R₂</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:79"><span class="id" title="variable">b</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#Hb:82"><span class="id" title="variable">Hb</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Coercion</span> <a id="tracker_to_el" class="idref" href="#tracker_to_el"><span class="id" title="definition">tracker_to_el</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:83" class="idref" href="#A:83"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="0871a939e6be0fb3ca5428778b5d9fc1" class="idref" href="#0871a939e6be0fb3ca5428778b5d9fc1"><span class="id" title="binder">R₁</span></a> <a id="74901955bd804d689d420034af0052c6" class="idref" href="#74901955bd804d689d420034af0052c6"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:83"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="b:86" class="idref" href="#b:86"><span class="id" title="binder">b</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker"><span class="id" title="definition">ca_per_tracker</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#0871a939e6be0fb3ca5428778b5d9fc1"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#74901955bd804d689d420034af0052c6"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:83"><span class="id" title="variable">A</span></a><br/>
+&nbsp;&nbsp;:= <span class="id" title="projection">pr1</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:86"><span class="id" title="variable">b</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="ca_per_tracker_map_related" class="idref" href="#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:87" class="idref" href="#A:87"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="748f078900201c8707e88589766363a3" class="idref" href="#748f078900201c8707e88589766363a3"><span class="id" title="binder">R₁</span></a> <a id="d0be3cee3c43b93f7f831e7827d50b07" class="idref" href="#d0be3cee3c43b93f7f831e7827d50b07"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:87"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="b:90" class="idref" href="#b:90"><span class="id" title="binder">b</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker"><span class="id" title="definition">ca_per_tracker</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#748f078900201c8707e88589766363a3"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d0be3cee3c43b93f7f831e7827d50b07"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="fd2cb0f9f4d16163b52047fe2146a28b" class="idref" href="#fd2cb0f9f4d16163b52047fe2146a28b"><span class="id" title="binder">a₁</span></a> <a id="b9790d6546ff9de12a47c0fba7014128" class="idref" href="#b9790d6546ff9de12a47c0fba7014128"><span class="id" title="binder">a₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:87"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="p:93" class="idref" href="#p:93"><span class="id" title="binder">p</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#748f078900201c8707e88589766363a3"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#fd2cb0f9f4d16163b52047fe2146a28b"><span class="id" title="variable">a₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b9790d6546ff9de12a47c0fba7014128"><span class="id" title="variable">a₂</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d0be3cee3c43b93f7f831e7827d50b07"><span class="id" title="variable">R₂</span></a> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:90"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#fd2cb0f9f4d16163b52047fe2146a28b"><span class="id" title="variable">a₁</span></a>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b:90"><span class="id" title="variable">b</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#b9790d6546ff9de12a47c0fba7014128"><span class="id" title="variable">a₂</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">b</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_per_tracker_eqrel" class="idref" href="#ca_per_tracker_eqrel"><span class="id" title="definition">ca_per_tracker_eqrel</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:94" class="idref" href="#A:94"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="0b56fde52d66f5c42f30049dc7a36398" class="idref" href="#0b56fde52d66f5c42f30049dc7a36398"><span class="id" title="binder">R₁</span></a> <a id="80625234be5560fd6ca93ca05a26686f" class="idref" href="#80625234be5560fd6ca93ca05a26686f"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:94"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">eqrel</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker"><span class="id" title="definition">ca_per_tracker</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#0b56fde52d66f5c42f30049dc7a36398"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#80625234be5560fd6ca93ca05a26686f"><span class="id" title="variable">R₂</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_eqrel</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <a id="d7a7f7b39b09f51af747beb95dc4302f" class="idref" href="#d7a7f7b39b09f51af747beb95dc4302f"><span class="id" title="binder"><span id="d4bf7aa49cb1d1e7c5d3a6d681332094" class="id">b₁</span></span></a> <a id="3dc8cf0727b6720c33daa787e51a619b" class="idref" href="#3dc8cf0727b6720c33daa787e51a619b"><span class="id" title="binder"><span id="5ac4a4ba16af6cb6fe4f56d9735b6332" class="id">b₂</span></span></a><span class="id" title="notation">,</span> <span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><a id="a:99" class="idref" href="#a:99"><span class="id" title="binder"><span id="a:102" class="id">a</span></span></a> : <span class="id" title="var">A</span><span class="id" title="notation">),</span> <span class="id" title="var">R₁</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:99"><span class="id" title="variable">a</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:99"><span class="id" title="variable">a</span></a> <span class="id" title="notation">⇒</span> <span class="id" title="var">R₂</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#d7a7f7b39b09f51af747beb95dc4302f"><span class="id" title="variable">b₁</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:99"><span class="id" title="variable">a</span></a>) (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#3dc8cf0727b6720c33daa787e51a619b"><span class="id" title="variable">b₂</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#a:99"><span class="id" title="variable">a</span></a>))%<span class="id" title="var">logic</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">b₃</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#istrans_ca_per"><span class="id" title="lemma">istrans_ca_per</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">p</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span>) (<span class="id" title="var">q</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#issymm_ca_per"><span class="id" title="lemma">issymm_ca_per</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">p</span> <span class="id" title="var">r</span> <span class="id" title="var">a</span>))).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_per_morphism" class="idref" href="#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:103" class="idref" href="#A:103"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="330da1dce6437cc654a9480fd8a1dd79" class="idref" href="#330da1dce6437cc654a9480fd8a1dd79"><span class="id" title="binder">R₁</span></a> <a id="93a76911de8cf478da0d8c0ad0ef53f4" class="idref" href="#93a76911de8cf478da0d8c0ad0ef53f4"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:103"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">hSet</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="definition">setquotinset</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_eqrel"><span class="id" title="definition">ca_per_tracker_eqrel</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#330da1dce6437cc654a9480fd8a1dd79"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#93a76911de8cf478da0d8c0ad0ef53f4"><span class="id" title="variable">R₂</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="ca_per_morphism_function" class="idref" href="#ca_per_morphism_function"><span class="id" title="definition">ca_per_morphism_function</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:106" class="idref" href="#A:106"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="482e92e1e559da603de1fff3d612f4e6" class="idref" href="#482e92e1e559da603de1fff3d612f4e6"><span class="id" title="binder">R₁</span></a> <a id="49dd3fde305313dc0a8ef2ff81462a7e" class="idref" href="#49dd3fde305313dc0a8ef2ff81462a7e"><span class="id" title="binder">R₂</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:106"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#482e92e1e559da603de1fff3d612f4e6"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#49dd3fde305313dc0a8ef2ff81462a7e"><span class="id" title="variable">R₂</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot"><span class="id" title="definition">dom_ca_per_quot</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#482e92e1e559da603de1fff3d612f4e6"><span class="id" title="variable">R₁</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_quot"><span class="id" title="definition">dom_ca_per_quot</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#49dd3fde305313dc0a8ef2ff81462a7e"><span class="id" title="variable">R₂</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">setquotuniv2'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="notation">λ</span> <a id="a:109" class="idref" href="#a:109"><span class="id" title="binder"><span id="a:111" class="id">a</span></span></a> <a id="b:110" class="idref" href="#b:110"><span class="id" title="binder"><span id="b:112" class="id">b</span></span></a><span class="id" title="notation">,</span> <span class="id" title="lemma">setquotpr</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_dom_ca_per"><span class="id" title="definition">make_dom_ca_per</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="var">a</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <span class="id" title="var">b</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> <span class="id" title="var">p</span> <span class="id" title="var">b</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">p</span> <span class="id" title="var">b</span> <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#dom_ca_per_refl"><span class="id" title="lemma">dom_ca_per_refl</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">q</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab226"></a><h1 class="section">4. The identity and composition of PER morphisms</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="id_ca_per_morphism" class="idref" href="#id_ca_per_morphism"><span class="id" title="definition">id_ca_per_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:113" class="idref" href="#A:113"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="R:114" class="idref" href="#R:114"><span class="id" title="binder">R</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:113"><span class="id" title="variable">A</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:114"><span class="id" title="variable">R</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#R:114"><span class="id" title="variable">R</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotpr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<a class="idref" href="Realizability.Basics.BIAlgebra.html#::bi:'I'"><span class="id" title="notation">I</span></a> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="comp_ca_per_morphism" class="idref" href="#comp_ca_per_morphism"><span class="id" title="definition">comp_ca_per_morphism</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="A:115" class="idref" href="#A:115"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<a id="1f361c9032b1169d90cfcba3ca80fadb" class="idref" href="#1f361c9032b1169d90cfcba3ca80fadb"><span class="id" title="binder">R₁</span></a> <a id="fe3fcf91e18049a0eda700e3740d580c" class="idref" href="#fe3fcf91e18049a0eda700e3740d580c"><span class="id" title="binder">R₂</span></a> <a id="5a010ad90763d473a4727ef7a1b36527" class="idref" href="#5a010ad90763d473a4727ef7a1b36527"><span class="id" title="binder">R₃</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:115"><span class="id" title="variable">A</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="d29a113a68d5f939e2450be014d66d49" class="idref" href="#d29a113a68d5f939e2450be014d66d49"><span class="id" title="binder">φ</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#1f361c9032b1169d90cfcba3ca80fadb"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#fe3fcf91e18049a0eda700e3740d580c"><span class="id" title="variable">R₂</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="893a9fd444b734be8ad2d601e6bfb683" class="idref" href="#893a9fd444b734be8ad2d601e6bfb683"><span class="id" title="binder">ψ</span></a> : <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#fe3fcf91e18049a0eda700e3740d580c"><span class="id" title="variable">R₂</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#5a010ad90763d473a4727ef7a1b36527"><span class="id" title="variable">R₃</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#1f361c9032b1169d90cfcba3ca80fadb"><span class="id" title="variable">R₁</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#5a010ad90763d473a4727ef7a1b36527"><span class="id" title="variable">R₃</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">revert</span> φ ψ.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">setquotuniv2'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotpr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#make_ca_per_tracker"><span class="id" title="definition">make_ca_per_tracker</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Basics.BIAlgebra.html#::bi:'B'"><span class="id" title="notation">B</span></a> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <span class="id" title="var">a₂</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <span class="id" title="var">a₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₂</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₁</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">a₁</span> <span class="id" title="var">a₂</span> <span class="id" title="var">p</span> <span class="id" title="var">b</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">q</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">b</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">p</span> <span class="id" title="var">c</span> <span class="id" title="var">q</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> <span class="id" title="var">b₁</span> <span class="id" title="var">b₂</span> <span class="id" title="var">p</span> <span class="id" title="var">a</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">q</span> ; <span class="id" title="var">cbn</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">p</span> (<span class="id" title="var">a</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#31b163363ab399408698c453b7beece0"><span class="id" title="notation">·</span></a> <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a</span>) ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a id="lab227"></a><h1 class="section">5. The category of PERs</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a id="precat_of_ca_pers_ob_mor" class="idref" href="#precat_of_ca_pers_ob_mor"><span class="id" title="definition">precat_of_ca_pers_ob_mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:121" class="idref" href="#A:121"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">precategory_ob_mor</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_precategory_ob_mor</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per"><span class="id" title="definition">ca_per</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_morphism"><span class="id" title="definition">ca_per_morphism</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="precat_of_ca_pers_data" class="idref" href="#precat_of_ca_pers_data"><span class="id" title="definition">precat_of_ca_pers_data</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:122" class="idref" href="#A:122"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">precategory_data</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_precategory_data</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#precat_of_ca_pers_ob_mor"><span class="id" title="definition">precat_of_ca_pers_ob_mor</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#id_ca_per_morphism"><span class="id" title="definition">id_ca_per_morphism</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">λ</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a id="f:123" class="idref" href="#f:123"><span class="id" title="binder"><span id="f:125" class="id">f</span></span></a> <a id="g:124" class="idref" href="#g:124"><span class="id" title="binder"><span id="g:126" class="id">g</span></span></a><span class="id" title="notation">,</span> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#comp_ca_per_morphism"><span class="id" title="definition">comp_ca_per_morphism</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#f:123"><span class="id" title="variable">f</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#g:124"><span class="id" title="variable">g</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Proposition</span> <a id="precat_of_ca_pers_laws" class="idref" href="#precat_of_ca_pers_laws"><span class="id" title="lemma">precat_of_ca_pers_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:127" class="idref" href="#A:127"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_precategory</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#precat_of_ca_pers_data"><span class="id" title="definition">precat_of_ca_pers_data</span></a> <a class="idref" href="Realizability.Assemblies.PartialEqRel.html#A:127"><span class="id" title="variable">A</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">is_precategory_one_assoc_to_two</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R₁</span> <span class="id" title="var">R₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R₁</span> <span class="id" title="var">R₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_i_eq"><span class="id" title="lemma">bi_algebra_i_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R₁</span> <span class="id" title="var">R₂</span> <span class="id" title="var">R₃</span> <span class="id" title="var">R₄</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a₁</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> (<span class="id" title="var">use</span> <span class="id" title="lemma">impred</span> ; <span class="id" title="tactic">intro</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a₂</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">setquotunivprop'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">a₃</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">iscompsetquotpr</span> ; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">b</span> <span class="id" title="var">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> !<a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra_b_eq"><span class="id" title="lemma">bi_algebra_b_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₃</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₂</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#ca_per_tracker_map_related"><span class="id" title="lemma">ca_per_tracker_map_related</span></a> <span class="id" title="var">a₁</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="precat_of_ca_pers" class="idref" href="#precat_of_ca_pers"><span class="id" title="definition">precat_of_ca_pers</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:128" class="idref" href="#A:128"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">precategory</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_precategory</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#precat_of_ca_pers_data"><span class="id" title="definition">precat_of_ca_pers_data</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#precat_of_ca_pers_laws"><span class="id" title="lemma">precat_of_ca_pers_laws</span></a> <span class="id" title="var">A</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a id="cat_of_ca_pers" class="idref" href="#cat_of_ca_pers"><span class="id" title="definition">cat_of_ca_pers</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a id="A:129" class="idref" href="#A:129"><span class="id" title="binder">A</span></a> : <a class="idref" href="Realizability.Basics.BIAlgebra.html#bi_algebra"><span class="id" title="definition">bi_algebra</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">category</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">make_category</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Realizability.Assemblies.PartialEqRel.html#precat_of_ca_pers"><span class="id" title="definition">precat_of_ca_pers</span></a> <span class="id" title="var">A</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">intros</span> ? ? ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://rocq-prover.org/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
